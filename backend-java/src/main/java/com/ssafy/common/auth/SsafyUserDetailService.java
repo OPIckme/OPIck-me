@@ -2,6 +2,7 @@ package com.ssafy.common.auth;
 
 import java.util.Optional;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,9 +18,10 @@ import com.ssafy.db.repository.UserRepository;
  * 현재 액세스 토큰으로 부터 인증된 유저의 상세정보(활성화 여부, 만료, 롤 등) 관련 서비스 정의.
  */
 @Component
+@RequiredArgsConstructor
 public class SsafyUserDetailService implements UserDetailsService{
-	@Autowired
-	UserService userService;
+
+	private final UserService userService;
 	
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
