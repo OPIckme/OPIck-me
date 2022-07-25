@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service("scriptService")
 @Transactional
 @RequiredArgsConstructor
@@ -31,9 +33,7 @@ public class ScriptServiceImpl implements ScriptService {
     }
 
     @Override
-    public Script getScriptByScriptId(String scriptId) {
-        Script script = scriptRepository.findByScriptId(scriptId).get();
-
-        return script;
+    public Optional<Script> getScriptByScriptId(Long scriptId) {
+        return scriptRepository.findByScriptId(scriptId);
     }
 }
