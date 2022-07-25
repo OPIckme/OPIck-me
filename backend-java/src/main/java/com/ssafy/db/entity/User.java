@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
 
 /**
  * 유저 모델 정의.
@@ -14,13 +14,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-public class User{
-
-    @Id
-    @Column(name = "user_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long Id;
-
+public class User extends BaseEntity{
     String position;
     String department;
     String name;
