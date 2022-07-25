@@ -5,6 +5,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 /**
  * 유저 로그인 API ([POST] /api/v1/auth/login) 요청에 필요한 리퀘스트 바디 정의.
  */
@@ -12,8 +15,10 @@ import lombok.Setter;
 @Setter
 @ApiModel("UserLoginPostRequest")
 public class UserLoginPostReq {
-	@ApiModelProperty(name="유저 ID", example="ssafy_web")
+	@ApiModelProperty(name = "유저 ID", example = "ssafy_web")
 	String id;
-	@ApiModelProperty(name="유저 Password", example="your_password")
+
+
+	@ApiModelProperty(name = "유저 Password", example = "your_password")
 	String password;
 }
