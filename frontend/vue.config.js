@@ -10,6 +10,7 @@ module.exports = {
         target: 'http://localhost:8080/'
       }
     },
+    disableHostCheck:true,
     historyApiFallback: true,
     hot: true
   },
