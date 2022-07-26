@@ -1,8 +1,10 @@
 package com.ssafy.db.entity;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 /*
    스크립트 모델 정의
@@ -26,7 +28,11 @@ public class Script{
     @JoinColumn(name = "question_id")
     Question question;
 
+    @Lob
     String scriptContent;
-    String createdAt;
+
+    @CreationTimestamp
+    Timestamp createdAt;
+
     String audioUrl;
 }
