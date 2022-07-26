@@ -30,7 +30,6 @@ public class Script{
     @JoinColumn(name = "question_id")
     Question question;
 
-
     String scriptContent;
     String createdAt;
     String audioUrl;
