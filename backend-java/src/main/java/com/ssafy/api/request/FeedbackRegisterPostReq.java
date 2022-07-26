@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class FeedbackRegisterPostReq {
     String content;
-    Long script_id;
+    Long scriptId;
 }

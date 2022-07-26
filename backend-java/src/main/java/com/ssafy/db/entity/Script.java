@@ -1,7 +1,6 @@
 package com.ssafy.db.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -15,9 +14,8 @@ import javax.persistence.*;
 public class Script{
 
     @Id
-    @Column(name = "script_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long Id;
+    Long id;
 
 
     @ManyToOne(targetEntity = User.class,fetch = FetchType.LAZY)

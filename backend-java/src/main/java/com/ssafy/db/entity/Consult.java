@@ -1,9 +1,10 @@
 package com.ssafy.db.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 
@@ -14,14 +15,14 @@ public class Consult {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "consult_id")
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "script_id")
     private Script script;
 
-    private LocalDateTime time;
+    @CreationTimestamp
+    private Timestamp created_at;
 
     private boolean state;
 }

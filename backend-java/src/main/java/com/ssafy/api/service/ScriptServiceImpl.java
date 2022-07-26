@@ -27,10 +27,12 @@ public class ScriptServiceImpl implements ScriptService {
     @Override
     public Script createScript(User user, Question question, String content, String audioUrl) {
         Script script = new Script();
+
         script.setUser(user);
         script.setQuestion(question);
         script.setScriptContent(content);
         script.setAudioUrl(audioUrl);
+
 
         return scriptRepository.save(script);
     }
@@ -44,6 +46,7 @@ public class ScriptServiceImpl implements ScriptService {
     @Override
     public void deleteByScriptId(Long scriptId) {
         scriptRepository.deleteById(scriptId);
+
     }
 
 

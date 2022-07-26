@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
-    Optional<Feedback> findByScriptId(Long script_id);
+    Optional<Feedback> findByScriptId(Long scriptId);
 }
