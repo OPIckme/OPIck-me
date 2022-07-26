@@ -10,9 +10,6 @@ import java.sql.Timestamp;
 @Entity
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class Feedback{
 
     @Id
