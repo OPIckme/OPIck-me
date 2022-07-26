@@ -15,9 +15,8 @@ import javax.persistence.*;
 public class Script{
 
     @Id
-    @Column(name = "script_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long Id;
+    Long id;
 
 
     @ManyToOne(targetEntity = User.class,fetch = FetchType.LAZY)

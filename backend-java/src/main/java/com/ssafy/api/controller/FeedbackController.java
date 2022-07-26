@@ -23,11 +23,11 @@ public class FeedbackController {
 
     @PostMapping("/")
     public ResponseEntity<BaseResponseBody> create(@RequestBody FeedbackRegisterPostReq feedbackRegisterPostReq){
-        Long script_id = feedbackRegisterPostReq.getScript_id();
+        Long scriptId = feedbackRegisterPostReq.getScriptId();
         String content = feedbackRegisterPostReq.getContent();
 
-        Optional<Script> script = scriptService.getScriptByScriptId(script_id);
-        boolean isOverlap = feedbackService.overlapCheck(script_id);
+        Optional<Script> script = scriptService.getScriptByScriptId(scriptId);
+        boolean isOverlap = feedbackService.overlapCheck(scriptId);
         if (isOverlap)
             return ResponseEntity.status(404).body(BaseResponseBody.of(500,"이미 피드백이 진행된 스크립트입니다."));
         if (script.isPresent()){
@@ -42,19 +42,19 @@ public class FeedbackController {
         return feedbackService.getList();
     }
 
-    @GetMapping("/{feedback_id}")
-    public Feedback getDetail(@PathVariable Long feedback_id){
-        return feedbackService.getDetail(feedback_id).orElseThrow(new Supplier<IllegalArgumentException>() {
+    @GetMapping("/{feedbackId}")
+    public Feedback getDetail(@PathVariable Long feedbackId){
+        return feedbackService.getDetail(feedbackId).orElseThrow(new Supplier<IllegalArgumentException>() {
             @Override
             public IllegalArgumentException get() {
-                return new IllegalArgumentException("해당 피드백이 없습니다. id : " + feedback_id);
+                return new IllegalArgumentException("해당 피드백이 없습니다. id : " + feedbackId);
             }
         });
     }
 
-    @DeleteMapping("/{feedback_id}")
-    public ResponseEntity<BaseResponseBody> delete(@PathVariable Long feedback_id){
-        BaseResponseBody responseBody = feedbackService.delete(feedback_id);
+    @DeleteMapping("/{feedbackId}")
+    public ResponseEntity<BaseResponseBody> delete(@PathVariable Long feedbackId){
+        BaseResponseBody responseBody = feedbackService.delete(feedbackId);
         Integer statusCode = responseBody.getStatusCode();
         return ResponseEntity.status(statusCode).body(responseBody);
     }

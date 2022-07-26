@@ -24,16 +24,14 @@ public class ScriptServiceImpl implements ScriptService {
     public Script createScript(ScriptRegisterPostReq scriptRegisterPostReq) {
         Script script = new Script();
 
-
         script.setScriptContent(scriptRegisterPostReq.getScriptContent());
         script.setAudioUrl(scriptRegisterPostReq.getAudio());
-
 
         return scriptRepository.save(script);
     }
 
     @Override
     public Optional<Script> getScriptByScriptId(Long scriptId) {
-        return scriptRepository.findByScriptId(scriptId);
+        return scriptRepository.findById(scriptId);
     }
 }

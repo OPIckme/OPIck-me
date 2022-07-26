@@ -24,9 +24,9 @@ public class FeedbackServiceImpl implements FeedbackService {
         feedbackRepository.save(feedback);
     }
 
-    public BaseResponseBody delete(Long feedback_id){
+    public BaseResponseBody delete(Long feedbackId){
         try{
-            feedbackRepository.deleteById(feedback_id);
+            feedbackRepository.deleteById(feedbackId);
         }catch (IllegalArgumentException e){
             return BaseResponseBody.of(500,"삭제 실패");
         }
@@ -39,12 +39,12 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Feedback> getDetail(Long feedback_id){
-        return feedbackRepository.findById(feedback_id);
+    public Optional<Feedback> getDetail(Long feedbackId){
+        return feedbackRepository.findById(feedbackId);
     }
 
     @Transactional(readOnly = true)
-    public boolean overlapCheck(Long script_id){
-        return feedbackRepository.findByScriptId(script_id).isPresent();
+    public boolean overlapCheck(Long scriptId){
+        return feedbackRepository.findByScriptId(scriptId).isPresent();
     }
 }
