@@ -73,7 +73,7 @@ public class UserController {
 		 */
 		SsafyUserDetails userDetails = (SsafyUserDetails)authentication.getDetails();
 		String userId = userDetails.getUsername();
-		User user = userService.getUserByUserId(userId);
+		User user = userService.getUserByUsername(userId);
 
 		return ResponseEntity.status(200).body(UserRes.of(user));
 	}
