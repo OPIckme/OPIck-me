@@ -10,5 +10,4 @@ import java.util.Optional;
 @Repository
 public interface ConsultRepository extends JpaRepository<Consult, Long> {
 
-    Optional<Consult> findByConsultId(Long consultId);
 }

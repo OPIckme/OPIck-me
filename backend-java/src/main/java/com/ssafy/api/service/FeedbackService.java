@@ -10,10 +10,11 @@ import java.util.Optional;
 
 @Service
 public interface FeedbackService {
-    BaseResponseBody delete(Long feedback_id);
+    BaseResponseBody delete(Long feedbackId);
     void create(String content, Script script);
     List<Feedback> getList();
-    Optional<Feedback> getDetail(Long feedback_id);
+    Optional<Feedback> getDetail(Long feedbackId);
 
-    boolean overlapCheck(Long script_id);
+    boolean overlapCheck(Long scriptId);
 }
+

@@ -14,7 +14,6 @@ public class Consult {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "consult_id")
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
