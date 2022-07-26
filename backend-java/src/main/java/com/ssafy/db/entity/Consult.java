@@ -1,9 +1,10 @@
 package com.ssafy.db.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 
@@ -20,7 +21,8 @@ public class Consult {
     @JoinColumn(name = "script_id")
     private Script script;
 
-    private LocalDateTime time;
+    @CreationTimestamp
+    private Timestamp created_at;
 
     private boolean state;
 }
