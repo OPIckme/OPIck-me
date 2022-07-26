@@ -22,7 +22,7 @@ public class Consult {
     private Script script;
 
     @CreationTimestamp
-    private Timestamp created_at;
+    private Timestamp createdAt;
 
-    private boolean state;
+    private boolean state; // 디폴트 값 false? true?
 }

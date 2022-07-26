@@ -15,8 +15,8 @@ public class ScriptRegisterPostReq {
     String userId;
     @ApiModelProperty(name="문제 ID", example="1")
     String questionId;
-    @ApiModelProperty(name="스크립트 내용", example="I am groot")
-    String scriptContent;
-    @ApiModelProperty(name="유저 ID", example="오디오 URL")
-    String audio;
+//    @ApiModelProperty(name="스크립트 내용", example="I am groot")
+//    String scriptContent;
+//    @ApiModelProperty(name="유저 ID", example="오디오 URL")
+//    String audio;
 }

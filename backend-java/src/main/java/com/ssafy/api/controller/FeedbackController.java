@@ -29,7 +29,7 @@ public class FeedbackController {
         Optional<Script> script = scriptService.getScriptByScriptId(scriptId);
         boolean isOverlap = feedbackService.overlapCheck(scriptId);
         if (isOverlap)
-            return ResponseEntity.status(404).body(BaseResponseBody.of(500,"이미 피드백이 진행된 스크립트입니다."));
+            return ResponseEntity.status(500).body(BaseResponseBody.of(500,"이미 피드백이 진행된 스크립트입니다."));
         if (script.isPresent()){
             feedbackService.create(content,script.get());
             return ResponseEntity.status(201).body(BaseResponseBody.of(201,"피드백 추가 성공"));
