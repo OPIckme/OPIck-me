@@ -24,8 +24,6 @@ public class Script{
     @JoinColumn(name = "user_id")
     User user;
 
-
-
     @ManyToOne(targetEntity = Question.class,fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
     Question question;
