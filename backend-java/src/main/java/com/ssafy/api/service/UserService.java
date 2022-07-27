@@ -9,4 +9,5 @@ import com.ssafy.db.entity.User;
 public interface UserService {
 	User createUser(UserRegisterPostReq userRegisterInfo);
 	User getUserByUsername(String username);
+	void validateDuplicateMember(UserRegisterPostReq userRegisterInfo);
 }
