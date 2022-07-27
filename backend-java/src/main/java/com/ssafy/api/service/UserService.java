@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface UserService {
 	User createUser(UserRegisterPostReq userRegisterInfo);
 	User getUserByUsername(String username);
-	Optional<User> getUserByUserId(Long userId);
+	void validateDuplicateMember(UserRegisterPostReq userRegisterInfo);
 }
