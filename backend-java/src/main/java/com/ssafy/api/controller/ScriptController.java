@@ -2,6 +2,8 @@ package com.ssafy.api.controller;
 
 
 import com.ssafy.api.request.ScriptRegisterPostReq;
+import com.ssafy.api.response.ScriptDetailRes;
+import com.ssafy.api.response.ScriptListRes;
 import com.ssafy.api.service.QuestionService;
 import com.ssafy.api.service.ScriptService;
 import com.ssafy.api.service.UserService;
@@ -29,7 +31,7 @@ public class ScriptController {
     private final UserService userService;
     private final QuestionService questionService;
 
-    @PostMapping("/")
+    @PostMapping
     @ApiOperation(value = "스크립트 등록", notes = "userId,questionId,content,audiourl을 받아서 스크립트를 등록한다.")
     public ResponseEntity createScript(@RequestBody ScriptRegisterPostReq scriptRegisterPostReq){
         Long userId = scriptRegisterPostReq.getUserId();
@@ -42,26 +44,29 @@ public class ScriptController {
         String audioUrl = scriptRegisterPostReq.getAudioURL();
         scriptService.createScript(user.get(), question.get(),content,audioUrl);
 
+
+
         return ResponseEntity.status(201).body(BaseResponseBody.of(201,"스크립트 추가 성공"));
     }
 
-    @GetMapping("/")
-    public List<Script> getList(){
+    @GetMapping
+    public ResponseEntity<ScriptListRes> getList(){
         List<Script> scriptList = scriptService.getScriptList();
 
-        return scriptList;
+        return ResponseEntity.status(200).body(ScriptListRes.of(200,"스크립트 리스트 불러오기 성공!",scriptList));
     }
 
-    @GetMapping("/{script_id}")
-    public Script getScriptDetail(@PathVariable("script_id") Long scriptId){
+    @GetMapping("/{scriptId}")
+    public ResponseEntity<ScriptDetailRes> getScriptDetail(@PathVariable Long scriptId){
         Script script = scriptService.getDetail(scriptId).get();
 
-        return script;
+        return ResponseEntity.status(200).body(ScriptDetailRes.of(200,"스크립트 세부사항 불러오기 성공!",script));
     }
 
-    @DeleteMapping("/{script_id}")
-    public void delete(@PathVariable("script_id") Long scriptId){
+    @DeleteMapping("/{scriptId}")
+    public ResponseEntity<BaseResponseBody> delete(@PathVariable Long scriptId){
         scriptService.deleteByScriptId(scriptId);
-    }
 
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200,"스크립트 삭제 성공!!"));
+    }
 }
