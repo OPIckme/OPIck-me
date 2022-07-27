@@ -47,10 +47,12 @@ public class ConsultController {
         return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Script does not exist"));
     }
 
-    // Res로 수정
+    //ResponseEntity 안에 또 Res를 넣어주는 이유는?
+    //ListRes 어떻게 하지 service에 Res 써도 되나?
     @GetMapping
-    public List<Consult> waitingList() {
-        return consultService.waitingList();
+    public ResponseEntity<List<Consult>> waitingList() {
+        List<Consult> waitingList = consultService.waitingList();
+        return ResponseEntity.ok(waitingList);
     }
 
     @PutMapping("/complete/{consultId}")
