@@ -2,6 +2,8 @@ package com.ssafy.api.controller;
 
 
 import com.ssafy.api.request.ScriptRegisterPostReq;
+import com.ssafy.api.response.ScriptDetailRes;
+import com.ssafy.api.response.ScriptListRes;
 import com.ssafy.api.service.QuestionService;
 import com.ssafy.api.service.ScriptService;
 import com.ssafy.api.service.UserService;
@@ -46,22 +48,24 @@ public class ScriptController {
     }
 
     @GetMapping("/")
-    public List<Script> getList(){
+    public ResponseEntity<ScriptListRes> getList(){
         List<Script> scriptList = scriptService.getScriptList();
 
-        return scriptList;
+        return ResponseEntity.status(200).body(ScriptListRes.of(200,"스크립트 리스트 불러오기 성공!",scriptList));
     }
 
     @GetMapping("/{script_id}")
-    public Script getScriptDetail(@PathVariable("script_id") Long scriptId){
+    public ResponseEntity<ScriptDetailRes> getScriptDetail(@PathVariable("script_id") Long scriptId){
         Script script = scriptService.getDetail(scriptId).get();
 
-        return script;
+        return ResponseEntity.status(200).body(ScriptDetailRes.of(200,"스크립트 세부사항 불러오기 성공!",script));
     }
 
     @DeleteMapping("/{script_id}")
-    public void delete(@PathVariable("script_id") Long scriptId){
+    public ResponseEntity<BaseResponseBody> delete(@PathVariable("script_id") Long scriptId){
         scriptService.deleteByScriptId(scriptId);
+
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200,"스크립트 삭제 성공!!"));
     }
 
 }
