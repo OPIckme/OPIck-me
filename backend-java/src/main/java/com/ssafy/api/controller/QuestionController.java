@@ -9,6 +9,7 @@ import com.ssafy.db.entity.Question;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -19,8 +20,8 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @GetMapping("/random")
-    public ResponseEntity<QuestionRes> randomQuestion(@RequestBody QuestionRandomGetReq questionRandomGetReq) {
-        Question question = questionService.getRandomDetail(questionRandomGetReq.getTopic()).get();
+    public ResponseEntity<QuestionRes> randomQuestion(@RequestBody @Validated QuestionRandomGetReq questionRandomGetReq) {
+        Question question = questionService.getRandomDetail(questionRandomGetReq.getTopic(), questionRandomGetReq.getLevel()).get();
         QuestionRes questionRes = new QuestionRes();
 
         questionRes.setStatusCode(200);
