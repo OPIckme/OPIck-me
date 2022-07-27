@@ -47,4 +47,7 @@ public class UserServiceImpl implements UserService {
 		User user = userRepositorySupport.findUserByUsername(username).orElse(null);
 		return user;
 	}
+
+	@Override
+	public Optional<User> getUserByUserId(Long userId) {return userRepository.findById(userId);}
 }
