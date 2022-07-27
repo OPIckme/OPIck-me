@@ -12,11 +12,11 @@ import lombok.Setter;
 public class ScriptRegisterPostReq {
 
     @ApiModelProperty(name="유저 ID", example="ssafy_web")
-    String userId;
+    Long userId;
     @ApiModelProperty(name="문제 ID", example="1")
-    String questionId;
-//    @ApiModelProperty(name="스크립트 내용", example="I am groot")
-//    String scriptContent;
-//    @ApiModelProperty(name="유저 ID", example="오디오 URL")
-//    String audio;
+    Long questionId;
+    @ApiModelProperty(name="스크립트 내용", example="I am groot")
+    String scriptContent;
+    @ApiModelProperty(name="유저 ID", example="오디오 URL")
+    String audioURL;
 }
