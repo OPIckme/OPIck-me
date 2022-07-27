@@ -5,6 +5,8 @@ import com.ssafy.db.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class QuestionServiceImpl implements QuestionService {
@@ -21,4 +23,7 @@ public class QuestionServiceImpl implements QuestionService {
         questionRepository.save(question);
         return question;
     }
+
+    @Override
+    public Optional<Question> getQuestionByQuestionId(Long questionId) {return questionRepository.findById(questionId);}
 }
