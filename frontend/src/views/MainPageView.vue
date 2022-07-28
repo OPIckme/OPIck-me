@@ -1,7 +1,6 @@
 <template>
-  <div id="app">
+  <!-- <div id="app">
     <nav class="navbar navbar-expand">
-      <!-- 주소 고쳐야됨. -->
       <a href="#" class="navbar-brand">
         <img src="../assets/logo.png" alt="">
       </a>
@@ -19,11 +18,13 @@
         </li>
       </div>
     </nav>
-  </div>
+  </div> -->
+  <LoginNavbar></LoginNavbar>
   <Profile></Profile>
 </template>
 <script>
 import Profile from '@/components/Profile.vue';
+import LoginNavbar from '@/components/LoginNavbar.vue';
 export default {
     computed: {
         currentUser() {
@@ -48,6 +49,6 @@ export default {
             this.$router.push("/login");
         }
     },
-    components: { Profile }
+    components: { Profile, LoginNavbar }
 };
 </script>

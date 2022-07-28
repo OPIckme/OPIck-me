@@ -1,4 +1,11 @@
 <template>
+<nav class="navbar" style="background-color:#0742F2;">
+  <div class="container-fluid">
+    <a href="/" class="navbar-brand">
+      <img src="../assets/logo.png" alt="" style="width:150px">
+    </a>
+  </div>
+</nav>
   <div class="col-md-12">
     <div class="card card-container">
       <Form @submit="handleRegister" :validation-schema="schema">
@@ -40,6 +47,9 @@
         :class="successful ? 'alert-success' : 'alert-danger'"
       >
         {{ message }}
+        <router-link to="/login" class="nav-link">
+          <button class="btn" style="color:white; background-color:#F2CB05;">Login</button>
+        </router-link>
       </div>
     </div>
   </div>
@@ -86,7 +96,7 @@ export default {
   },
   mounted() {
     if (this.loggedIn) {
-      this.$router.push("/profile");
+      this.$router.push("/mainpage");
     }
   },
   methods: {
