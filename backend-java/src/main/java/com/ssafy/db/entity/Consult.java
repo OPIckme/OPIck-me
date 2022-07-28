@@ -24,5 +24,5 @@ public class Consult {
     @CreationTimestamp
     private Timestamp createdAt;
 
-    private boolean state; // 디폴트 값 false? true?
+    private boolean state; // 디폴트 값 false
 }
