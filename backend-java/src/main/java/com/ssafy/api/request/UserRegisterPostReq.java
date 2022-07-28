@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 public class UserRegisterPostReq {
 	@NotBlank
 	@ApiModelProperty(name="유저 ID", example="ssafy_web")
-	String id;
+	String username;
 
 	@NotBlank
 	@ApiModelProperty(name="유저 Password", example="your_password")
