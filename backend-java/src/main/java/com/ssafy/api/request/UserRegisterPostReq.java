@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 public class UserRegisterPostReq {
 	@NotBlank
 	@ApiModelProperty(name="유저 ID", example="ssafy_web")
-	String id;
+	String username;
 
 	@NotBlank
 	@ApiModelProperty(name="유저 Password", example="your_password")
@@ -32,7 +32,7 @@ public class UserRegisterPostReq {
 	@ApiModelProperty(name="유저 nickname", example="nickname")
 	String nickname;
 
-	
+
 	@ApiModelProperty(name="유저 role", example="student")
 	String role="student";
 

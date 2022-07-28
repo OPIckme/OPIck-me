@@ -9,6 +9,7 @@ import com.ssafy.db.entity.Script;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class ConsultController {
             @ApiResponse(code = 500, message = "이미 상담 완료")
     })
     public ResponseEntity<? extends BaseResponseBody> register(
-            @RequestBody @ApiParam(value="상담신청 정보", required = true)ConsultRegisterPostReq consultRegisterPostReq) {
+            @RequestBody @ApiParam(value="상담신청 정보", required = true) @Validated ConsultRegisterPostReq consultRegisterPostReq) {
         Long scriptId = consultRegisterPostReq.getScriptId();
         Optional<Script> script = scriptService.getScriptByScriptId(scriptId);
 
