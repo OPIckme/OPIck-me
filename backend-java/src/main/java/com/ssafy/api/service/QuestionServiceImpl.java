@@ -19,8 +19,8 @@ public class QuestionServiceImpl implements QuestionService {
     private final QuestionRepository questionRepository;
 
     @Override
-    public Optional<Question> getRandomDetail(String topic) {
-        List<Question> findByTopicList = questionRepository.findAllByTopic(topic);
+    public Optional<Question> getRandomDetail(String topic,String level) {
+        List<Question> findByTopicList = questionRepository.findAllByTopicAndLevel(topic,level);
         Random random = new Random();
         random.setSeed(System.currentTimeMillis());
         int randomIndex = random.nextInt(findByTopicList.size());

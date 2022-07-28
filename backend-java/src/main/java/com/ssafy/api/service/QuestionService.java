@@ -5,5 +5,5 @@ import com.ssafy.db.entity.Question;
 import java.util.Optional;
 
 public interface QuestionService {
-    Optional<Question> getRandomDetail(String topic);
+    Optional<Question> getRandomDetail(String topic,String level);
 }
