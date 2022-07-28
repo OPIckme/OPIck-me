@@ -1,9 +1,9 @@
 <template>
-<MainPageUnLoginView v-if="!currentUser"></MainPageUnLoginView>
-<MainPageView  v-if="currentUser"></MainPageView>
   <div class="container">
     <router-view />
   </div>
+<!-- <MainPageUnLoginView v-if="!currentUser"></MainPageUnLoginView>
+<MainPageView  v-if="currentUser"></MainPageView> -->
 </template>
 <script>
 import MainPageView from './views/MainPageView.vue';

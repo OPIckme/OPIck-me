@@ -2,7 +2,7 @@
   <div id="app">
     <nav class="navbar navbar-expand">
       <!-- 주소 고쳐야됨. -->
-      <a href="/" class="navbar-brand">
+      <a href="#" class="navbar-brand">
         <img src="../assets/logo.png" alt="">
       </a>
       <div v-if="currentUser" class="navbar-nav ml-auto">
@@ -20,31 +20,34 @@
       </div>
     </nav>
   </div>
+  <Profile></Profile>
 </template>
 <script>
+import Profile from '@/components/Profile.vue';
 export default {
-  computed: {
-    currentUser() {
-      return this.$store.state.auth.user;
+    computed: {
+        currentUser() {
+            return this.$store.state.auth.user;
+        },
+        showAdminBoard() {
+            if (this.currentUser && this.currentUser["roles"]) {
+                return this.currentUser["roles"].includes("ROLE_ADMIN");
+            }
+            return false;
+        },
+        showModeratorBoard() {
+            if (this.currentUser && this.currentUser["roles"]) {
+                return this.currentUser["roles"].includes("ROLE_MODERATOR");
+            }
+            return false;
+        }
     },
-    showAdminBoard() {
-      if (this.currentUser && this.currentUser['roles']) {
-        return this.currentUser['roles'].includes('ROLE_ADMIN');
-      }
-      return false;
+    methods: {
+        logOut() {
+            this.$store.dispatch("auth/logout");
+            this.$router.push("/login");
+        }
     },
-    showModeratorBoard() {
-      if (this.currentUser && this.currentUser['roles']) {
-        return this.currentUser['roles'].includes('ROLE_MODERATOR');
-      }
-      return false;
-    }
-  },
-  methods: {
-    logOut() {
-      this.$store.dispatch('auth/logout');
-      this.$router.push('/login');
-    }
-  }
+    components: { Profile }
 };
 </script>

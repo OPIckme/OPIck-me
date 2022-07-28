@@ -1,4 +1,11 @@
 <template>
+<nav class="navbar" style="background-color:#0742F2;">
+  <div class="container-fluid">
+    <a href="/" class="navbar-brand">
+      <img src="../assets/logo.png" alt="" style="width:150px">
+    </a>
+  </div>
+</nav>
   <div class="col-md-12">
     <h1>Login</h1>
     <div class="card card-container">
@@ -68,7 +75,7 @@ export default {
   },
   created() {
     if (this.loggedIn) {
-      this.$router.push("/profile");
+      this.$router.push("/mainpage");
     }
   },
   methods: {
@@ -76,7 +83,7 @@ export default {
       this.loading = true;
       this.$store.dispatch("auth/login", user).then(
         () => {
-          this.$router.push("/profile");
+          this.$router.push("/mainpage");
         },
         (error) => {
           this.loading = false;
