@@ -9,25 +9,27 @@
     </router-link>
   </div>
 </nav>
+<Home></Home>
 </template>
 <script>
+import Home from "../components/Home.vue"
 export default {
-  data() {
-    return {
-      isHidden: false,
-    };
-  },
-  computed: {
-    currentUser() {
-      return this.$store.state.auth.user;
+    data() {
+        return {
+            isHidden: false,
+        };
     },
-  },
-  
-  methods: {
-    logOut() {
-      this.$store.dispatch('auth/logout');
-      this.$router.push('/login');
+    computed: {
+        currentUser() {
+            return this.$store.state.auth.user;
+        },
     },
-  }
+    methods: {
+        logOut() {
+            this.$store.dispatch("auth/logout");
+            this.$router.push("/login");
+        },
+    },
+    components : { Home }
 };
 </script>
