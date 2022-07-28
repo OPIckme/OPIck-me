@@ -1,24 +1,4 @@
 <template>
-  <!-- <div id="app">
-    <nav class="navbar navbar-expand">
-      <a href="#" class="navbar-brand">
-        <img src="../assets/logo.png" alt="">
-      </a>
-      <div v-if="currentUser" class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <router-link to="/profile" class="nav-link">
-            <font-awesome-icon icon="user" />
-            {{ currentUser.username }}
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" @click.prevent="logOut">
-            <font-awesome-icon icon="sign-out-alt" /> LogOut
-          </a>
-        </li>
-      </div>
-    </nav>
-  </div> -->
   <LoginNavbar></LoginNavbar>
   <Profile></Profile>
 </template>
