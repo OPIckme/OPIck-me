@@ -30,15 +30,19 @@ public class UserServiceImpl implements UserService {
 		validateDuplicateMember(userRegisterInfo);
 
 		User user = new User();
-		user.setUsername(userRegisterInfo.getId());
+		user.setUsername(userRegisterInfo.getUsername());
 		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
 		user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword()));
+		user.setEmail(userRegisterInfo.getEmail());
+		user.setNickname(userRegisterInfo.getNickname());
+		user.setRole(userRegisterInfo.getRole());
+
 		return userRepository.save(user);
 	}
 
 	@Override
 	public void validateDuplicateMember(UserRegisterPostReq userRegisterInfo) {
-		if (getUserByUsername(userRegisterInfo.getId()) != null) {
+		if (getUserByUsername(userRegisterInfo.getUsername()) != null) {
 			throw new IllegalStateException("이미 존재하는 회원입니다.");
 		}
 	}
