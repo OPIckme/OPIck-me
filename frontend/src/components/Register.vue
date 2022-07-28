@@ -19,6 +19,11 @@
             <ErrorMessage name="password" class="error-feedback" />
           </div>
           <div class="form-group">
+            <label for="nickname">nickname</label>
+            <Field name="nickname" type="nickname" class="form-control" />
+            <ErrorMessage name="nickname" class="error-feedback" />
+          </div>
+          <div class="form-group">
             <button class="btn btn-primary btn-block" :disabled="loading">
               <span
                 v-show="loading"

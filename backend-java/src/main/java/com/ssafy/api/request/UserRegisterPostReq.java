@@ -32,8 +32,8 @@ public class UserRegisterPostReq {
 	@ApiModelProperty(name="유저 nickname", example="nickname")
 	String nickname;
 
-	@NotNull
+	
 	@ApiModelProperty(name="유저 role", example="student")
-	String role;
+	String role="student";
 
 }
