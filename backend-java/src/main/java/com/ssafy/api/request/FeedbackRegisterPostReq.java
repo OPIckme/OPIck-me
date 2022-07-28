@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -15,7 +16,7 @@ public class FeedbackRegisterPostReq {
     @ApiModelProperty(name="피드백 내용", example="abcd")
     String content;
 
-    @NotBlank
+    @NotNull
     @ApiModelProperty(name="스크립트 id", example="0")
     Long scriptId;
 }

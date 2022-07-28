@@ -6,12 +6,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @ApiModel("ConsultRegisterPostRequest")
 public class ConsultRegisterPostReq {
-    @NotBlank
-    @ApiModelProperty(name="스크립트 ID", example="13")
+    @NotNull
+    @ApiModelProperty(name="스크립트 ID", example="1")
     Long scriptId;
 }

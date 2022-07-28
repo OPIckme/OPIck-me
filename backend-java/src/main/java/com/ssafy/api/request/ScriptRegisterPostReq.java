@@ -7,16 +7,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @ApiModel("ScriptRegisterPostReq")
 public class ScriptRegisterPostReq {
-    @NotBlank
-    @ApiModelProperty(name="유저 ID", example="ssafy_web")
+    @NotNull
+    @ApiModelProperty(name="유저 ID", example="1")
     Long userId;
 
-    @NotBlank
+    @NotNull
     @ApiModelProperty(name="문제 ID", example="1")
     Long questionId;
 

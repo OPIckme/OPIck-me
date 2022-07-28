@@ -27,7 +27,7 @@ public class QuestionController {
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = QuestionRes.class),
     })
-    public ResponseEntity<QuestionRes> randomQuestion(@RequestBody @ApiParam(value="토픽,레벨 정보", required = true) @Validated QuestionRandomGetReq questionRandomGetReq) {
+    public ResponseEntity<QuestionRes> randomQuestion(@ModelAttribute @ApiParam(value="토픽,레벨 정보", required = true) @Validated QuestionRandomGetReq questionRandomGetReq) {
         Question question = questionService.getRandomDetail(questionRandomGetReq.getTopic(), questionRandomGetReq.getLevel()).get();
         QuestionRes questionRes = new QuestionRes();
 
@@ -35,7 +35,7 @@ public class QuestionController {
         questionRes.setMessage("Success");
         questionRes.setId(question.getId());
         questionRes.setTopic(question.getTopic());
-        questionRes.setQuestionContent(questionRes.getQuestionContent());
+        questionRes.setQuestionContent(question.getQuestionContent());
         questionRes.setLevel(question.getLevel());
         questionRes.setAudioUrl(question.getAudioUrl());
 
