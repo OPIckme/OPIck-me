@@ -49,7 +49,6 @@ public class ScriptServiceImpl implements ScriptService {
 
     }
 
-
     @Override
     public Optional<Script> getScriptByScriptId(Long scriptId) {
         return scriptRepository.findById(scriptId);
