@@ -1,20 +1,25 @@
 <template>
-  <!-- main 으로 시작 -->
-  <Main/>
+<MainPageUnLoginView v-if="!currentUser"></MainPageUnLoginView>
+<MainPageView  v-if="currentUser"></MainPageView>
+  <div class="container">
+    <router-view />
+  </div>
 </template>
-
 <script>
-import Main from './views/main/main.vue'
-
+import MainPageView from './views/MainPageView.vue';
+import MainPageUnLoginView from './views/MainPageUnLoginView.vue';
 export default {
-  name: 'App',
-
-  components: {
-    Main,
-  },
-
-  data: () => ({
-    //
-  }),
-}
+    computed: {
+        currentUser() {
+            return this.$store.state.auth.user;
+        },
+    },
+    methods: {
+        logOut() {
+            this.$store.dispatch("auth/logout");
+            this.$router.push("/login");
+        }
+    },
+    components: { MainPageUnLoginView,MainPageView }
+};
 </script>
