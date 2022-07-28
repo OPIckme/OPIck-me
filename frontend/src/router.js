@@ -3,10 +3,8 @@ import MainPageUnLoginView from "./views/MainPageUnLoginView.vue";
 import MainPage from "./views/MainPageView.vue";
 import Login from "./components/Login.vue";
 import Register from "./components/Register.vue";
-// lazy-loaded
-// const Profile = () => import("./components/Profile.vue")
-// const BoardAdmin = () => import("./components/BoardAdmin.vue")
-// const BoardModerator = () => import("./components/BoardModerator.vue")
+import Feedback from "./components/Feedback.vue";
+
 const BoardUser = () => import("./components/BoardUser.vue")
 const routes = [
   {
@@ -32,18 +30,12 @@ const routes = [
     // lazy-loaded
     component: MainPage,
   },
-  // {
-  //   path: "/admin",
-  //   name: "admin",
-  //   // lazy-loaded
-  //   component: BoardAdmin,
-  // },
-  // {
-  //   path: "/mod",
-  //   name: "moderator",
-  //   // lazy-loaded
-  //   component: BoardModerator,
-  // },
+  {
+    path: "/feedback",
+    name: "feedback",
+    // lazy-loaded
+    component: Feedback,
+  },
   {
     path: "/user",
     name: "user",
