@@ -13,8 +13,6 @@ public interface ConsultService {
 
     List<Consult> waitingList();
 
-    boolean completedStateByScript(Long scriptId);
-
     boolean completedStateByConsult(Long consultId);
 
     void modifyState(Long consultId);

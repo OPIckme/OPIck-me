@@ -49,13 +49,6 @@ public class ConsultServiceImpl implements ConsultService {
     }
 
     @Override
-    public boolean completedStateByScript(Long scriptId) {
-        // 이걸로 consult가 찾아지나?
-        Consult consult = consultRepository.findByScriptId(scriptId).get();
-        return consult.isState();
-    }
-
-    @Override
     public boolean completedStateByConsult(Long consultId) {
         Consult consult = consultRepository.findById(consultId).get();
         return consult.isState();

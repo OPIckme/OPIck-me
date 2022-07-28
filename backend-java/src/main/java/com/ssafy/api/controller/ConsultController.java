@@ -1,6 +1,7 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.ConsultRegisterPostReq;
+import com.ssafy.api.response.ConsultListRes;
 import com.ssafy.api.service.ConsultService;
 import com.ssafy.api.service.ScriptService;
 import com.ssafy.common.model.response.BaseResponseBody;
@@ -35,12 +36,9 @@ public class ConsultController {
         Long scriptId = consultRegisterPostReq.getScriptId();
         Optional<Script> script = scriptService.getScriptByScriptId(scriptId);
 
+        // 스크립트가 있다면
         if (script.isPresent()) {
-            // 스크립트가 있지만 이미 상담 완료 상태인 것
-            if(consultService.completedStateByScript(scriptId)){
-                return ResponseEntity.status(500).body(BaseResponseBody.of(500,"Already consulted"));
-            }
-            // 스크립트가 있고 상담 생성 가능한 것
+            // 상담 생성
             consultService.create(script.get());
             return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success created consult"));
         }
@@ -48,12 +46,14 @@ public class ConsultController {
         return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Script does not exist"));
     }
 
-    //ResponseEntity 안에 또 Res를 넣어주는 이유는?
-    //ListRes 어떻게 하지 service에 Res 써도 되나?
     @GetMapping
-    public ResponseEntity<List<Consult>> waitingList() {
+    @ApiOperation(value = "대기중인 상담 조회", notes = "대기중인 상담 목록을 조회한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "대기중인 상담 목록 조회 성공", response = ConsultListRes.class),
+    })
+    public ResponseEntity<ConsultListRes> getWaitingList() {
         List<Consult> waitingList = consultService.waitingList();
-        return ResponseEntity.ok(waitingList);
+        return ResponseEntity.status(200).body(ConsultListRes.of(200,"Success to get consult list", waitingList));
     }
 
     @PutMapping("/complete/{consultId}")
