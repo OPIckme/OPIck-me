@@ -28,5 +28,10 @@ public class QuestionServiceImpl implements QuestionService {
         return Optional.of(findByTopicList.get(randomIndex));
     }
 
+    @Override
+    public Optional<Question> getQuestionByQuestionId(Long questionId) {
+        return questionRepository.findById(questionId);
+    }
+
 
 }

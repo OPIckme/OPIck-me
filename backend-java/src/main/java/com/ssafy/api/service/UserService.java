@@ -12,4 +12,6 @@ public interface UserService {
 	User createUser(UserRegisterPostReq userRegisterInfo);
 	User getUserByUsername(String username);
 	void validateDuplicateMember(UserRegisterPostReq userRegisterInfo);
+
+	public Optional<User> getUserByUserId(Long userId);
 }

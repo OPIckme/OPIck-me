@@ -11,6 +11,7 @@ import com.ssafy.db.repository.UserRepository;
 import com.ssafy.db.repository.UserRepositorySupport;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  *	유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
