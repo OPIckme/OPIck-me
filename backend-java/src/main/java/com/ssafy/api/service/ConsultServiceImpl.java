@@ -24,10 +24,10 @@ public class ConsultServiceImpl implements ConsultService {
     private final ScriptRepository scriptRepository;
 
     @Override
-    public void create(Script script) {
+    public Consult create(Script script) {
         Consult consult = new Consult();
         consult.setScript(script);
-        consultRepository.save(consult);
+        return consultRepository.save(consult);
     }
 
     @Transactional(readOnly = true)
@@ -37,10 +37,10 @@ public class ConsultServiceImpl implements ConsultService {
     }
 
     @Override
-    public void modifyState(Long consultId) {
+    public Consult modifyState(Long consultId) {
         Consult findConsult = consultRepository.findById(consultId).get();
         findConsult.setState(true);
-        consultRepository.save(findConsult);
+        return consultRepository.save(findConsult);
     }
 
     @Override

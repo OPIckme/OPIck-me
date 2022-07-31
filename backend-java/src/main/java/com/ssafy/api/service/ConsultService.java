@@ -9,13 +9,13 @@ import java.util.Optional;
 
 
 public interface ConsultService {
-    void create(Script script);
+    Consult create(Script script);
 
     List<Consult> waitingList();
 
     boolean completedStateByConsult(Long consultId);
 
-    void modifyState(Long consultId);
+    Consult modifyState(Long consultId);
 
     boolean exist(Long consultId);
 

@@ -22,7 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(AuthController.class)
 public class AuthControllerTest {
-
     @MockBean
     UserService userService;
     @MockBean

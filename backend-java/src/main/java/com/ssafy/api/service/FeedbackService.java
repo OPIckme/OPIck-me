@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 public interface FeedbackService {
     BaseResponseBody delete(Long feedbackId);
-    void create(String content, Script script);
+    Feedback create(String content, Script script);
     List<Feedback> getList();
     Optional<Feedback> getDetail(Long feedbackId);
 
