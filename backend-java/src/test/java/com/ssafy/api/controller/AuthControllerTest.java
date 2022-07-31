@@ -1,76 +1,66 @@
 package com.ssafy.api.controller;
 
-import com.ssafy.api.request.UserRegisterPostReq;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.api.service.UserService;
+import com.ssafy.common.auth.SsafyUserDetailService;
+import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.User;
-import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
-import javax.security.auth.login.AccountException;
+import java.util.HashMap;
+import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
-import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-//@ExtendWith(MockitoExtension.class)
-//@AutoConfigureMockMvc
-//@WebMvcTest
+@WebMvcTest(AuthController.class)
 public class AuthControllerTest {
 
-    @Autowired UserService userService;
-//    @Autowired
-//    private MockMvc mockMvc;
+    @MockBean
+    UserService userService;
+    @MockBean
+    PasswordEncoder passwordEncoder;
+    @MockBean
+    SsafyUserDetailService ssafyUserDetailService;
+    @Autowired
+    private MockMvc mockMvc;
 
-    @DisplayName("로그인 테스트")
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Test
-    public void login() throws Exception {
-        UserRegisterPostReq userRegisterInfo = new UserRegisterPostReq();
-        userRegisterInfo.setId("test");
-        userRegisterInfo.setPassword("1234");
-        }
+    public void 로그인_성공() throws Exception {
+        String testId="user";
+        String testPassword="password";
 
-    // 테스트 유저 생성
-    // private
-//    @Test
-//    public void login() throws Exception {
-//        final String username = "test";
-//        final String password = "1234";
-//
-//        mockMvc.perform(formLogin().user("test").password("1234"))
-//            .andExpect(authenticated());
-//    }
-//
-//    private void createUser(String username, String password) {
-//
-//    }
+        Map<String, String> input = new HashMap<>();
+        input.put("username", testId);
+        input.put("password", testPassword);
+
+        User user=new User();
+        user.setUsername("user");
+        user.setPassword("password");
+        user.setEmail("user@naver.com");
+        user.setNickname("nickname");
+        user.setRole("student");
 
 
-//    private User createUser(String username, String password) {
-//        User user = new User();
-//        user.setUserId(username);
-//        user.setPassword(password);
-//        return userService.createUser(user);
-//    }
-//
-//    @Test
-//    public void login() throws Exception {
-//        //given
-//        final String username = "test";
-//        final String password = "1234";
-//        User createduser = createUser(username, password);
-//        //when
-//        mockMvc.perform(formLogin().user(username).password("2345"))
-//                .andExpect(authenticated());
-//        //then
-//    }
+        given(userService.getUserByUsername(testId)).willReturn(user);
+        given(passwordEncoder.matches( testPassword,user.getPassword())).willReturn( testPassword.equals(user.getPassword()));
+        mockMvc.perform(post("/api/v1/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(objectMapper.writeValueAsString(input))
+                )
+                .andExpect(status().isOk());
+    }
 
 }

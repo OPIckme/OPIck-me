@@ -1,45 +1,70 @@
 package com.ssafy.api.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.api.service.UserService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
+import com.ssafy.common.auth.SsafyUserDetailService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.HashMap;
+import java.util.Map;
 
-@ExtendWith(MockitoExtension.class)
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(UserController.class)
 class UserControllerTest {
-    @InjectMocks
-    private UserController userController;
-
-    @Mock
-    private UserService userService;
-
+    @MockBean
+    UserService userService;
+    @MockBean
+    PasswordEncoder passwordEncoder;
+    @MockBean
+    SsafyUserDetailService ssafyUserDetailService;
+    @Autowired
     private MockMvc mockMvc;
 
-    @BeforeEach
-    public void init() {
-        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
-    }
-
-    @DisplayName("회원 가입 성공")
+    @Autowired
+    private ObjectMapper objectMapper;
     @Test
-    void registerSucess() throws Exception {
-        //given
+    void 회원가입성공() throws Exception {
+        Map<String, String> input = new HashMap<>();
 
+        input.put("username", "user");
+        input.put("password", "password");
+        input.put("email", "user2@naver.com");
+        input.put("nickname", "nickname");
 
-        //when
-
-
-        //then
-
-
+        mockMvc.perform(post("/api/v1/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(objectMapper.writeValueAsString(input))
+                )
+                .andExpect(status().isOk());
     }
+
+    @Test
+    void 유효성검증_회원가입_실패() throws Exception {
+        Map<String, String> input = new HashMap<>();
+
+        input.put("username", "");
+        input.put("password", "password");
+        input.put("email", "user2@naver.com");
+        input.put("nickname", "nickname");
+
+        mockMvc.perform(post("/api/v1/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(objectMapper.writeValueAsString(input))
+                )
+                .andExpect(status().is4xxClientError());
+    }
+
 
 }
