@@ -18,11 +18,11 @@ public class FeedbackServiceImpl implements FeedbackService {
     private final FeedbackRepository feedbackRepository;
 
     @Transactional
-    public void create(String content, Script script){
+    public Feedback create(String content, Script script){
         Feedback feedback = new Feedback();
         feedback.setContent(content);
         feedback.setScript(script);
-        feedbackRepository.save(feedback);
+        return feedbackRepository.save(feedback);
     }
 
     public BaseResponseBody delete(Long feedbackId){

@@ -28,8 +28,7 @@ public class ConsultController {
     @ApiOperation(value = "상담 신청", notes = "<strong>스크립트</strong>를 가지고 상담신청을 한다.")
     @ApiResponses({
             @ApiResponse(code = 201, message = "성공"),
-            @ApiResponse(code = 404, message = "스크립트 없음"),
-            @ApiResponse(code = 500, message = "이미 상담 완료")
+            @ApiResponse(code = 404, message = "스크립트 없음")
     })
     public ResponseEntity<? extends BaseResponseBody> register(
             @RequestBody @ApiParam(value="상담신청 정보", required = true) @Validated ConsultRegisterPostReq consultRegisterPostReq) {
