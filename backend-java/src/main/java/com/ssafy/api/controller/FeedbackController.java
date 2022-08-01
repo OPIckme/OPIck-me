@@ -24,7 +24,7 @@ public class FeedbackController {
     private final FeedbackService feedbackService;
     private final ScriptService scriptService;
 
-    @PostMapping("/")
+    @PostMapping
     @ApiOperation(value = "피드백 생성", notes = "원본 스크립트 id와 피드백 내용으로 피드백을 생성한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
@@ -44,7 +44,7 @@ public class FeedbackController {
         return ResponseEntity.status(404).body(BaseResponseBody.of(404,"존재하지 않는 스크립트 입니다."));
     }
 
-    @GetMapping("/")
+    @GetMapping
     @ApiOperation(value = "전체 피드백 조회", notes = "모든 피드백을 조회한다.")
 
     public List<Feedback> getList(){

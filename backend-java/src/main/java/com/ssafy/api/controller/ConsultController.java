@@ -58,7 +58,7 @@ public class ConsultController {
     @PutMapping("/complete/{consultId}")
     @ApiOperation(value = "상담 상태 변경", notes = "상담 상태를 완료로 변경한다.")
     @ApiResponses({
-            @ApiResponse(code = 204, message = "성공"),
+            @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 404, message = "상담 없음"),
             @ApiResponse(code = 500, message = "이미 변경된 상태")
     })
@@ -71,7 +71,7 @@ public class ConsultController {
             }
             // 상담 무사히 완료
             consultService.modifyState(consultId);
-            return ResponseEntity.status(204).body(BaseResponseBody.of(204, "Consult completed!"));
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Consult completed!"));
         }
         // 없는 상담
         return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Consult does not exist"));
