@@ -1,33 +1,29 @@
 package com.ssafy.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.api.request.UserRegisterPostReq;
 import com.ssafy.api.service.UserService;
-import com.ssafy.common.auth.SsafyUserDetailService;
-import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(AuthController.class)
+@AutoConfigureMockMvc
+@SpringBootTest
 public class AuthControllerTest {
-    @MockBean
+
+    @Autowired
     UserService userService;
-    @MockBean
-    PasswordEncoder passwordEncoder;
-    @MockBean
-    SsafyUserDetailService ssafyUserDetailService;
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -43,16 +39,16 @@ public class AuthControllerTest {
         input.put("username", testId);
         input.put("password", testPassword);
 
-        User user=new User();
-        user.setUsername("user");
-        user.setPassword("password");
-        user.setEmail("user@naver.com");
-        user.setNickname("nickname");
-        user.setRole("student");
+        UserRegisterPostReq userRegisterInfo=new UserRegisterPostReq();
+        userRegisterInfo.setUsername("user");
+        userRegisterInfo.setPassword("password");
+        userRegisterInfo.setEmail("user@naver.com");
+        userRegisterInfo.setNickname("nickname");
+        userRegisterInfo.setRole("student");
 
+        //when
+        User user=userService.createUser(userRegisterInfo);
 
-        given(userService.getUserByUsername(testId)).willReturn(user);
-        given(passwordEncoder.matches( testPassword,user.getPassword())).willReturn( testPassword.equals(user.getPassword()));
         mockMvc.perform(post("/api/v1/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
@@ -62,4 +58,19 @@ public class AuthControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void 유효성검증_로그인_실패() throws Exception {
+        Map<String, String> input = new HashMap<>();
+
+        input.put("username", "");
+        input.put("password", "password");
+
+        mockMvc.perform(post("/api/v1/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(objectMapper.writeValueAsString(input))
+                )
+                .andExpect(status().is4xxClientError());
+    }
 }
