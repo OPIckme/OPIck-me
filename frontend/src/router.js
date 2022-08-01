@@ -2,7 +2,7 @@ import { createWebHistory, createRouter } from "vue-router";
 import MainPageUnLoginView from "./views/MainPageUnLoginView.vue";
 import Script from "./views/MainPageView.vue";
 import Login from "./components/Login.vue";
-// import Logout from "./components/Logout.vue";
+import ScriptDetail from "./components/ScriptDetail.vue";
 import Register from "./components/Register.vue";
 import Feedback from "./components/Feedback.vue";
 
@@ -21,10 +21,7 @@ const routes = [
     path: "/login",
     component: Login,
   },
-  // {
-  //   path: "/logout",
-  //   component: Logout,
-  // },
+ 
   {
     path: "/register",
     component: Register,
@@ -34,6 +31,11 @@ const routes = [
     name: "script",
     // lazy-loaded
     component: Script,
+  },
+   {
+    path: "/scriptdetail",
+    name:"scriptdetail",
+    component: ScriptDetail,
   },
   {
     path: "/feedback",

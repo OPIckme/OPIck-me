@@ -2,12 +2,7 @@
 <!-- Script 생성 버튼 -->
 <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Script 생성</a>
 <!-- script card -->
-<div class="container">
-  <div class="row bg-white bg-opacity-10 justify-content-center">
-    <ScriptCard
-    ></ScriptCard>
-  </div>
-</div>
+<ScriptCard @click="scripDetail"></ScriptCard>
 <!-- Survey 모달 -->
 <div class="modal fade" id="exampleModalToggle" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
@@ -103,7 +98,7 @@
         </svg>
         <div>
           <!-- 녹음 -->
-          <svg class="bi bi-record-circle" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 16 16">
+          <svg class="bi bi-record-circle" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 16 16">
             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
             <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
           </svg>
@@ -138,6 +133,12 @@ export default {
         if (!this.currentUser) {
             this.$router.push("/");
         }
+    },
+    methods: {
+        scripDetail() {
+            this.$router.push("/scriptdetail");
+        },
+        
     },
     components: { ScriptCard }
 };
