@@ -1,6 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router";
 import MainPageUnLoginView from "./views/MainPageUnLoginView.vue";
-import MainPage from "./views/MainPageView.vue";
+import Script from "./views/MainPageView.vue";
 import Login from "./components/Login.vue";
 // import Logout from "./components/Logout.vue";
 import Register from "./components/Register.vue";
@@ -30,10 +30,10 @@ const routes = [
     component: Register,
   },
   {
-    path: "/mainpage",
-    name: "mainpage",
+    path: "/script",
+    name: "script",
     // lazy-loaded
-    component: MainPage,
+    component: Script,
   },
   {
     path: "/feedback",

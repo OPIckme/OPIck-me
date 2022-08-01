@@ -1,6 +1,13 @@
 <template>  
 <!-- Script 생성 버튼 -->
 <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Script 생성</a>
+<!-- script card -->
+<div class="container">
+  <div class="row bg-white bg-opacity-10 justify-content-center">
+    <ScriptCard
+    ></ScriptCard>
+  </div>
+</div>
 <!-- Survey 모달 -->
 <div class="modal fade" id="exampleModalToggle" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
@@ -114,17 +121,24 @@
 </div>
 </template>
 <script>
+import ScriptCard from './ScriptCard.vue';
 export default {
-  name: 'Script',
-  computed: {
-    currentUser() {
-      return this.$store.state.auth.user;
-    }
+    name: "Script",
+    data() {
+    return {
+      scriptList:'',
+    };
   },
-  mounted() {
-    if (!this.currentUser) {
-      this.$router.push('/');
-    }
-  },
+    computed: {
+        currentUser() {
+            return this.$store.state.auth.user;
+        }
+    },
+    mounted() {
+        if (!this.currentUser) {
+            this.$router.push("/");
+        }
+    },
+    components: { ScriptCard }
 };
 </script>

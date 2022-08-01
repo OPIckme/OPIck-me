@@ -1,14 +1,14 @@
 <template>
 <nav class="navbar" style="background-color:#0742F2;">
   <div class="container-fluid">
-    <a href="/mainpage" class="navbar-brand ">
+    <a href="/script" class="navbar-brand ">
       <img src="../assets/logo.png" alt="" style="width:150px">
     </a>
     <button class="btn" style="color:white; background-color:#F2CB05;" data-bs-toggle="modal" data-bs-target="#exampleModal">Logout</button>
   </div>
 </nav>
 <div class="menu" style="background-color:white;">
-  <a href="/mainpage">Script</a>
+  <a href="/script">Script</a>
   <a href="/feedback">Feedback</a>
 </div>
 
