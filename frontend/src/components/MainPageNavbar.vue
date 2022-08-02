@@ -21,13 +21,7 @@ export default {
             return this.$store.state.auth.user;
         },
     },
-    methods: {
-        logOut() {
-            this.$store.dispatch("auth/logout");
-            this.$router.push("/");
-        },
-    },
+    
     components: { LogoutModal }
 };
 </script>
-

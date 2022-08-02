@@ -2,7 +2,7 @@
 <!-- Script 생성 버튼 -->
 <a class="btn btn-primary" data-bs-toggle="modal" href="#SurveyModal" role="button">Script 생성</a>
 <!-- script card -->
-<ScriptCard @click="scripDetail"></ScriptCard>
+<ScriptCard ></ScriptCard>
 <SurveyModal></SurveyModal>
 </template>
 <script>
@@ -24,12 +24,6 @@ export default {
         if (!this.currentUser) {
             this.$router.push("/");
         }
-    },
-    methods: {
-        scripDetail() {
-            this.$router.push("/scriptdetail");
-        },
-        
     },
     components: { ScriptCard, SurveyModal }
 };
