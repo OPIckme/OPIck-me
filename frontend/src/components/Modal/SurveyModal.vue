@@ -53,7 +53,7 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="SurveyModal3" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+<div class="modal fade" id="SurveyModal3" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
@@ -78,14 +78,14 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="SurveyModal4" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+<div class="modal fade" id="SurveyModal4" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel4" tabindex="-1">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <h5 class="modal-title" id="SurveyModal2">
+        <h5 class="modal-title" id="exampleModalToggleLabel4">
           Q. Tell me about what do you usually do at the park. What is your typical day at the park from beginning to end?
         </h5>
         <!-- soundwave -->
@@ -94,7 +94,7 @@
         </svg>
         <div>
           <!-- 녹음 -->
-          <svg class="bi bi-record-circle" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 16 16">
+          <svg class="bi bi-record-circle" data-bs-target="#SurveyModal2" data-bs-toggle="modal" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 16 16">
             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
             <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
           </svg>

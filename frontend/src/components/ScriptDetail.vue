@@ -24,11 +24,13 @@
 <svg @click="clickCaret" v-if="!click" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16">
   <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/>
 </svg>
-<button class="btn btn-primary">피드백 신청하기</button>
+<button data-bs-toggle="modal" href="#Feedback" class="btn btn-primary">피드백 신청하기</button>
+<FeedbackModal></FeedbackModal>
 </template>
 
 <script>
 import MainPageNavbar from './MainPageNavbar.vue';
+import FeedbackModal from './Modal/FeedbackModal.vue';
 export default {
     name: "ScriptDetail",
     data() {
@@ -46,6 +48,6 @@ export default {
             this.click = !this.click;
         },
     },
-    components: { MainPageNavbar }
+    components: { MainPageNavbar, FeedbackModal }
 }
 </script>
