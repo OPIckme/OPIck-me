@@ -79,7 +79,7 @@ export default {
   },
   created() {
     if (this.loggedIn) {
-      this.$router.push("/script");
+      this.$router.push("/mainpage");
     }
   },
   methods: {
@@ -87,7 +87,7 @@ export default {
       this.loading = true;
       this.$store.dispatch("auth/login", user).then(
         () => {
-          this.$router.push("/script");
+          this.$router.push("/mainpage");
         },
         (error) => {
           this.loading = false;

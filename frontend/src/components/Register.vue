@@ -96,7 +96,7 @@ export default {
   },
   mounted() {
     if (this.loggedIn) {
-      this.$router.push("/script");
+      this.$router.push("/mainpage");
     }
   },
   methods: {

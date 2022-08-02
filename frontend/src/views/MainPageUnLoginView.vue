@@ -9,10 +9,10 @@
     </router-link>
   </div>
 </nav>
-<Home></Home>
+<SiteIntroduce></SiteIntroduce>
 </template>
 <script>
-import Home from "../components/Home.vue"
+import SiteIntroduce from "../components/SiteIntroduce.vue"
 export default {
     data() {
         return {
@@ -30,6 +30,6 @@ export default {
             this.$router.push("/login");
         },
     },
-    components : { Home }
+    components : { SiteIntroduce }
 };
 </script>

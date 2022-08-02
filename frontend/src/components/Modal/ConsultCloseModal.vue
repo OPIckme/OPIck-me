@@ -18,16 +18,14 @@
 </template>
 
 <script>
-
 export default {
   setup() {
     
   },
   methods: {
-    consultClose() {
-        this.$router.push("/feedback");
+        consultClose() {
+            this.$router.push("/feedback");
+        },
     },
-  },
 }
-  // $('#id').modal('hide');
 </script>

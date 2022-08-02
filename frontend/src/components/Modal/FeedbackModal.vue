@@ -27,7 +27,7 @@ export default {
   },
   methods: {
         feedBack() {
-            this.$router.push("/consult_student");
+            this.$router.push("/webrtcstudent");
         },
     },
 }
