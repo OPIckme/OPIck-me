@@ -1,6 +1,6 @@
 <template>
   <!-- Modal -->
-<div class="modal" id="Consultclose" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal" id="Consultclose" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);" >
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -18,14 +18,16 @@
 </template>
 
 <script>
+
 export default {
   setup() {
     
   },
   methods: {
-        consultClose() {
-            this.$router.push("/feedback");
-        },
+    consultClose() {
+        this.$router.push("/feedback");
     },
+  },
 }
+  // $('#id').modal('hide');
 </script>
