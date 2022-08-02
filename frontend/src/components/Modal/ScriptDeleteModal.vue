@@ -10,7 +10,7 @@
         Script를 삭제하시겠습니까?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">네</button>
+        <button data-bs-dismiss="modal" aria-label="Close" type="button" class="btn btn-primary">네</button>
       </div>
     </div>
   </div>

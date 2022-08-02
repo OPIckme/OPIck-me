@@ -1,15 +1,17 @@
 <template>
 <MainPageNavbar></MainPageNavbar>
-<Script></Script>
+<Script v-if="role==='student'" ></Script>
+<Consultant v-else></Consultant>
 </template>
 <script>
 import Script from '@/components/Script.vue';
 import MainPageNavbar from '../components/MainPageNavbar.vue';
+import Consultant from '@/components/Consultant.vue';
 export default {
-    computed: {
-        currentUser() {
-            return this.$store.state.auth.user;
-        },
+    data(){
+        return{
+            role:this.$store.state.auth.user.role
+        }
     },
     methods: {
         logOut() {
@@ -17,6 +19,6 @@ export default {
             this.$router.push("/login");
         }
     },
-    components: { Script, MainPageNavbar }
+    components: { Script, MainPageNavbar, Consultant }
 };
 </script>
