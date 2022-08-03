@@ -28,7 +28,7 @@ public class ConsultController {
     @ApiOperation(value = "상담 신청", notes = "<strong>스크립트</strong>를 가지고 상담신청을 한다.")
     @ApiResponses({
             @ApiResponse(code = 201, message = "성공"),
-            @ApiResponse(code = 404, message = "스크립트 없음")
+            @ApiResponse(code = 500, message = "스크립트 없음")
     })
     public ResponseEntity<? extends BaseResponseBody> register(
             @RequestBody @ApiParam(value="상담신청 정보", required = true) @Validated ConsultRegisterPostReq consultRegisterPostReq) {
@@ -36,13 +36,13 @@ public class ConsultController {
         Optional<Script> script = scriptService.getScriptByScriptId(scriptId);
 
         // 스크립트가 있다면
-        if (script.isPresent()) {
-            // 상담 생성
-            consultService.create(script.get());
-            return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success created consult"));
-        }
-        // 스크립트 없음
-        return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Script does not exist"));
+//        if (script.isPresent()) {
+            // 스크립트가 있다면 상담 생성
+        consultService.create(script.get());
+        return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success created consult"));
+//        }
+        // 스크립트 없으면 noSuchElementExHandler 호출
+        // return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Script does not exist"));
     }
 
     @GetMapping
@@ -59,21 +59,22 @@ public class ConsultController {
     @ApiOperation(value = "상담 상태 변경", notes = "상담 상태를 완료로 변경한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
-            @ApiResponse(code = 404, message = "상담 없음"),
-            @ApiResponse(code = 500, message = "이미 변경된 상태")
+            @ApiResponse(code = 500, message = "상담 없음"),
+            @ApiResponse(code = 400, message = "이미 변경된 상태")
     })
-    public ResponseEntity<? extends BaseResponseBody> complete(@PathVariable Long consultId){
+    public ResponseEntity<? extends BaseResponseBody> complete(@PathVariable Long consultId) {
 
-        if (consultService.exist(consultId)){
-            // 이미 진행완료된 상담
-            if (consultService.completedStateByConsult(consultId)) {
-                return ResponseEntity.status(500).body(BaseResponseBody.of(500,"Already modified"));
-            }
-            // 상담 무사히 완료
-            consultService.modifyState(consultId);
-            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Consult completed!"));
-        }
-        // 없는 상담
-        return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Consult does not exist"));
+//        if (consultService.exist(consultId)){
+        // 이미 진행완료된 상담 service 단에서 에러 던짐
+//        if (consultService.completedStateByConsult(consultId)) {
+//            return ResponseEntity.status(500).body(BaseResponseBody.of(500,"Already modified"));
+//        }
+        // 상담 무사히 완료
+        consultService.modifyState(consultId);
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Consult completed!"));
+//        }
+//        // 없는 상담 noSuchElementExHandler 호출
+//        return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Consult does not exist"));
+//    }
     }
 }
