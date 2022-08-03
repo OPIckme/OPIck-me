@@ -5,6 +5,7 @@ import Login from "./components/Login.vue";
 import ScriptDetail from "./components/ScriptDetail.vue";
 import Register from "./components/Register.vue";
 import Feedback from "./components/Feedback.vue";
+import FeedbackDetail from "./components/FeedbackDetail.vue";
 import WebrtcStudentView from "./views/WebrtcStudentView.vue";
 
 const BoardUser = () => import("./components/BoardUser.vue")
@@ -43,6 +44,11 @@ const routes = [
     name: "feedback",
     // lazy-loaded
     component: Feedback,
+  },
+  {
+    path: "/feedbackdetail",
+    name:"feedbackdetail",
+    component: FeedbackDetail,
   },
   {
     path: "/webrtcstudent",
