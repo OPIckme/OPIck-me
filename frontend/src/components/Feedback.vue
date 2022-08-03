@@ -1,11 +1,15 @@
-<template>
-<MainPageNavbar></MainPageNavbar>
-<h1>Feedback</h1>
+<template>  
+<FeedbackCard></FeedbackCard>
 </template>
 <script>
-import MainPageNavbar from './MainPageNavbar.vue';
+import FeedbackCard from './FeedbackCard.vue';
 export default {
     name: "Feedback",
+    data() {
+        return {
+            feedbackList: "",
+        };
+    },
     computed: {
         currentUser() {
             return this.$store.state.auth.user;
@@ -16,6 +20,6 @@ export default {
             this.$router.push("/");
         }
     },
-    components: { MainPageNavbar }
+    components: { FeedbackCard }
 };
 </script>

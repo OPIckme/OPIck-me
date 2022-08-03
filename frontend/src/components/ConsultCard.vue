@@ -6,14 +6,11 @@
     <button class="btn col" style="color:white; background-color:#F2CB05;" data-bs-toggle="modal" data-bs-target="#Consultstart">상담하기</button>
   </div>
 </div>
-<ConsultStartModal></ConsultStartModal>
 </template>
 
 <script>
-import ConsultStartModal from './Modal/ConsultStartModal.vue';
 export default {
     setup() {
     },
-    components: { ConsultStartModal }
 }
 </script>
