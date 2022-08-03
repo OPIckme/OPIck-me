@@ -26,11 +26,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     public BaseResponseBody delete(Long feedbackId){
-        try{
-            feedbackRepository.deleteById(feedbackId);
-        }catch (IllegalArgumentException e){
-            return BaseResponseBody.of(500,"삭제 실패");
-        }
+        feedbackRepository.deleteById(feedbackId);
         return BaseResponseBody.of(200,"삭제 성공");
     }
 

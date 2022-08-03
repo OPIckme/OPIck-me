@@ -42,14 +42,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void validateDuplicateMember(UserRegisterPostReq userRegisterInfo) {
-		if (getUserByUsername(userRegisterInfo.getUsername()) != null) {
+		if (getUserByUsername(userRegisterInfo.getUsername()).orElse(null) != null) {
 			throw new IllegalStateException("이미 존재하는 회원입니다.");
 		}
 	}
 	@Override
-	public User getUserByUsername(String username) {
+	public Optional<User> getUserByUsername(String username) {
 		// 디비에 유저 정보 조회 (userId 를 통한 조회).
-		User user = userRepositorySupport.findUserByUsername(username).orElse(null);
+		Optional<User> user = userRepositorySupport.findUserByUsername(username);
 		return user;
 	}
 

@@ -33,7 +33,7 @@ public class AuthControllerTest {
     @Test
     public void 로그인_성공() throws Exception {
         String testId="user";
-        String testPassword="password";
+        String testPassword="password1";
 
         Map<String, String> input = new HashMap<>();
         input.put("username", testId);
@@ -41,7 +41,7 @@ public class AuthControllerTest {
 
         UserRegisterPostReq userRegisterInfo=new UserRegisterPostReq();
         userRegisterInfo.setUsername("user");
-        userRegisterInfo.setPassword("password");
+        userRegisterInfo.setPassword("password1");
         userRegisterInfo.setEmail("user@naver.com");
         userRegisterInfo.setNickname("nickname");
         userRegisterInfo.setRole("student");

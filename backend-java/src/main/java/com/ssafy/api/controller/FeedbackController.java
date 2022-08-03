@@ -1,7 +1,7 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.FeedbackRegisterPostReq;
-import com.ssafy.api.response.UserLoginPostRes;
+import com.ssafy.api.response.FeedbackRes;
 import com.ssafy.api.service.FeedbackService;
 import com.ssafy.api.service.ScriptService;
 import com.ssafy.common.model.response.BaseResponseBody;
@@ -34,14 +34,12 @@ public class FeedbackController {
         String content = feedbackRegisterPostReq.getContent();
 
         Optional<Script> script = scriptService.getScriptByScriptId(scriptId);
-        boolean isOverlap = feedbackService.overlapCheck(scriptId);
-        if (isOverlap)
-            return ResponseEntity.status(500).body(BaseResponseBody.of(500,"이미 피드백이 진행된 스크립트입니다."));
+
         if (script.isPresent()){
             feedbackService.create(content,script.get());
             return ResponseEntity.status(201).body(BaseResponseBody.of(201,"피드백 추가 성공"));
         }
-        return ResponseEntity.status(404).body(BaseResponseBody.of(404,"존재하지 않는 스크립트 입니다."));
+        throw new IllegalArgumentException("이미 피드백이 진행된 스크립트입니다.");
     }
 
     @GetMapping
@@ -53,13 +51,14 @@ public class FeedbackController {
 
     @GetMapping("/{feedbackId}")
     @ApiOperation(value = "피드백 디테일 조회", notes = "피드백 id로 디테일 조회.")
-    public Feedback getDetail(@PathVariable Long feedbackId){
-        return feedbackService.getDetail(feedbackId).orElseThrow(new Supplier<IllegalArgumentException>() {
+    public ResponseEntity<FeedbackRes> getDetail(@PathVariable Long feedbackId){
+        Feedback feedback= feedbackService.getDetail(feedbackId).orElseThrow(new Supplier<IllegalArgumentException>() {
             @Override
             public IllegalArgumentException get() {
                 return new IllegalArgumentException("해당 피드백이 없습니다. id : " + feedbackId);
             }
         });
+        return ResponseEntity.ok(FeedbackRes.of(200, "Success", feedback));
     }
 
     @DeleteMapping("/{feedbackId}")
