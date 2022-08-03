@@ -21,8 +21,6 @@ public class ConsultServiceImpl implements ConsultService {
 
     private final ConsultRepository consultRepository;
 
-    private final ScriptRepository scriptRepository;
-
     @Override
     public Consult create(Script script) {
         Consult consult = new Consult();
@@ -39,6 +37,9 @@ public class ConsultServiceImpl implements ConsultService {
     @Override
     public Consult modifyState(Long consultId) {
         Consult findConsult = consultRepository.findById(consultId).get();
+        if (findConsult.isState()) {
+            throw new IllegalArgumentException("이미 진행 완료된 상담입니다!");
+        }
         findConsult.setState(true);
         return consultRepository.save(findConsult);
     }

@@ -1,11 +1,11 @@
 import { createWebHistory, createRouter } from "vue-router";
 import MainPageUnLoginView from "./views/MainPageUnLoginView.vue";
-import Script from "./views/MainPageView.vue";
+import Mainpage from "./views/MainPageView.vue";
 import Login from "./components/Login.vue";
 import ScriptDetail from "./components/ScriptDetail.vue";
 import Register from "./components/Register.vue";
 import Feedback from "./components/Feedback.vue";
-import Consult_S_View from "./views/Consult_S_View.vue";
+import WebrtcStudentView from "./views/WebrtcStudentView.vue";
 
 const BoardUser = () => import("./components/BoardUser.vue")
 const routes = [
@@ -28,10 +28,10 @@ const routes = [
     component: Register,
   },
   {
-    path: "/script",
-    name: "script",
+    path: "/mainpage",
+    name: "mainpage",
     // lazy-loaded
-    component: Script,
+    component: Mainpage,
   },
    {
     path: "/scriptdetail",
@@ -45,10 +45,10 @@ const routes = [
     component: Feedback,
   },
   {
-    path: "/consult_student",
-    name: "consult_student",
+    path: "/webrtcstudent",
+    name: "webrtcstudent",
     // lazy-loaded
-    component: Consult_S_View,
+    component: WebrtcStudentView,
   },
   {
     path: "/user",

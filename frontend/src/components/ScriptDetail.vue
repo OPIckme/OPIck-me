@@ -42,7 +42,7 @@ export default {
     },
     methods: {
         back() {
-            this.$router.push("/script");
+            this.$router.push("/mainpage");
         },
         clickCaret(){
             this.click = !this.click;

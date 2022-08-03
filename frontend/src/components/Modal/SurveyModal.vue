@@ -1,6 +1,6 @@
 <template>
   <!-- Survey 모달 -->
-<div class="modal fade" id="SurveyModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+<div class="modal" id="SurveyModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
@@ -19,7 +19,17 @@
         </div>
       </div>
       <div class="modal-body">
-        Choose a servey
+        <div class="leisure-activities">
+          <h1>여가활동</h1>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="leisure1" value="leisure1">
+            <label class="form-check-label" for="leisure1">영화보기</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="leisure2" value="leisure2">
+            <label class="form-check-label" for="leisure2">클럽/나이트클럽가기</label>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button class="btn btn-primary" data-bs-target="#SurveyModal2" data-bs-toggle="modal">START</button>
@@ -27,7 +37,7 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="SurveyModal2" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+<div class="modal" id="SurveyModal2" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
@@ -53,7 +63,7 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="SurveyModal3" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
+<div class="modal" id="SurveyModal3" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
@@ -78,7 +88,7 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="SurveyModal4" data-bs-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel4" tabindex="-1">
+<div class="modal" id="SurveyModal4" data-bs-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel4" tabindex="-1">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
@@ -119,3 +129,9 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.modal-content {
+  background-color: #E3F2FD;
+}
+</style>
