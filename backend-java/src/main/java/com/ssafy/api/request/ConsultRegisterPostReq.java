@@ -15,4 +15,8 @@ public class ConsultRegisterPostReq {
     @NotNull
     @ApiModelProperty(name="스크립트 ID", example="1")
     Long scriptId;
+
+    @NotBlank
+    @ApiModelProperty(name="room", example="randomRoomNumber")
+    String room;
 }

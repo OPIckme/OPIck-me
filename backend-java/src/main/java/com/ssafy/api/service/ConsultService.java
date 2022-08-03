@@ -9,7 +9,7 @@ import java.util.Optional;
 
 
 public interface ConsultService {
-    Consult create(Script script);
+    Consult create(Script script, String room);
 
     List<Consult> waitingList();
 

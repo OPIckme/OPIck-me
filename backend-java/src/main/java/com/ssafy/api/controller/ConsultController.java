@@ -34,15 +34,16 @@ public class ConsultController {
             @RequestBody @ApiParam(value="상담신청 정보", required = true) @Validated ConsultRegisterPostReq consultRegisterPostReq) {
         Long scriptId = consultRegisterPostReq.getScriptId();
         Optional<Script> script = scriptService.getScriptByScriptId(scriptId);
+        String room = consultRegisterPostReq.getRoom();
 
         // 스크립트가 있다면
-//        if (script.isPresent()) {
-            // 스크립트가 있다면 상담 생성
-        consultService.create(script.get());
+        if (script.isPresent()) {
+        // 스크립트가 있다면 상담 생성
+        consultService.create(script.get(), room);
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success created consult"));
-//        }
+        }
         // 스크립트 없으면 noSuchElementExHandler 호출
-        // return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Script does not exist"));
+        return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Script does not exist"));
     }
 
     @GetMapping

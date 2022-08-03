@@ -22,9 +22,10 @@ public class ConsultServiceImpl implements ConsultService {
     private final ConsultRepository consultRepository;
 
     @Override
-    public Consult create(Script script) {
+    public Consult create(Script script, String room) {
         Consult consult = new Consult();
         consult.setScript(script);
+        consult.setRoom(room);
         return consultRepository.save(consult);
     }
 
