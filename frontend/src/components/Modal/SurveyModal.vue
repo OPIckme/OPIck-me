@@ -111,7 +111,7 @@
           </svg>
           <p>Re-Start</p>
           <!-- save -->
-          <svg data-bs-dismiss="modal" aria-label="Close" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+          <svg @click="saveScript" data-bs-dismiss="modal" aria-label="Close" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
             <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
             <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
           </svg>
@@ -125,7 +125,7 @@
 
 <script>
 import axios from 'axios';
-const API_URL = 'http://localhost:8080/api/v1/question/random';
+const API_URL = 'http://localhost:8080/api/v1';
 
 export default {
   data(){
@@ -139,7 +139,7 @@ export default {
   },
   methods : {
      getQuestion(topic,level) {
-    axios.get(API_URL, {
+    axios.get(API_URL + '/question/random', {
       params: {
         topic: topic,
         level: level
@@ -151,7 +151,22 @@ export default {
         this.audioUrl = response.data.audioUrl
         console.log(this.questionInfo)
       });
-  },playSound (sound) {
+  },
+
+  saveScript() {
+    axios.post(API_URL + '/script', {
+      
+        userId: this.userId,
+        questionId: this.questionInfo.id,
+        scriptContent: "Oh, my home. I live in a normal looking apartment in Seoul. Capital city in Korea. My apartment is standard. There are three rooms, two bathrooms, a kitchen, and a balcony. You know, the best place in my apartment is the bedroom. That is the place where I spend most of my time. The bedroom is so spacious than other apartments. There is a queen size bed and a nice mood light. I usually spend my time on the bed with my smartphone. It is literally comfortable. I think I am satisfied with my apartment.",
+        audioURL: "www.naver.com"
+
+    }).then(res=>{
+      console.log(res)
+    })
+  },
+
+  playSound (sound) {
       if(sound) {
         var audio = new Audio(sound);
         audio.play();
