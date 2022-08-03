@@ -9,30 +9,31 @@
         <div class="d-flex flex-column">
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           <span></span>
-          <select class="form-select" aria-label="Default select example" style="width:200px">
-            <option selected>Open this select Level</option>
-            <option value="1">AL</option>
-            <option value="2">IH</option>
-            <option value="3">IM</option>
-            <option value="4">IL</option>
+          <select v-model="level" class="form-select" aria-label="Default select example" style="width:200px">
+            <option disabled value="">Open this select Level</option>
+            <option value="AL">AL</option>
+            <option value="IH">IH</option>
+            <option value="IM">IM</option>
+            <option value="IL">IL</option>
           </select>
         </div>
       </div>
+      <p>Topic : {{ topic }} / Level : {{ level }}</p>
       <div class="modal-body">
         <div class="leisure-activities">
           <h1>여가활동</h1>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="leisure1" value="leisure1">
-            <label class="form-check-label" for="leisure1">영화보기</label>
+            <input v-model="topic" class="form-check-input" type="radio" name="inlineRadioOptions" id="leisure1" value="영화보기">
+            <label class="form-check-label" for="영화보기">영화보기</label>
           </div>
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="leisure2" value="leisure2">
-            <label class="form-check-label" for="leisure2">클럽/나이트클럽가기</label>
+            <input v-model="topic" class="form-check-input" type="radio" name="inlineRadioOptions" id="leisure2" value="나이트클럽 가기">
+            <label class="form-check-label" for="나이트클럽 가기">나이트클럽 가기</label>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-primary" data-bs-target="#SurveyModal2" data-bs-toggle="modal">START</button>
+        <button @click="getQuestion(topic,level),level='',topic=''" class="btn btn-primary" data-bs-target="#SurveyModal2" data-bs-toggle="modal">START</button>
       </div>
     </div>
   </div>
@@ -46,7 +47,7 @@
       </div>
       <div class="modal-body">
         <!-- 듣기 -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" fill="currentColor" class="bi bi-volume-up-fill" viewBox="0 0 16 16">
+        <svg @click.prevent.once="playSound(audioUrl)" xmlns="http://www.w3.org/2000/svg" width="160" height="160" fill="currentColor" class="bi bi-volume-up-fill" viewBox="0 0 16 16">
           <path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/>
           <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/>
           <path d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"/>
@@ -71,7 +72,7 @@
       </div>
       <div class="modal-body">
         <h5 class="modal-title" id="exampleModalToggleLabel3">
-          Q. Tell me about what do you usually do at the park. What is your typical day at the park from beginning to end?
+         Q. {{ questionInfo.questionContent }}
         </h5>
         <!-- soundwave -->
         <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" fill="currentColor" class="bi bi-soundwave" viewBox="0 0 16 16">
@@ -96,7 +97,7 @@
       </div>
       <div class="modal-body">
         <h5 class="modal-title" id="exampleModalToggleLabel4">
-          Q. Tell me about what do you usually do at the park. What is your typical day at the park from beginning to end?
+          Q. {{ questionInfo.questionContent }}
         </h5>
         <!-- soundwave -->
         <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" fill="currentColor" class="bi bi-soundwave" viewBox="0 0 16 16">
@@ -123,10 +124,40 @@
 </template>
 
 <script>
+import axios from 'axios';
+const API_URL = 'http://localhost:8080/api/v1/question/random';
+
 export default {
-  setup() {
-    
+  data(){
+    return{
+      topic : '',
+      level : '',
+      questionInfo : {},
+      audioUrl : '',
+      userId:this.$store.state.auth.user.id,
+    }
   },
+  methods : {
+     getQuestion(topic,level) {
+    axios.get(API_URL, {
+      params: {
+        topic: topic,
+        level: level
+      }
+    })
+      .then(response => {
+        console.log(response)
+        this.questionInfo = response.data
+        this.audioUrl = response.data.audioUrl
+        console.log(this.questionInfo)
+      });
+  },playSound (sound) {
+      if(sound) {
+        var audio = new Audio(sound);
+        audio.play();
+      }
+    }
+  }
 }
 </script>
 
