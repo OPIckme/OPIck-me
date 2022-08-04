@@ -35,7 +35,7 @@ const routes = [
     component: Mainpage,
   },
    {
-    path: "/scriptdetail",
+    path: "/script/:scriptId",
     name:"scriptdetail",
     component: ScriptDetail,
   },
@@ -46,7 +46,7 @@ const routes = [
     component: Feedback,
   },
   {
-    path: "/feedbackdetail",
+    path: "/feedback/:feedbackId",
     name:"feedbackdetail",
     component: FeedbackDetail,
   },

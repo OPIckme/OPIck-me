@@ -49,7 +49,7 @@ class ScriptControllerTest {
 
         input.put("userId", "1");
         input.put("questionId", "1");
-        input.put("scriptContent", "scriptContent");
+        input.put("filePath", "C:/Users/multicampus/Desktop/ssafy/java-speech/samples/snapshot/resources/audio.raw");
         input.put("audioURL", "naver.com");
 
         given(userService.getUserByUserId(1L)).willReturn(Optional.ofNullable(new User()));

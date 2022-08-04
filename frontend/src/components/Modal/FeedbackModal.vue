@@ -1,6 +1,6 @@
 <template>
   <!-- Modal -->
-<div class="modal" id="Feedback" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
+<div class="modal" :id="feedbackModalId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -13,7 +13,7 @@
         <!-- <a href="https://i7b202.p.ssafy.io:8443/?">
           <button type="button" class="btn btn-primary"  @click="feedBack">Yes</button>
         </a> -->
-        <button type="button" class="btn btn-primary"  @click="feedBack">Yes</button>
+        <button type="button" class="btn btn-primary"  @click="createConsult(), feedBack()">Yes</button>
       </div>
     </div>
   </div>
@@ -21,14 +21,28 @@
 </template>
 
 <script>
+import axios from 'axios';
+const API_URL = 'http://localhost:8080/api/v1';
+
 export default {
-  setup() {
-    
+  data() {
+    return {
+      feedbackModalId: "create" + this.scriptId,
+    }
+  },
+  props: {
+    scriptId: String,
   },
   methods: {
         feedBack() {
             this.$router.push("/webrtcstudent");
         },
+        createConsult() {
+          axios.post(API_URL + '/consult', {
+            room: "www.naver.com",
+            scriptId: this.scriptId
+          })
+        }
     },
 }
 </script>

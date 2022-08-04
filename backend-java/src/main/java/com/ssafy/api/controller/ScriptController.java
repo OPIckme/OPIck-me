@@ -1,10 +1,8 @@
 package com.ssafy.api.controller;
 
-
 import com.ssafy.api.request.ScriptRegisterPostReq;
 import com.ssafy.api.response.ScriptDetailRes;
 import com.ssafy.api.response.ScriptListRes;
-import com.ssafy.api.response.UserLoginPostRes;
 import com.ssafy.api.service.QuestionService;
 import com.ssafy.api.service.ScriptService;
 import com.ssafy.api.service.UserService;
@@ -12,16 +10,17 @@ import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Question;
 import com.ssafy.db.entity.Script;
 import com.ssafy.db.entity.User;
+import com.ssafy.stt.STT;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
-import java.util.Optional;
 
 @Api(value = "스크립트 API", tags = {"Script."})
 @RestController
@@ -33,22 +32,24 @@ public class ScriptController {
     private final QuestionService questionService;
 
     @PostMapping
-    @ApiOperation(value = "스크립트 등록", notes = "userId,questionId,content,audiourl을 받아서 스크립트를 등록한다.")
+    @ApiOperation(value = "스크립트 등록", notes = "userId,questionId,content, audiourl을 받아서 스크립트를 등록한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
     })
-    public ResponseEntity createScript(@RequestBody @ApiParam(value="스크립트 등록 정보", required = true) @Validated ScriptRegisterPostReq scriptRegisterPostReq){
+    public ResponseEntity createScript(@RequestBody @ApiParam(value="스크립트 등록 정보", required = true) @Validated ScriptRegisterPostReq scriptRegisterPostReq) throws Exception{
         Long userId = scriptRegisterPostReq.getUserId();
         Long questionId = scriptRegisterPostReq.getQuestionId();
 
         //userService에 구현 필요
         Optional<User> user = userService.getUserByUserId(userId);
         Optional<Question> question = questionService.getQuestionByQuestionId(questionId);
-        String content = scriptRegisterPostReq.getScriptContent();
+
         String audioUrl = scriptRegisterPostReq.getAudioURL();
+        String filePath = scriptRegisterPostReq.getFilePath();
+        String content = STT.asyncRecognizeFile(filePath);
+
+        deleteAudioFile(filePath);
         scriptService.createScript(user.get(), question.get(),content,audioUrl);
-
-
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201,"스크립트 추가 성공"));
     }
@@ -84,5 +85,20 @@ public class ScriptController {
         scriptService.deleteByScriptId(scriptId);
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200,"스크립트 삭제 성공!!"));
+    }
+
+    public void deleteAudioFile(String filePath) {
+        File file = new File(filePath);
+
+        if( file.exists() ){
+            if(file.delete()){
+                System.out.println("파일삭제 성공");
+            }else{
+                System.out.println("파일삭제 실패");
+            }
+        }else{
+            System.out.println("파일이 존재하지 않습니다.");
+        }
+
     }
 }
