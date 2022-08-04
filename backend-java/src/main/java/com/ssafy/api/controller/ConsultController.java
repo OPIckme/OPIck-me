@@ -37,14 +37,14 @@ public class ConsultController {
         String room = consultRegisterPostReq.getRoom();
 
         // 스크립트가 있다면
-        if (script.isPresent()) {
+//        if (script.isPresent()) {
         // 스크립트가 있다면 상담 생성
         consultService.create(script.get(), room);
         return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success created consult"));
         }
         // 스크립트 없으면 noSuchElementExHandler 호출
-        return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Script does not exist"));
-    }
+//        return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Script does not exist"));
+//    }
 
     @GetMapping
     @ApiOperation(value = "대기중인 상담 조회", notes = "대기중인 상담 목록을 조회한다.")
@@ -65,7 +65,7 @@ public class ConsultController {
     })
     public ResponseEntity<? extends BaseResponseBody> complete(@PathVariable Long consultId) {
 
-//        if (consultService.exist(consultId)){
+        if (consultService.exist(consultId)){
         // 이미 진행완료된 상담 service 단에서 에러 던짐
 //        if (consultService.completedStateByConsult(consultId)) {
 //            return ResponseEntity.status(500).body(BaseResponseBody.of(500,"Already modified"));
@@ -73,7 +73,8 @@ public class ConsultController {
         // 상담 무사히 완료
         consultService.modifyState(consultId);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Consult completed!"));
-//        }
+        }
+        throw new IllegalArgumentException("존재하지 않는 상담입니다.");
 //        // 없는 상담 noSuchElementExHandler 호출
 //        return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Consult does not exist"));
 //    }
