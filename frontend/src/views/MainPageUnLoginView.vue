@@ -10,9 +10,11 @@
   </div>
 </nav>
 <SiteIntroduce></SiteIntroduce>
+
 </template>
 <script>
 import SiteIntroduce from "../components/SiteIntroduce.vue"
+
 export default {
     data() {
         return {

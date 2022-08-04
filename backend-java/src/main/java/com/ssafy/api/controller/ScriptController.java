@@ -47,6 +47,7 @@ public class ScriptController {
         String audioUrl = scriptRegisterPostReq.getAudioURL();
         String filePath = scriptRegisterPostReq.getFilePath();
         String content = STT.asyncRecognizeFile(filePath);
+
         deleteAudioFile(filePath);
         scriptService.createScript(user.get(), question.get(),content,audioUrl);
 
