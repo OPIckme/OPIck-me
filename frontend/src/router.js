@@ -46,7 +46,7 @@ const routes = [
     component: Feedback,
   },
   {
-    path: "/feedbackdetail",
+    path: "/feedback/:feedbackId",
     name:"feedbackdetail",
     component: FeedbackDetail,
   },
