@@ -33,7 +33,7 @@ public class ScriptController {
     private final QuestionService questionService;
 
     @PostMapping
-    @ApiOperation(value = "스크립트 등록", notes = "userId,questionId,content,audiourl을 받아서 스크립트를 등록한다.")
+    @ApiOperation(value = "스크립트 등록", notes = "userId,questionId,content, audiourl을 받아서 스크립트를 등록한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
     })
