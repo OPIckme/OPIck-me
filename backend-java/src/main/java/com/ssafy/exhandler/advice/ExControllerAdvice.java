@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.nio.file.NoSuchFileException;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -68,6 +69,15 @@ public class ExControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
     public ErrorResult bindExHandler(BindException e) {
+        log.error("[exceptionHandler] ex e", e);
+        return new ErrorResult("BAD", e.getMessage());
+    }
+
+
+    // 오디오파일 못찾을 경우
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(NoSuchFileException.class)
+    public ErrorResult bindExHandler(NoSuchFileException e) {
         log.error("[exceptionHandler] ex e", e);
         return new ErrorResult("BAD", e.getMessage());
     }

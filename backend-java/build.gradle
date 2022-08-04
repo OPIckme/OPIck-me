@@ -158,6 +158,9 @@ dependencies {
     implementation('org.kurento:kurento-client:6.16.0')
     implementation('org.kurento:kurento-utils-js:6.15.0')
 
+    //stt
+    implementation platform('com.google.cloud:libraries-bom:26.0.0')
+    implementation 'com.google.cloud:google-cloud-speech:2.5.2'
 
     //IntelliJ용
     //IntelliJ에서는 하기 annotationProcessor를 쓰면 별도의 querydsl 플러그인 및 플러그인 설정이 불필요.
