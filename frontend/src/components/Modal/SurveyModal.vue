@@ -54,7 +54,7 @@
         </svg>
         <!-- 녹음 -->
         <h1>
-          <svg class="bi bi-record-circle" data-bs-target="#SurveyModal3" data-bs-toggle="modal" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 16 16">
+          <svg class="bi bi-record-circle" @click="start" data-bs-target="#SurveyModal3" data-bs-toggle="modal" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 16 16">
             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
             <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
           </svg>
@@ -80,7 +80,7 @@
         </svg>
         <!-- 일시정지 -->
         <p>
-          <svg data-bs-target="#SurveyModal4" data-bs-toggle="modal" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-pause-circle" viewBox="0 0 16 16">
+          <svg @click="stop" data-bs-target="#SurveyModal4" data-bs-toggle="modal" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-pause-circle" viewBox="0 0 16 16">
             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
             <path d="M5 6.25a1.25 1.25 0 1 1 2.5 0v3.5a1.25 1.25 0 1 1-2.5 0v-3.5zm3.5 0a1.25 1.25 0 1 1 2.5 0v3.5a1.25 1.25 0 1 1-2.5 0v-3.5z"/>
           </svg>
@@ -103,6 +103,9 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" fill="currentColor" class="bi bi-soundwave" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M8.5 2a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-1 0v-11a.5.5 0 0 1 .5-.5zm-2 2a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zm-6 1.5A.5.5 0 0 1 5 6v4a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm8 0a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm-10 1A.5.5 0 0 1 3 7v2a.5.5 0 0 1-1 0V7a.5.5 0 0 1 .5-.5zm12 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0V7a.5.5 0 0 1 .5-.5z"/>
         </svg>
+        <!--오디오 시작-->
+        <audio controls :src="blobURL">녹음된 소리를 재생할 audio 엘리먼트</audio>
+        <!--오디오 끝-->
         <div>
           <!-- 녹음 -->
           <svg class="bi bi-record-circle" data-bs-target="#SurveyModal2" data-bs-toggle="modal" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 16 16">
@@ -135,6 +138,11 @@ export default {
       questionInfo : {},
       audioUrl : '',
       userId:this.$store.state.auth.user.id,
+      //---audio 녹음 data 시작--
+      mediaRecorder:null,
+      audioArray : [],
+      blobURL:"",
+      //---audio 녹음 data 끝
     }
   },
   methods : {
@@ -166,13 +174,57 @@ export default {
     })
   },
 
-  playSound (sound) {
+    playSound (sound) {
       if(sound) {
         var audio = new Audio(sound);
         audio.play();
       }
-    }
-  }
+    },
+  
+
+   async start(){
+
+            // 마이크 mediaStream 생성: Promise를 반환하므로 async/await 사용
+            const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
+
+            // MediaRecorder 생성
+            this.mediaRecorder = new MediaRecorder(mediaStream);
+
+            // 이벤트핸들러: 녹음 데이터 취득 처리
+            this.mediaRecorder.ondataavailable = (event)=>{
+                this.audioArray.push(event.data); // 오디오 데이터가 취득될 때마다 배열에 담아둔다.
+            }
+
+            // 이벤트핸들러: 녹음 종료 처리 & 재생하기
+            this.mediaRecorder.onstop = ()=>{
+                
+                // 녹음이 종료되면, 배열에 담긴 오디오 데이터(Blob)들을 합친다: 코덱도 설정해준다.
+                const blob = new Blob(this.audioArray, {"type": "audio/ogg codecs=opus"});
+                console.log(blob);
+                this.audioArray.splice(0); // 기존 오디오 데이터들은 모두 비워 초기화한다.
+                
+                // Blob 데이터에 접근할 수 있는 주소를 생성한다.
+                this.blobURL = window.URL.createObjectURL(blob);
+                
+                //---audio 로컬 저장---
+                const anchor = document.createElement("a");
+                anchor.href = this.blobURL;
+                anchor.download = "test.wav"; 
+                anchor.click()
+                //---audio 로컬 저장---
+
+            }
+
+            // 녹음 시작
+            this.mediaRecorder.start();
+     },
+     async stop(){
+        this.mediaRecorder.stop();
+      
+     }
+  },
+
+
 }
 </script>
 

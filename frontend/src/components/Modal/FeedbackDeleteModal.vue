@@ -1,6 +1,6 @@
 <template>
   <!-- Modal -->
-<div class="modal fade" id="feedbackdelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
+<div class="modal fade" :id="feedbackDeleteModalId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -10,9 +10,40 @@
         Feedback을 삭제하시겠습니까?
       </div>
       <div class="modal-footer">
-        <button data-bs-dismiss="modal" aria-label="Close" type="button" class="btn btn-primary">네</button>
+        <button @click="deleteFeedback" data-bs-dismiss="modal" aria-label="Close" type="button" class="btn btn-primary">네</button>
       </div>
     </div>
   </div>
 </div>
 </template>
+
+<script>
+import axios from 'axios';
+const API_URL = 'http://localhost:8080/api/v1/feedback';
+
+export default {
+    name: "feedbackDeleteModal",
+    data() {
+      return {
+        feedbackDeleteModalId:"delete"+this.feedbackId
+      }
+    },
+    props : {
+      feedbackId : String,
+    },
+    setup() {
+    },
+    methods: {
+    deleteFeedback(){
+      console.log(this.feedbackId)
+      axios.delete(API_URL + `/${this.feedbackId}`)
+    }
+    },
+}
+</script>
+
+<style scoped>
+p {
+  color : white;
+}
+</style>

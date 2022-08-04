@@ -25,4 +25,6 @@ public class Consult {
     private Timestamp createdAt;
 
     private boolean state; // 디폴트 값 false
+
+    private String room;
 }
