@@ -35,7 +35,7 @@ const routes = [
     component: Mainpage,
   },
    {
-    path: "/scriptdetail",
+    path: "/script/:scriptId",
     name:"scriptdetail",
     component: ScriptDetail,
   },

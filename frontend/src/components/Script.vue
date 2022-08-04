@@ -1,10 +1,13 @@
-<template>  
+<template>
 <!-- Script 생성 버튼 -->
 <a class="btn btn-primary" data-bs-toggle="modal" href="#SurveyModal" role="button">Script 생성</a>
 <!-- script card -->
+
 <ScriptCard v-for="script in scriptList" :key="script.id" :script="script"></ScriptCard>
+
 <SurveyModal></SurveyModal>
 </template>
+
 <script>
 import ScriptCard from './ScriptCard.vue';
 import SurveyModal from './Modal/SurveyModal.vue';
