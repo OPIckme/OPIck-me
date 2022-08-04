@@ -53,10 +53,11 @@ class ConsultControllerTest {
     @Test
     void 상담생성() throws Exception {
         HashMap<String, String> input = new HashMap<>();
-        input.put("scriptId", "1");
+        input.put("scriptId", "13");
+        input.put("room", "randomroomnumber");
         HashMap<String, String> output = new HashMap<>();
         output.put("message", "Success created consult");
-        given(scriptService.getScriptByScriptId(1L)).willReturn(Optional.of(new Script()));
+        given(scriptService.getScriptByScriptId(13L)).willReturn(Optional.of(new Script()));
         mockMvc.perform(post("/api/v1/consult")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
@@ -71,8 +72,9 @@ class ConsultControllerTest {
     void 상담생성실패() throws Exception {
         HashMap<String, String> input = new HashMap<>();
         input.put("scriptId", "1");
+        input.put("room", "randomroomnumber");
         HashMap<String, String> output = new HashMap<>();
-        output.put("message", "Script does not exist");
+        output.put("message", "No value present");
         given(scriptService.getScriptByScriptId(1L)).willReturn(Optional.ofNullable(null));
         mockMvc.perform(post("/api/v1/consult")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -80,7 +82,7 @@ class ConsultControllerTest {
                         .characterEncoding("UTF-8")
                         .content(objectMapper.writeValueAsString(input))
                 )
-                .andExpect(status().is4xxClientError())
+                .andExpect(status().is5xxServerError())
                 .andExpect(content().json(objectMapper.writeValueAsString(output)));
     }
 
@@ -98,30 +100,39 @@ class ConsultControllerTest {
         HashMap<String, String> output = new HashMap<>();
         output.put("message", "Consult completed!");
         given(consultService.exist(1L)).willReturn(true);
-        given(consultService.completedStateByConsult(1L)).willReturn(false);
         mockMvc.perform(put("/api/v1/consult/complete/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(output)));
     }
 
     @Test
-    void 이미진행완료된상담() throws Exception {
+    void 상담상태변경실패() throws Exception {
         HashMap<String, String> output = new HashMap<>();
-        output.put("message", "Already modified");
-        given(consultService.exist(1L)).willReturn(true);
-        given(consultService.completedStateByConsult(1L)).willReturn(true);
-        mockMvc.perform(put("/api/v1/consult/complete/1"))
-                .andExpect(status().is5xxServerError())
-                .andExpect(content().json(objectMapper.writeValueAsString(output)));
-    }
-
-    @Test
-    void 없는상담() throws Exception {
-        HashMap<String, String> output = new HashMap<>();
-        output.put("message", "Consult does not exist");
+        output.put("message", "존재하지 않는 상담입니다.");
         given(consultService.exist(1L)).willReturn(false);
         mockMvc.perform(put("/api/v1/consult/complete/1"))
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().json(objectMapper.writeValueAsString(output)));
     }
+
+//    @Test
+//    void 이미진행완료된상담() throws Exception {
+//        HashMap<String, String> output = new HashMap<>();
+//        output.put("message", "이미 진행 완료된 상담입니다!");
+//        given(consultService.exist(7L)).willReturn(true);
+//        given(consultService.completedStateByConsult(7L)).willReturn(true);
+//        mockMvc.perform(put("/api/v1/consult/complete/7"))
+//                .andExpect(status().is5xxServerError())
+//                .andExpect(content().json(objectMapper.writeValueAsString(output)));
+//    }
+//
+//    @Test
+//    void 없는상담() throws Exception {
+//        HashMap<String, String> output = new HashMap<>();
+//        output.put("message", "No value present");
+//        given(consultService.exist(1L)).willReturn(false);
+//        mockMvc.perform(put("/api/v1/consult/complete/1"))
+//                .andExpect(status().is5xxServerError())
+//                .andExpect(content().json(objectMapper.writeValueAsString(output)));
+//    }
 }
