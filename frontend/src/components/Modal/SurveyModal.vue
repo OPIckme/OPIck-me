@@ -138,8 +138,7 @@ export default {
       questionInfo : {},
       audioUrl : '',
       userId:this.$store.state.auth.user.id,
-      //---audio 녹음 data 시작---
-      isRecording:false,
+      //---audio 녹음 data 시작--
       mediaRecorder:null,
       audioArray : [],
       blobURL:"",
@@ -175,7 +174,7 @@ export default {
     })
   },
 
-  playSound (sound) {
+    playSound (sound) {
       if(sound) {
         var audio = new Audio(sound);
         audio.play();
@@ -201,22 +200,27 @@ export default {
                 
                 // 녹음이 종료되면, 배열에 담긴 오디오 데이터(Blob)들을 합친다: 코덱도 설정해준다.
                 const blob = new Blob(this.audioArray, {"type": "audio/ogg codecs=opus"});
+                console.log(blob);
                 this.audioArray.splice(0); // 기존 오디오 데이터들은 모두 비워 초기화한다.
                 
                 // Blob 데이터에 접근할 수 있는 주소를 생성한다.
                 this.blobURL = window.URL.createObjectURL(blob);
+                
+                //---audio 로컬 저장---
+                const anchor = document.createElement("a");
+                anchor.href = this.blobURL;
+                anchor.download = "test.wav"; 
+                anchor.click()
+                //---audio 로컬 저장---
 
             }
 
             // 녹음 시작
             this.mediaRecorder.start();
-           
-
-        
      },
      async stop(){
         this.mediaRecorder.stop();
-        this.isRecording = false;
+      
      }
   },
 
