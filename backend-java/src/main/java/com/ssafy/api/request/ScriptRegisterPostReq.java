@@ -21,11 +21,11 @@ public class ScriptRegisterPostReq {
     @ApiModelProperty(name="문제 ID", example="1")
     Long questionId;
 
-    @NotBlank(message = "스크립트 내용은 비어있을 수 없습니다.")
-    @ApiModelProperty(name="스크립트 내용", example="I am groot")
-    String scriptContent;
-
     @NotBlank(message = "오디오 URL은 비어있을 수 없습니다.")
     @ApiModelProperty(name="오디오 URL", example="오디오 URL")
     String audioURL;
+
+    @NotBlank(message = "FilePath는 비어있을 수 없습니다.")
+    @ApiModelProperty(name="파일 path", example="C:/Users/multicampus/Desktop/ssafy/java-speech/samples/snapshot/resources/audio.raw")
+    String filePath;
 }
