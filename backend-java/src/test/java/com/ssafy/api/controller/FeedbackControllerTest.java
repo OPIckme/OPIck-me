@@ -96,6 +96,13 @@ class FeedbackControllerTest {
     }
 
     @Test
+    void 피드백디테일조회실패() throws Exception {
+        given(feedbackService.getDetail(1L)).willReturn(Optional.ofNullable(null));
+        mockMvc.perform(get("/api/v1/feedback/1"))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
     void 피드백삭제() throws Exception {
         given(feedbackService.delete(1L)).willReturn(BaseResponseBody.of(200, "삭제 성공"));
         mockMvc.perform(delete("/api/v1/feedback/1"))

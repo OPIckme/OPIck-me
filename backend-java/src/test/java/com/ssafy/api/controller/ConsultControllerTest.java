@@ -114,25 +114,4 @@ class ConsultControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().json(objectMapper.writeValueAsString(output)));
     }
-
-//    @Test
-//    void 이미진행완료된상담() throws Exception {
-//        HashMap<String, String> output = new HashMap<>();
-//        output.put("message", "이미 진행 완료된 상담입니다!");
-//        given(consultService.exist(7L)).willReturn(true);
-//        given(consultService.completedStateByConsult(7L)).willReturn(true);
-//        mockMvc.perform(put("/api/v1/consult/complete/7"))
-//                .andExpect(status().is5xxServerError())
-//                .andExpect(content().json(objectMapper.writeValueAsString(output)));
-//    }
-//
-//    @Test
-//    void 없는상담() throws Exception {
-//        HashMap<String, String> output = new HashMap<>();
-//        output.put("message", "No value present");
-//        given(consultService.exist(1L)).willReturn(false);
-//        mockMvc.perform(put("/api/v1/consult/complete/1"))
-//                .andExpect(status().is5xxServerError())
-//                .andExpect(content().json(objectMapper.writeValueAsString(output)));
-//    }
 }
