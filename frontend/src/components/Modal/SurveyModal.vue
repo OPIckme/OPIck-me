@@ -163,12 +163,11 @@ export default {
 
   saveScript() {
     axios.post(API_URL + '/script', {
-      
+    
         userId: this.userId,
         questionId: this.questionInfo.id,
         scriptContent: "Oh, my home. I live in a normal looking apartment in Seoul. Capital city in Korea. My apartment is standard. There are three rooms, two bathrooms, a kitchen, and a balcony. You know, the best place in my apartment is the bedroom. That is the place where I spend most of my time. The bedroom is so spacious than other apartments. There is a queen size bed and a nice mood light. I usually spend my time on the bed with my smartphone. It is literally comfortable. I think I am satisfied with my apartment.",
         audioURL: "www.naver.com"
-
     }).then(res=>{
       console.log(res)
     })
