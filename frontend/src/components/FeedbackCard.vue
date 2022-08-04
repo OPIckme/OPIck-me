@@ -12,7 +12,7 @@
       <button @click="routingDetail" class="btn" style="color:white; background-color:#F2CB05;">복습하기</button>
   </div>
 </div>
-<FeedbackDeleteModal :feedbackId="feedback.id"></FeedbackDeleteModal>
+<FeedbackDeleteModal :feedbackDeleteModalId="feedback.id"></FeedbackDeleteModal>
 </template>
 
 <script>
@@ -22,7 +22,7 @@ export default {
     name: "FeedbackCard",
     data() {
       return {
-        modalId:"#delete"+this.feedback.id
+        feedbackDeleteModalId:"#delete"+this.feedback.id
       }
     },
     props : {

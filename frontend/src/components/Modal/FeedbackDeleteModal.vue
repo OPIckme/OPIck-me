@@ -1,6 +1,6 @@
 <template>
   <!-- Modal -->
-<div class="modal fade" :id="modalId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
+<div class="modal fade" :id="feedbackDeleteModalId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -25,7 +25,7 @@ export default {
     name: "feedbackDeleteModal",
     data() {
       return {
-        modalId:"delete"+this.feedbackId
+        feedbackDeleteModalId:"delete"+this.feedbackId
       }
     },
     props : {
