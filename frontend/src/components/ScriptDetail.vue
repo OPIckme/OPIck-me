@@ -31,11 +31,16 @@
 <script>
 import MainPageNavbar from './MainPageNavbar.vue';
 import FeedbackModal from './Modal/FeedbackModal.vue';
+import axios from 'axios';
+const API_URL = 'http://localhost:8080/api/v1/script';
+
 export default {
     name: "ScriptDetail",
     data() {
     return {
       click:true,
+      script: {},
+      scriptId: this.$route.params.scriptId,
     };
   },
     setup() {
@@ -47,6 +52,15 @@ export default {
         clickCaret(){
             this.click = !this.click;
         },
+        getScript(){
+          axios.get(API_URL + `/${scriptId}`)(scriptId)
+          .then(res => {
+            console.log(res,data)
+          })
+        }
+    },
+    created() {
+        this.getScript(this.scriptId)
     },
     components: { MainPageNavbar, FeedbackModal }
 }
