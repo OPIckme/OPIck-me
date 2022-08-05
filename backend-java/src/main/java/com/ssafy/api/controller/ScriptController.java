@@ -1,5 +1,6 @@
 package com.ssafy.api.controller;
 
+import com.ssafy.api.request.ScriptModifyPutReq;
 import com.ssafy.api.request.ScriptRegisterPostReq;
 import com.ssafy.api.response.ScriptDetailRes;
 import com.ssafy.api.response.ScriptListRes;
@@ -86,6 +87,18 @@ public class ScriptController {
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200,"스크립트 삭제 성공!!"));
     }
+
+    @PutMapping("/edit/{scriptId}")
+    @ApiOperation(value = "스크립트 수정", notes = "스크립트 수정")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공", response = BaseResponseBody.class),
+    })
+    public ResponseEntity<? extends BaseResponseBody> scriptModify(@PathVariable Long scriptId, @RequestBody ScriptModifyPutReq scriptModifyPutReq) {
+        String content = scriptModifyPutReq.getScriptContent();
+        Script script = scriptService.modifyScript(scriptId, content);
+        return ResponseEntity.status(200).body(ScriptDetailRes.of(200,"Script modified!",script));
+    }
+
 
     public void deleteAudioFile(String filePath) {
         File file = new File(filePath);
