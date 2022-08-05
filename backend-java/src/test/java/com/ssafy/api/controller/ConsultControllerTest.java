@@ -54,6 +54,7 @@ class ConsultControllerTest {
     void 상담생성() throws Exception {
         HashMap<String, String> input = new HashMap<>();
         input.put("scriptId", "1");
+        input.put("room", "randomRoomNumber");
         HashMap<String, String> output = new HashMap<>();
         output.put("message", "Success created consult");
         given(scriptService.getScriptByScriptId(1L)).willReturn(Optional.of(new Script()));
@@ -71,6 +72,7 @@ class ConsultControllerTest {
     void 상담생성실패() throws Exception {
         HashMap<String, String> input = new HashMap<>();
         input.put("scriptId", "1");
+        input.put("room", "randomRoomNumber");
         HashMap<String, String> output = new HashMap<>();
         output.put("message", "Script does not exist");
         given(scriptService.getScriptByScriptId(1L)).willReturn(Optional.ofNullable(null));
