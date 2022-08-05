@@ -1,28 +1,28 @@
 import axios from 'axios'
-const API_URL = 'http://localhost:8080/api/v1/script';
+const API_URL = 'http://localhost:8080/api/v1/feedback';
 
-export const script = {
+export const feedback = {
     state: {
-        scriptList: [],
+        feedbackList: [],
         // script: {},
     },
 
     getters: {
-        scriptList: state => state.scriptList,
+      feedbackList: state => state.feedbackList,
         // script: state => state.script,
     },
 
     mutations: {
-        SET_SCRIPTLIST: (state, scriptList) => state.scriptList = scriptList,
+        SET_FEEDBACKLIST: (state, feedbackList) => state.feedbackList = feedbackList,
         // SET_SCRIPT: (state, script) => state.script = script,
     },
 
     actions: {
-        fetchScriptList( { commit } ) {
+        fetchFeedbackList( { commit } ) {
             axios.get(API_URL)
             .then(res =>{
-              commit('SET_SCRIPTLIST', res.data.scriptList)
-              console.log(res.data.scriptList)
+              commit('SET_FEEDBACKLIST', res.data)
+              console.log(res.data)
               
           } ).catch(error => console.log(error.resonse))
             

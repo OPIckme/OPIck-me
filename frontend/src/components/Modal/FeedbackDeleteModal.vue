@@ -20,6 +20,7 @@
 <script>
 import axios from 'axios';
 const API_URL = 'http://localhost:8080/api/v1/feedback';
+import { mapActions } from 'vuex';
 
 export default {
     name: "feedbackDeleteModal",
@@ -34,9 +35,14 @@ export default {
     setup() {
     },
     methods: {
+      ...mapActions(['fetchFeedbackList']),
     deleteFeedback(){
       console.log(this.feedbackId)
-      axios.delete(API_URL + `/${this.feedbackId}`)
+      axios.delete(API_URL + `/${this.feedbackId}`
+      ).then(res => {
+        console.log(res)
+        this.fetchFeedbackList()
+      })
     }
     },
 }
