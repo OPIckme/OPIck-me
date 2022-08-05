@@ -128,25 +128,11 @@
 
 <script>
 import axios from 'axios';
-//--- AWS S3연동---
-import AWS from 'aws-sdk';
-import fs from 'fs';
-//---AWS S3 연동---
-
+import {uploadFile} from '@/plugins/s3upload';
+// import {main} from '@/plugins/stt'
 
 const API_URL = 'http://localhost:8080/api/v1';
-//--- S3 연동 ---
-// Enter copied or downloaded access ID and secret key here
-const ID = 'AKIAXBWZWGCWM4GCD5XC';
-const SECRET = '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';
-// The name of the bucket that you have created
-const BUCKET_NAME = 'jaeyeong-s3';
-//--- S3 연동 ---
 
-const s3 = new AWS.S3({
-    accessKeyId: ID,
-    secretAccessKey: SECRET
-});
 
 export default {
   data(){
@@ -165,6 +151,7 @@ export default {
     }
   },
   methods : {
+    
      getQuestion(topic,level) {
     axios.get(API_URL + '/question/random', {
       params: {
@@ -215,17 +202,23 @@ export default {
             this.mediaRecorder.onstop = ()=>{
                 
                 // 녹음이 종료되면, 배열에 담긴 오디오 데이터(Blob)들을 합친다: 코덱도 설정해준다.
-                this.blob = new Blob(this.audioArray, {"type": "audio/raw"});
+                this.blob = new Blob(this.audioArray, {"type": "audio/wav"});
                 console.log(this.blob);
                 this.audioArray.splice(0); // 기존 오디오 데이터들은 모두 비워 초기화한다.
                 
                 // Blob 데이터에 접근할 수 있는 주소를 생성한다.
                 this.blobURL = window.URL.createObjectURL(this.blob);
-                const anchor = document.createElement("a");
-                anchor.href = this.blobURL;
-                anchor.download = "test.raw"; 
-                anchor.click()
-                console.log(this.blobURL);
+                // const anchor = document.createElement("a");
+                // anchor.href = this.blobURL;
+                // anchor.download = "test.raw"; 
+                // anchor.click()
+                console.log(uploadFile)
+                // const filePath="C:/Users/multicampus/Downloads/"+filename;
+                uploadFile(this.blob)
+                // console.log(this.blobURL);
+
+
+                // main(this.blob);                
             }
 
             // 녹음 시작
@@ -235,28 +228,7 @@ export default {
         this.mediaRecorder.stop();
 
       
-     },
-     uploadFile(blob){
-        // Read content from the file
-
-
-        const fileContent = blob.stream();
-        console.log(fileContent);
-            // Setting up S3 upload parameters
-        let userid = this.userId;
-        const params = {
-            Bucket: BUCKET_NAME,
-            Key: `script/${userid}.mp3`, // File name you want to save as in S3            
-            Body: fileContent
-        };
-            // Uploading files to the bucket
-        s3.upload(params, function(err, data) {
-          if (err) {
-               console.log(err);
-          }
-           console.log(`File uploaded successfully. ${data.Location}`);
-      });
-    }
+     },     
   },
   
 

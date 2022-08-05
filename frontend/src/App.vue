@@ -20,6 +20,7 @@ export default {
             this.$router.push("/login");
         }
     },
+    
     components: { MainPageUnLoginView,MainPageView }
 };
 </script>
