@@ -23,6 +23,7 @@
 <script>
 import axios from 'axios';
 const API_URL = 'http://localhost:8080/api/v1';
+import { mapActions } from 'vuex';
 
 export default {
   data() {
@@ -34,6 +35,7 @@ export default {
     scriptId: String,
   },
   methods: {
+    ...mapActions(['fetchWaitingConsultList']),
         feedBack() {
             this.$router.push("/webrtcstudent");
         },
@@ -41,6 +43,9 @@ export default {
           axios.post(API_URL + '/consult', {
             room: "www.naver.com",
             scriptId: this.scriptId
+          }).then(res => {
+            console.log(res)
+            this.fetchWaitingConsultList()
           })
         }
     },
