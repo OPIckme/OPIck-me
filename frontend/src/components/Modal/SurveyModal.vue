@@ -129,6 +129,7 @@
 <script>
 import axios from 'axios';
 const API_URL = 'http://localhost:8080/api/v1';
+import { mapActions } from 'vuex';
 
 export default {
   data(){
@@ -146,6 +147,7 @@ export default {
     }
   },
   methods : {
+    ...mapActions(['fetchScriptList']),
      getQuestion(topic,level) {
     axios.get(API_URL + '/question/random', {
       params: {
@@ -171,6 +173,7 @@ export default {
 
     }).then(res=>{
       console.log(res)
+      this.fetchScriptList()
     })
   },
 
