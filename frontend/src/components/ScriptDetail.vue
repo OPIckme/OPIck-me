@@ -11,11 +11,11 @@
 <p>[Script]</p>
 <p>{{ script.scriptContent }}</p>
 <!-- 재생 -->
-<svg @click="clickCaret(),play(script.audioUrl)" v-if="click" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
+<svg @click.prevent="clickCaret(), play(audio)" v-if="click" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
   <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
 </svg>
 <!-- 정지 -->
-<svg @click="clickCaret(),pause(script.audioUrl)" v-if="!click" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16">
+<svg @click.prevent="clickCaret(), pause(audio)" v-if="!click" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16">
   <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/>
 </svg>
 <!-- 스크립트 수정하기 -->
@@ -30,6 +30,7 @@
 import MainPageNavbar from './MainPageNavbar.vue';
 import FeedbackModal from './Modal/FeedbackModal.vue';
 import axios from 'axios';
+import { mapActions } from 'vuex';
 const API_URL = 'http://localhost:8080/api/v1/script';
 
 export default {
@@ -37,14 +38,17 @@ export default {
     data() {
     return {
       click:true,
+      isPlaying: false,
       script: {},
       scriptId: parseInt(this.$route.params.scriptId),
       feedbackModalId: "",
+      audio: {}
     };
   },
     setup() {
     },
     methods: {
+      ...mapActions(['fetchScript']),
         back() {
             this.$router.push("/mainpage");
         },
@@ -57,6 +61,10 @@ export default {
             console.log(res.data.script)
             this.script = res.data.script
             this.feedbackModalId="#create" + this.script.id
+            this.audio={
+              file: new Audio(res.data.script.audioUrl),
+              isPlaying: false
+            }
           })
         },
         routingScriptEdit(){
@@ -65,18 +73,14 @@ export default {
             params:{scriptId:this.script.id}
         })
         },
-        play(sound) {
-          if (sound) {
-            var audio = new Audio(sound);
-            audio.play();
-          }
+        play (audio) {
+          audio.isPlaying = true;
+          audio.file.play();
         },
-        pause(sound) {
-          if (sound) {
-            var audio = new Audio(sound);
-            audio.pause();
-          }
-        },
+        pause (audio) {
+          audio.isPlaying = false;
+          audio.file.pause();
+        }
     },
     created() {
         this.getScript()
