@@ -23,13 +23,20 @@ export default {
     data() {
         return{
             scriptId: parseInt(this.$route.params.scriptId),
+            role:this.$store.state.auth.user.role
         }
     },
     computed: {
         ...mapGetters(['script'])
     },
     methods: {
-        ...mapActions(['fetchScript'])
+        ...mapActions(['fetchScript']),
+        back() {
+            this.$router.push({
+                name:'scriptdetail',
+                params:{scriptId:this.script.id}
+            })
+        }
     },
     created() {
         this.fetchScript(this.scriptId)
