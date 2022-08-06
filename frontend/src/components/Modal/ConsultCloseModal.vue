@@ -10,7 +10,8 @@
         상담을 종료하시겠습니까?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary"  @click="consultClose">Yes</button>
+        <button v-if="role==='student'" type="button" class="btn btn-primary"  @click="consultCloseStudent">Yes</button>
+        <button v-else type="button" class="btn btn-primary"  @click="consultCloseConsult">Yes</button>
       </div>
     </div>
   </div>
@@ -19,12 +20,17 @@
 
 <script>
 export default {
-  setup() {
-    
-  },
+  data(){
+          return{
+              role:this.$store.state.auth.user.role
+          }
+      },
   methods: {
-        consultClose() {
+        consultCloseStudent() {
             this.$router.push("/feedback");
+        },
+        consultCloseConsult() {
+            this.$router.push("/mainpage");
         },
     },
 }

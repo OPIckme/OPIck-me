@@ -7,6 +7,7 @@ import Register from "./components/Register.vue";
 import Feedback from "./components/Feedback.vue";
 import FeedbackDetail from "./components/FeedbackDetail.vue";
 import WebrtcStudentView from "./views/WebrtcStudentView.vue";
+import ScriptEdit from "./components/ScriptEdit.vue";
 
 const BoardUser = () => import("./components/BoardUser.vue")
 const routes = [
@@ -38,6 +39,11 @@ const routes = [
     path: "/script/:scriptId",
     name:"scriptdetail",
     component: ScriptDetail,
+  },
+  {
+    path: "/script/edit/:scriptId",
+    name:"scriptedit",
+    component: ScriptEdit,
   },
   {
     path: "/feedback",

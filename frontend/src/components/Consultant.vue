@@ -4,26 +4,25 @@
 
 <script>
 import ConsultCard from './ConsultCard.vue';
-import axios from 'axios';
-const API_URL = 'http://localhost:8080/api/v1/consult';
+import { mapActions,mapGetters } from 'vuex';
 export default {
     name:'Consultant',
-    data (){
-        return {
-            waitingConsultList : [],
-        };
-    },
     methods: {
-        getWaitingConsultList() {
-            axios.get(API_URL)
-            .then(response => {
-                console.log(response.data.consultList)
-                this.waitingConsultList = response.data.consultList
-                })
-        }
+        ...mapActions(['fetchWaitingConsultList'])
     },
     created() {
-        this.getWaitingConsultList()
+        this.fetchWaitingConsultList()
+    },
+    computed: {
+        ...mapGetters(['waitingConsultList']),
+        currentUser() {
+            return this.$store.state.auth.user;
+        },
+    },
+     mounted() {
+        if (!this.currentUser) {
+            this.$router.push("/");
+        }
     },
     components: { ConsultCard }
 }

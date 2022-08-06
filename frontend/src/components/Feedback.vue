@@ -6,32 +6,22 @@
 
 <script>
 import FeedbackCard from './FeedbackCard.vue';
-import axios from 'axios';
 import MainPageNavbar from './MainPageNavbar.vue';
-const API_URL = 'http://localhost:8080/api/v1/feedback';
+import { mapActions,mapGetters } from 'vuex';
 
 export default {
     name: "Feedback",
-    data() {
-    return {
-      feedbackList:[],
-    };
-  },
     methods: {
-        getFeedbackList() {
-            axios.get(API_URL)
-            .then(response => {
-                console.log(response.data)
-                this.feedbackList = response.data})
-        }
+        ...mapActions(['fetchFeedbackList']),
     },
     created() {
-        this.getFeedbackList()
+        this.fetchFeedbackList()
     },
     computed: {
         currentUser() {
             return this.$store.state.auth.user;
         },
+        ...mapGetters(['feedbackList'])
     },
     mounted() {
         if (!this.currentUser) {
