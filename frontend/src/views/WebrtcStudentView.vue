@@ -58,17 +58,41 @@ import ConsultCloseModal from '@/components/Modal/ConsultCloseModal.vue';
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
 
-export default {
-    data(){
-        return {
-            dataChannel : '',
-            peerConnection : ''    
-        };
+const configuration = {
+    iceServers: [
+        {
+            url: 'turn:3.34.51.116:3478',
+            username : 'myuser',
+            credential : 'mypassword'
+        },
+        {
+            url : 'stun:stun.l.google.com:19302'
+        }
+    ]
+}
+
+var constraints = {
+    video : {
+        frameRate : {
+            ideal : 10,
+            max : 15
+        },
+        width : 1280,
+        height : 720,
+        facingMode : "user"
     },
+
+    audio : true,
+};
+
+var peerConnection = new RTCPeerConnection(configuration);
+var dataChannel = peerConnection.createDataChannel("dataChannel", { reliable: true });
+var stompClient = null;
+
+export default {
     mounted() {
         var messageArea = this.$refs.messageArea;
-        var stompClient = null;
-        var username = this.$store.state.auth.user.username;
+        var username = Math.random().toString(36);
         var room = 'wow';
         var videoInput = this.$refs.videoInput
         var videoOutput = this.$refs.videoOutput
@@ -76,75 +100,13 @@ export default {
         let role = this.$store.state.auth.user.role
         let inboundStream = null;
         let scriptButton = this.$refs.scriptButton
-        const configuration = {
-            iceServers: [
-                {
-                    url: 'turn:3.34.51.116:3478',
-                    username : 'myuser',
-                    credential : 'mypassword'
-                },
-                {
-                    url : 'stun:stun.l.google.com:19302'
-                }
-            ]
-        }
 
-        this.peerConnection = new RTCPeerConnection(configuration);
-        this.dataChannel = this.peerConnection.createDataChannel("dataChannel", { reliable: true });
-        var peerConnection = this.peerConnection
-
-        this.dataChannel.onerror = function(error) {
+        dataChannel.onerror = function(error) {
             console.log("Error:", error);
         };
-        this.dataChannel.onclose = function() {
+        dataChannel.onclose = function() {
             console.log("Data channel is closed");
         };
-         
-        if (role === 'teacher') {
-            scriptButton.removeAttribute("style")
-        }
-        if(username) {
-            this.socket = new SockJS('https://3.34.51.116:8443/ws');
-            this.stompClient = Stomp.over(this.socket);
-            this.stompClient.connect({}, () => {
-                this.stompClient.subscribe('/topic/public/' + room, onMessageReceived);
-                stompClient = this.stompClient
-                stompClient.send("/app/chat.addUser",
-                    JSON.stringify({sender: username, type: 'JOIN', content: room},
-                    {})
-                )
-                peerConnection.createOffer((offer) => {
-                    peerConnection.setLocalDescription(new RTCSessionDescription({
-                                sdp : offer.sdp,
-                                type : offer.type
-                            }));
-                    stompClient.send('/topic/public/' + room,
-                    JSON.stringify({
-                        type : "OFFER",
-                        content : offer,
-                        sender : username
-                    }),
-                    {});
-
-                    peerConnection.setLocalDescription(offer);
-
-                }, function(error) {
-                    // Handle error here
-                });
-
-                peerConnection.onicecandidate = function(event) {
-                    if (event.candidate) {
-                        stompClient.send('/topic/public/' + room,
-                        JSON.stringify({
-                            type : "CANDIDATE",
-                            content : event.candidate,
-                            sender : username
-                        }),
-                        {});
-                    }
-                };
-            }, onError);
-        }
 
         function onError(error) {
             console.log('Could not connect to WebSocket server. Please refresh this page to try again!');
@@ -166,7 +128,7 @@ export default {
                         sdp : message.content.sdp,
                         type : message.content.type
                     }));
-                    peerConnection.createAnswer(function(answer) {
+                    peerConnection.createAnswer().then( function(answer) {
                         peerConnection.setLocalDescription({
                             sdp : answer.sdp,
                             type : answer.type
@@ -179,8 +141,6 @@ export default {
                         }),
                         {}
                         );
-                    }, function(error) {
-                        // Handle error here
                     });
 
                     peerConnection.onicecandidate = function(event) {
@@ -209,7 +169,9 @@ export default {
                     sdp : message.content.sdp,
                     type : message.content.type
                     }));
-            } 
+            } else {
+                console.log(message)
+            }
             if (message.type === 'JOIN'|| message.type === 'LEAVE'){
                 var textElement = document.createElement('p');
                 var messageText = document.createTextNode(message.content);
@@ -223,10 +185,10 @@ export default {
         }
 
         peerConnection.ondatachannel = (event) => {
-            this.dataChannel = event.channel;
+            dataChannel = event.channel;
         };
 
-        this.dataChannel.onmessage = function (event) {
+        dataChannel.onmessage = function (event) {
             if (event.data === '비디오 시작' || event.data === '비디오 중지'
             || event.data === '음소거' || event.data === '음소거 해제'
             || event.data === '스크립트 시작' || event.data === '스크립트 중지'){
@@ -252,7 +214,7 @@ export default {
                     videoOutput.classList.add("col-8")
                 } else {
                     videoOutput.setAttribute("style","display:none")
-                }
+                } 
             }else {
                 var data = JSON.parse(event.data)
                 var messageElement = document.createElement('li');
@@ -279,25 +241,9 @@ export default {
         peerConnection.addEventListener('connectionstatechange', event => {
             if (peerConnection.connectionState === 'connected') {
                 console.log("Peers connected!") 
-                console.log(peerConnection)
-                openCall() 
             }
         });
-
-        var constraints = {
-            video : {
-                frameRate : {
-                    ideal : 10,
-                    max : 15
-                },
-                width : 1280,
-                height : 720,
-                facingMode : "user"
-            },
-
-            audio : true,
-        };
-
+        
         async function openCall() {
             let inputStream = new MediaStream();
             videoInput.srcObject = inputStream;
@@ -307,8 +253,47 @@ export default {
                 peerConnection.addTrack(track);
                 inputStream.addTrack(track);
             }
-        }
 
+            if (role === 'teacher') {
+            scriptButton.removeAttribute("style")
+            }
+            if(username) {
+                var socket = new SockJS('http://3.34.51.116:8080/ws');
+                stompClient = Stomp.over(socket);
+                stompClient.connect({}, () => {
+                    stompClient.subscribe('/topic/public/' + room, onMessageReceived);
+                    stompClient.send("/app/chat.addUser",
+                        JSON.stringify({sender: username, type: 'JOIN', content: room},
+                        {})
+                    )
+                    peerConnection.createOffer().then((offer) => {
+                        stompClient.send('/topic/public/' + room,
+                        JSON.stringify({
+                            type : "OFFER",
+                            content : offer,
+                            sender : username
+                        }),
+                        {});
+
+                        peerConnection.setLocalDescription(offer);
+
+                    })
+
+                    peerConnection.onicecandidate = function(event) {
+                        if (event.candidate) {
+                            stompClient.send('/topic/public/' + room,
+                            JSON.stringify({
+                                type : "CANDIDATE",
+                                content : event.candidate,
+                                sender : username
+                            }),
+                            {});
+                        }
+                    };
+                }, onError);
+            }
+        }
+        
         peerConnection.ontrack = (event) => {
             if (event.streams && event.streams[0]) {
                 videoOutput.srcObject = event.streams[0];
@@ -322,6 +307,13 @@ export default {
         };
 
         openCall()
+        /*
+        navigator.mediaDevices.getUserMedia(constraints).
+        then((stream) => { 
+            peerConnection.addStream(stream); 
+            videoInput.srcObject = stream})
+        .catch(function(err) {  });*/
+
     },
     computed: {
         currentUser() {
@@ -331,7 +323,7 @@ export default {
     methods: {
         scriptControl(){
             if (scriptButton.innerText === 'Script ON'){
-                this.dataChannel.send("스크립트 시작")
+                dataChannel.send("스크립트 시작")
                 script.removeAttribute("style")
                 this.$refs.videoInput.classList.remove("col-8")
                 this.$refs.videoInput.classList.add("col-6")
@@ -340,7 +332,7 @@ export default {
                 this.$refs.scriptButton.innerText = "Script OFF"
             }else {
                 this.$refs.script.setAttribute("style","display : none")
-                this.dataChannel.send("스크립트 중지")
+                dataChannel.send("스크립트 중지")
                 this.$refs.videoInput.classList.remove("col-6")
                 this.$refs.videoInput.classList.add("col-8")
                 this.$refs.videoOutput.classList.remove("col-6")
@@ -351,29 +343,30 @@ export default {
         screenControl(){
             if (this.$refs.screen.innerText === '비디오 중지'){
                 this.$refs.videoInput.setAttribute("style","display:none")
-                this.dataChannel.send("비디오 중지")
+                dataChannel.send("비디오 중지")
                 this.$refs.screen.innerText = "비디오 시작"
             }else {
                 this.$refs.videoInput.setAttribute("style","display:inline")
-                this.dataChannel.send("비디오 시작")
+                dataChannel.send("비디오 시작")
                 this.$refs.screen.innerText = "비디오 중지"
             }
         },
         muteControl(){
             if (this.$refs.sound.innerText === '음소거'){
-                this.dataChannel.send("음소거")
+                dataChannel.send("음소거")
                 this.$refs.sound.innerText = "음소거 해제"
             }else {
-                this.dataChannel.send("음소거 해제")
+                dataChannel.send("음소거 해제")
                 this.$refs.sound.innerText = "음소거"
             }
         },
 
         sendMessage() {
             var messageContent = this.$refs.messageInput.value.trim();
-            if(messageContent && this.stompClient) {
-                console.log(this.dataChannel)
-                this.dataChannel.send(JSON.stringify({
+            console.log(stompClient)
+            if(messageContent && stompClient) {
+                console.log(dataChannel)
+                dataChannel.send(JSON.stringify({
                     "username" : this.$store.state.auth.user.username,
                     "message" : messageContent
                 }))
@@ -396,7 +389,7 @@ export default {
                 this.$refs.messageArea.scrollTop = this.$refs.messageArea.scrollHeight;
                 this.$refs.messageInput.value = '';
             }
-        }
+        },
     },
     components: { ConsultCloseModal }
 };
