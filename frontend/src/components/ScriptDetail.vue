@@ -18,6 +18,9 @@
 <svg @click="clickCaret(),pause(script.audioUrl)" v-if="!click" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16">
   <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/>
 </svg>
+<!-- 스크립트 수정하기 -->
+<button class="btn btn-primary" @click="routingScriptEdit">수정하기</button>
+<!-- 피드백 신청하기 -->
 <button data-bs-toggle="modal" :data-bs-target="feedbackModalId" class="btn btn-primary">피드백 신청하기</button>
 {{ feedbackModalId }}
 <FeedbackModal :scriptId="scriptId"></FeedbackModal>
@@ -55,6 +58,12 @@ export default {
             this.script = res.data.script
             this.feedbackModalId="#create" + this.script.id
           })
+        },
+        routingScriptEdit(){
+          this.$router.push({
+            name:'scriptedit',
+            params:{scriptId:this.script.id}
+        })
         },
         play(sound) {
           if (sound) {
