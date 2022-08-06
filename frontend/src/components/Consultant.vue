@@ -3,8 +3,11 @@
 </template>
 
 <script>
-import ConsultCard from './ConsultCard.vue';
 import { mapActions,mapGetters } from 'vuex';
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
+import ConsultCard from './ConsultCard.vue';
+
 export default {
     name:'Consultant',
     methods: {
@@ -19,11 +22,30 @@ export default {
             return this.$store.state.auth.user;
         },
     },
-     mounted() {
+    mounted() {
         if (!this.currentUser) {
             this.$router.push("/");
         }
+
+        var socket = new SockJS('http://3.34.51.116:8080/ws');
+        var stompClient = Stomp.over(socket);
+        stompClient.connect({}, () => {
+            stompClient.subscribe('/topic/public/', (payload) => {
+                var message = JSON.parse(payload.body);
+                console.log({script : {
+                    id : message.id,
+                    question : {
+                        topic : message.topic,
+                        questionContent : message.questionContent
+                        }}})
+                this.waitingConsultList.push({script : {
+                    id : message.id,
+                    question : {
+                        topic : message.topic,
+                        questionContent : message.questionContent
+                    }}})
+            })}, () =>{});
     },
-    components: { ConsultCard }
+    components: { ConsultCard, ConsultCard }
 }
 </script>
