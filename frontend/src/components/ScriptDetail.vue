@@ -21,9 +21,9 @@
 <!-- 스크립트 수정하기 -->
 <button class="btn btn-primary" @click="routingScriptEdit">수정하기</button>
 <!-- 피드백 신청하기 -->
-<button data-bs-toggle="modal" :data-bs-target="feedbackModalId" class="btn btn-primary">피드백 신청하기</button>
+<button @click.prevent="createConsult" data-bs-toggle="modal" :data-bs-target="feedbackModalId" class="btn btn-primary">피드백 신청하기</button>
 {{ feedbackModalId }}
-<FeedbackModal :scriptId="scriptId"></FeedbackModal>
+<FeedbackModal :scriptId="scriptId" :script="script"></FeedbackModal>
 </template>
 
 <script>
