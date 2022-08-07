@@ -92,7 +92,7 @@ var stompClient = null;
 export default {
     mounted() {
         var messageArea = this.$refs.messageArea;
-        var username = Math.random().toString(36);
+        var username = this.$store.state.auth.user.username;
         var room = 'wow';
         var videoInput = this.$refs.videoInput
         var videoOutput = this.$refs.videoOutput
@@ -307,12 +307,6 @@ export default {
         };
 
         openCall()
-        /*
-        navigator.mediaDevices.getUserMedia(constraints).
-        then((stream) => { 
-            peerConnection.addStream(stream); 
-            videoInput.srcObject = stream})
-        .catch(function(err) {  });*/
 
     },
     computed: {
@@ -363,7 +357,6 @@ export default {
 
         sendMessage() {
             var messageContent = this.$refs.messageInput.value.trim();
-            console.log(stompClient)
             if(messageContent && stompClient) {
                 console.log(dataChannel)
                 dataChannel.send(JSON.stringify({

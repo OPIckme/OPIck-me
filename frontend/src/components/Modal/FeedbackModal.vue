@@ -13,7 +13,7 @@
         <!-- <a href="https://i7b202.p.ssafy.io:8443/?">
           <button type="button" class="btn btn-primary"  @click="feedBack">Yes</button>
         </a> -->
-        <button type="button" class="btn btn-primary"  @click="createConsult(), feedBack()">Yes</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="createConsult(), feedBack()">Yes</button>
       </div>
     </div>
   </div>
@@ -23,6 +23,8 @@
 <script>
 import axios from 'axios';
 const API_URL = 'http://localhost:8080/api/v1';
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
 import { mapActions } from 'vuex';
 
 export default {
@@ -33,9 +35,10 @@ export default {
   },
   props: {
     scriptId: String,
+    script: Object
   },
   methods: {
-    ...mapActions(['fetchWaitingConsultList']),
+    ...mapActions(['fetchWaitingConsultMap']),
         feedBack() {
             this.$router.push("/webrtcstudent");
         },
@@ -45,8 +48,18 @@ export default {
             scriptId: this.scriptId
           }).then(res => {
             console.log(res)
-            this.fetchWaitingConsultList()
+            this.fetchWaitingConsultMap()
           })
+          var socket = new SockJS('http://3.34.51.116:8080/ws');
+          var stompClient = Stomp.over(socket);
+          stompClient.connect({}, () => {
+            stompClient.send("/topic/public/",
+                JSON.stringify({
+                  topic : this.script.question.topic,
+                  questionContent : this.script.question.questionContent,
+                })
+            )
+            }, () => {});
         }
     },
 }
