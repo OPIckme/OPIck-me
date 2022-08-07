@@ -1,16 +1,14 @@
 package com.ssafy.api.service;
 
-
-import com.ssafy.api.request.ConsultRegisterPostReq;
 import com.ssafy.db.entity.Consult;
 import com.ssafy.db.entity.Script;
 import com.ssafy.db.repository.ConsultRepository;
-import com.ssafy.db.repository.ScriptRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -31,8 +29,8 @@ public class ConsultServiceImpl implements ConsultService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<Consult> waitingList() {
-        return consultRepository.findAll().stream().filter(state -> !state.isState()).collect(Collectors.toList());
+    public Map<Long, Consult> waitingConsultMap() {
+        return consultRepository.findAll().stream().filter(state -> !state.isState()).collect(Collectors.toMap(Consult::getId, v -> v ));
     }
 
     @Override
@@ -48,12 +46,6 @@ public class ConsultServiceImpl implements ConsultService {
     @Override
     public boolean exist(Long consultId) {
         return consultRepository.findById(consultId).isPresent();
-    }
-
-    @Override
-    public boolean completedStateByConsult(Long consultId) {
-        Consult consult = consultRepository.findById(consultId).get();
-        return consult.isState();
     }
 
 
