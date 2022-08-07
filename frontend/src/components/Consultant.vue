@@ -1,5 +1,5 @@
 <template>
-<ConsultCard v-for="waitingconsult in waitingConsultList" :key="waitingconsult.id" :waitingconsult="waitingconsult"></ConsultCard>
+<ConsultCard v-for="waitingconsult in waitingConsultMap" :key="waitingconsult.id" :waitingconsult="waitingconsult"></ConsultCard>
 </template>
 
 <script>
@@ -11,13 +11,13 @@ import ConsultCard from './ConsultCard.vue';
 export default {
     name:'Consultant',
     methods: {
-        ...mapActions(['fetchWaitingConsultList'])
+        ...mapActions(['fetchWaitingConsultMap']),
     },
     created() {
-        this.fetchWaitingConsultList()
+        this.fetchWaitingConsultMap()
     },
     computed: {
-        ...mapGetters(['waitingConsultList']),
+        ...mapGetters(['waitingConsultMap']),
         currentUser() {
             return this.$store.state.auth.user;
         },
@@ -38,7 +38,7 @@ export default {
                         topic : message.topic,
                         questionContent : message.questionContent
                         }}})
-                this.waitingConsultList.push({script : {
+                this.waitingConsultMap.push({script : {
                     id : message.id,
                     question : {
                         topic : message.topic,
@@ -46,6 +46,6 @@ export default {
                     }}})
             })}, () =>{});
     },
-    components: { ConsultCard, ConsultCard }
+    components: { ConsultCard }
 }
 </script>

@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -87,10 +88,10 @@ class ConsultServiceTest {
         Consult completedConsult2 = consultService.modifyState(consult2.getId());
         Consult consult3 = consultService.create(script,room);
         //When
-        List<Consult> waitingConsultList = consultService.waitingList();
+        Map<Long, Consult> waitingConsultMap = consultService.waitingConsultMap();
         // Then
         //consult2를 제외한 consult1과 consult3이 들어가 있어야 한다.
-        assertThat(waitingConsultList).contains(consult1, consult3);
+        assertThat(waitingConsultMap).containsValues(consult1,consult3);
     }
 
     private User createUser() {

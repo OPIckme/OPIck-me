@@ -23,12 +23,12 @@ export default {
     setup() {
     },
     methods: {
-      ...mapActions(['fetchWaitingConsultList']),
+      ...mapActions(['fetchWaitingConsultMap']),
         changeState(){
           axios.put(API_URL+ `/${this.waitingconsult.id}`
           ).then(res => {
             console.log(res)
-            this.fetchWaitingConsultList()
+            this.fetchWaitingConsultMap()
           })
     },
     },
