@@ -38,7 +38,7 @@ export default {
     script: Object
   },
   methods: {
-    ...mapActions(['fetchWaitingConsultList']),
+    ...mapActions(['fetchWaitingConsultMap']),
         feedBack() {
             this.$router.push("/webrtcstudent");
         },
@@ -48,7 +48,7 @@ export default {
             scriptId: this.scriptId
           }).then(res => {
             console.log(res)
-            this.fetchWaitingConsultList()
+            this.fetchWaitingConsultMap()
           })
           var socket = new SockJS('http://3.34.51.116:8080/ws');
           var stompClient = Stomp.over(socket);

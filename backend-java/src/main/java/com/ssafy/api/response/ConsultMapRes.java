@@ -7,20 +7,20 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
-@ApiModel("ConsultListResponse")
-public class ConsultListRes extends BaseResponseBody {
+@ApiModel("ConsultMapResponse")
+public class ConsultMapRes extends BaseResponseBody {
     @ApiModelProperty(name = "대기중인 상담 목록")
-    List<Consult> consultList;
+    Map<Long, Consult> consultMap;
 
-    public static ConsultListRes of(Integer statusCode, String message, List<Consult> consultList) {
-        ConsultListRes res = new ConsultListRes();
+    public static ConsultMapRes of(Integer statusCode, String message, Map<Long, Consult> consultMap) {
+        ConsultMapRes res = new ConsultMapRes();
         res.setStatusCode(statusCode);
         res.setMessage(message);
-        res.setConsultList(consultList);
+        res.setConsultMap(consultMap);
         return res;
     }
 }

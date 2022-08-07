@@ -3,28 +3,25 @@ const API_URL = 'http://localhost:8080/api/v1/consult';
 
 export const consult = {
     state: {
-      waitingConsultList: [],
+      waitingConsultMap: {}
     },
 
     getters: {
-      waitingConsultList: state => state.waitingConsultList,
+      waitingConsultMap: state => state.waitingConsultMap
     },
 
     mutations: {
-        SET_WAITINGCONSULTLIST: (state, waitingConsultList) => state.waitingConsultList = waitingConsultList,
+        SET_WAITINGCONSULTMAP: (state, waitingConsultMap) => state.waitingConsultMap = waitingConsultMap
     },
 
     actions: {
-        fetchWaitingConsultList( { commit } ) {
-            axios.get(API_URL)
-            .then(res =>{
-              commit('SET_WAITINGCONSULTLIST', res.data.consultList)
-              console.log(res.data.consultList)
-              
-          } ).catch(error => console.log(error.resonse))
-            
-            
-        },
+        fetchWaitingConsultMap( { commit } ) {
+          axios.get(API_URL)
+          .then(res =>{
+            commit('SET_WAITINGCONSULTMAP', res.data.consultMap)
+            console.log(res.data.consultMap)              
+        } ).catch(error => console.log(error.resonse))         
+      },
     },
 
   }
