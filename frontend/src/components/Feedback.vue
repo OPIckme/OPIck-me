@@ -15,7 +15,7 @@ export default {
         ...mapActions(['fetchFeedbackList']),
     },
     created() {
-        this.fetchFeedbackList()
+        this.fetchFeedbackList(this.$store.state.auth.user.username)
     },
     computed: {
         currentUser() {

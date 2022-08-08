@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface FeedbackService {
     BaseResponseBody delete(Long feedbackId);
     Feedback create(String content, Script script);
-    List<Feedback> getList();
+    List<Feedback> getList(Long userId);
     Optional<Feedback> getDetail(Long feedbackId);
 
     boolean overlapCheck(Long scriptId);
