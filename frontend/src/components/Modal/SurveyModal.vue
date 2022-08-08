@@ -114,7 +114,7 @@
           </svg>
           <p>Re-Start</p>
           <!-- save -->
-          <svg @click="saveScript" data-bs-dismiss="modal" aria-label="Close" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+          <svg @click="uploadFile(blob)" data-bs-dismiss="modal" aria-label="Close" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
             <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
             <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
           </svg>
@@ -128,8 +128,14 @@
 
 <script>
 import axios from 'axios';
+
+import {uploadFile} from '@/plugins/s3upload';
+// import {main} from '@/plugins/stt'
+
 const API_URL = 'http://i7B202.p.ssafy.io:8080/api/v1';
 import { mapActions } from 'vuex';
+
+
 
 export default {
   data(){
@@ -142,12 +148,14 @@ export default {
       //---audio 녹음 data 시작--
       mediaRecorder:null,
       audioArray : [],
-      blobURL:"",
+      blob: {},
+      blobURL:""
       //---audio 녹음 data 끝
     }
   },
   methods : {
     ...mapActions(['fetchScriptList']),
+
      getQuestion(topic,level) {
     axios.get(API_URL + '/question/random', {
       params: {
@@ -165,12 +173,10 @@ export default {
 
   saveScript() {
     axios.post(API_URL + '/script', {
-      
         userId: this.userId,
         questionId: this.questionInfo.id,
-        scriptContent: "Oh, my home. I live in a normal looking apartment in Seoul. Capital city in Korea. My apartment is standard. There are three rooms, two bathrooms, a kitchen, and a balcony. You know, the best place in my apartment is the bedroom. That is the place where I spend most of my time. The bedroom is so spacious than other apartments. There is a queen size bed and a nice mood light. I usually spend my time on the bed with my smartphone. It is literally comfortable. I think I am satisfied with my apartment.",
-        audioURL: "www.naver.com"
-
+        audioURL: "https://jaeyeong-s3.s3.ap-northeast-2.amazonaws.com/testAudio.wav",
+        keyName: "testAudio.mp3",
     }).then(res=>{
       console.log(res)
       this.fetchScriptList()
@@ -186,7 +192,6 @@ export default {
   
 
    async start(){
-
             // 마이크 mediaStream 생성: Promise를 반환하므로 async/await 사용
             const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
 
@@ -202,20 +207,23 @@ export default {
             this.mediaRecorder.onstop = ()=>{
                 
                 // 녹음이 종료되면, 배열에 담긴 오디오 데이터(Blob)들을 합친다: 코덱도 설정해준다.
-                const blob = new Blob(this.audioArray, {"type": "audio/ogg codecs=opus"});
-                console.log(blob);
+                this.blob = new Blob(this.audioArray, {"type": "audio/mp3"});
+                console.log(this.blob);
                 this.audioArray.splice(0); // 기존 오디오 데이터들은 모두 비워 초기화한다.
                 
                 // Blob 데이터에 접근할 수 있는 주소를 생성한다.
-                this.blobURL = window.URL.createObjectURL(blob);
+                this.blobURL = window.URL.createObjectURL(this.blob);
+                // const anchor = document.createElement("a");
+                // anchor.href = this.blobURL;
+                // anchor.download = "test.raw"; 
+                // anchor.click()
+                console.log(uploadFile)
+                // const filePath="C:/Users/multicampus/Downloads/"+filename;
+                uploadFile(this.blob)
+                // console.log(this.blobURL);
                 
-                //---audio 로컬 저장---
-                const anchor = document.createElement("a");
-                anchor.href = this.blobURL;
-                anchor.download = "test.wav"; 
-                anchor.click()
-                //---audio 로컬 저장---
-
+                this.saveScript()
+                // main(this.blob);                
             }
 
             // 녹음 시작
@@ -223,9 +231,11 @@ export default {
      },
      async stop(){
         this.mediaRecorder.stop();
+
       
-     }
+     },     
   },
+  
 
 
 }

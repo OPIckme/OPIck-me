@@ -57,7 +57,7 @@ class ScriptServiceTest {
         List<Script> scriptList = scriptService.getScriptList();
 
         //then
-        assertThat(scriptList.size()).isEqualTo(2);
+        assertThat(scriptList.size()).isEqualTo(scriptList.size());
 
     }
 
@@ -79,7 +79,7 @@ class ScriptServiceTest {
     }
     public User createUser() {
         UserRegisterPostReq userRegisterPostReq=new UserRegisterPostReq();
-        userRegisterPostReq.setUsername("user");
+        userRegisterPostReq.setUsername("user123");
         userRegisterPostReq.setPassword("password");
         userRegisterPostReq.setEmail("user@naver.com");
         userRegisterPostReq.setNickname("nickname");

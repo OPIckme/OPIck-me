@@ -25,7 +25,6 @@ public class ScriptRegisterPostReq {
     @ApiModelProperty(name="오디오 URL", example="오디오 URL")
     String audioURL;
 
-    @NotBlank(message = "FilePath는 비어있을 수 없습니다.")
-    @ApiModelProperty(name="파일 path", example="C:/Users/multicampus/Desktop/ssafy/java-speech/samples/snapshot/resources/audio.raw")
-    String filePath;
+    @NotBlank(message = "keyName는 비어있을 수 없습니다.")
+    String keyName;
 }
