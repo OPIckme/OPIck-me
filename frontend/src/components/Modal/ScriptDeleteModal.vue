@@ -42,7 +42,7 @@ export default {
       axios.delete(API_URL + `/script/${this.scriptId}`
       ).then(res => {
         console.log(res)
-        this.fetchScriptList()
+        this.fetchScriptList(this.$store.state.auth.user.username)
         })
       }
     },

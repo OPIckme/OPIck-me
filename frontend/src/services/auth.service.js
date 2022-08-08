@@ -3,7 +3,7 @@ import {API_URL} from '@/api/http.js';
 
 class AuthService {
   login(user) {
-    return axios.post(API_URL + 'auth/login', {
+    return axios.post(API_URL + '/auth/login', {
         username: user.username,
         password: user.password
       })

@@ -18,16 +18,17 @@ export const script = {
     },
 
     actions: {
-        fetchScriptList( { commit } ) {
-            axios.get(API_URL + '/script')
+        fetchScriptList( { commit }, username ) {
+            console.log(username)
+            axios.get(API_URL + `/script/${username}`)
             .then(res =>{
+                console.log("HERE!!", res.data)
               commit('SET_SCRIPTLIST', res.data.scriptList)
-              console.log(res.data.scriptList)
             }).catch(error => console.log(error.response))
         },
 
-        fetchScript( { commit }, scriptId ) {
-            axios.get(API_URL + `/script/${scriptId}`)
+        fetchScript( { commit }, {username, scriptId} ) {
+            axios.get(API_URL + `/script/${username}/${scriptId}`)
             .then(res => {
                 commit('SET_SCRIPT', res.data.script)
                 console.log(res.data.script)

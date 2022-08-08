@@ -43,7 +43,8 @@ export default {
       script: {},
       scriptId: parseInt(this.$route.params.scriptId),
       feedbackModalId: "",
-      audio: {}
+      audio: {},
+      username: this.$store.state.auth.user.username
     };
   },
     setup() {
@@ -57,7 +58,7 @@ export default {
             this.click = !this.click;
         },
         getScript(){
-          axios.get(API_URL + `/script/${this.scriptId}`)
+          axios.get(API_URL + `/script/${this.username}/${this.scriptId}`)
           .then(res => {
             console.log(res.data.script)
             this.script = res.data.script
@@ -71,7 +72,8 @@ export default {
         routingScriptEdit(){
           this.$router.push({
             name:'scriptedit',
-            params:{scriptId:this.script.id}
+            params:{
+              scriptId:this.script.id}
         })
         },
         play (audio) {
