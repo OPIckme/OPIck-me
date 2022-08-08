@@ -16,5 +16,9 @@ public interface ScriptService {
     Optional<Script> getDetail(Long script_id);
     void deleteByScriptId(Long scriptId);
 
+
     void getAudio(String keyName);
+
+    Script modifyScript(Long scriptId, String content);
+
 }

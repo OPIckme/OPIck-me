@@ -101,6 +101,15 @@ public class ScriptServiceImpl implements ScriptService {
             System.exit(1);
         }
         System.out.println("Done!");
+
+    }
+
+    @Override
+    public Script modifyScript(Long scriptId, String content) {
+        Script findScript = scriptRepository.findById(scriptId).get();
+        findScript.setScriptContent(content);
+        return scriptRepository.save(findScript);
+
     }
 
     @Override

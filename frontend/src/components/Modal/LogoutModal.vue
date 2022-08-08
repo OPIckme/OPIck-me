@@ -10,7 +10,7 @@
         로그아웃하시겠습니까?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary"  @click.prevent="logOut">Yes</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"  @click.prevent="logOut">Yes</button>
       </div>
     </div>
   </div>
@@ -24,6 +24,7 @@ export default {
   },
   methods: {
         logOut() {
+
             this.$store.dispatch("auth/logout");
             this.$router.push("/");
         },

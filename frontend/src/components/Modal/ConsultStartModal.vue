@@ -9,6 +9,7 @@
       <div class="modal-body">
         <p>상담을 시작합니다.</p>
         <div class="spinner-border text-primary" role="status">
+        <button type="button" class="btn btn-primary"  @click="feedBack()">Yes</button>
         </div>
       </div>
     </div>
@@ -19,8 +20,10 @@
 <script>
 
 export default {
-  setup() {
-    
-  },
+  methods : {
+    feedBack() {
+            this.$router.push("/webrtcstudent");
+        },
+  }
 }
 </script>

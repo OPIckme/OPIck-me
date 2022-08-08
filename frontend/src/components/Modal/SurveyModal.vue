@@ -128,10 +128,13 @@
 
 <script>
 import axios from 'axios';
+
 import {uploadFile} from '@/plugins/s3upload';
 // import {main} from '@/plugins/stt'
 
-const API_URL = 'http://localhost:8080/api/v1';
+const API_URL = 'http://i7B202.p.ssafy.io:8080/api/v1';
+import { mapActions } from 'vuex';
+
 
 
 export default {
@@ -151,7 +154,8 @@ export default {
     }
   },
   methods : {
-    
+    ...mapActions(['fetchScriptList']),
+
      getQuestion(topic,level) {
     axios.get(API_URL + '/question/random', {
       params: {
@@ -175,6 +179,7 @@ export default {
         keyName: "testAudio.mp3",
     }).then(res=>{
       console.log(res)
+      this.fetchScriptList()
     })
   },
 

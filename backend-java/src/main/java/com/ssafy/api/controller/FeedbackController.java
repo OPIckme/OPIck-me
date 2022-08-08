@@ -39,7 +39,7 @@ public class FeedbackController {
             feedbackService.create(content,script.get());
             return ResponseEntity.status(201).body(BaseResponseBody.of(201,"피드백 추가 성공"));
         }
-        throw new IllegalArgumentException("이미 피드백이 진행된 스크립트입니다.");
+        throw new IllegalArgumentException("존재하지 않는 스크립트입니다.");
     }
 
     @GetMapping

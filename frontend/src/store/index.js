@@ -1,10 +1,14 @@
 import { createStore } from "vuex";
 import { auth } from "./auth.module";
-// import { script } from "./script";
+import { script } from "./script";
+import { feedback } from "./feedback";
+import { consult } from "./consult";
 const store = createStore({
   modules: {
     auth,
-    // script,
+    script,
+    feedback,
+    consult
   },
 });
 export default store;
