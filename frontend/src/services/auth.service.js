@@ -1,8 +1,9 @@
 import axios from 'axios';
-const API_URL = 'http://i7B202.p.ssafy.io:8080/api/v1/';
+import {API_URL} from '@/api/http.js';
+
 class AuthService {
   login(user) {
-    return axios.post(API_URL + 'auth/login', {
+    return axios.post(API_URL + '/auth/login', {
         username: user.username,
         password: user.password
       })

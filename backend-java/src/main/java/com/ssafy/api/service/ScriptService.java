@@ -11,7 +11,7 @@ public interface ScriptService {
     Script createScript(User user, Question question, String content, String audioUrl);
 
     Optional<Script> getScriptByScriptId(Long scriptId);
-    List<Script> getScriptList();
+    List<Script> getScriptList(Long userId);
 
     Optional<Script> getDetail(Long script_id);
     void deleteByScriptId(Long scriptId);

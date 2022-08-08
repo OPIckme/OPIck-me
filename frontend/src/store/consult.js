@@ -1,5 +1,5 @@
-import axios from 'axios'
-const API_URL = 'http://i7B202.p.ssafy.io:8080/api/v1/consult';
+import axios from 'axios';
+import {API_URL} from '@/api/http.js';
 
 export const consult = {
     state: {
@@ -16,7 +16,7 @@ export const consult = {
 
     actions: {
         fetchWaitingConsultMap( { commit } ) {
-          axios.get(API_URL)
+          axios.get(API_URL +'/consult')
           .then(res =>{
             commit('SET_WAITINGCONSULTMAP', res.data.consultMap)
             console.log(res.data.consultMap)              
