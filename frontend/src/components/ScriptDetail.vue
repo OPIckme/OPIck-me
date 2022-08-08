@@ -31,7 +31,7 @@ import MainPageNavbar from './MainPageNavbar.vue';
 import FeedbackModal from './Modal/FeedbackModal.vue';
 import axios from 'axios';
 import { mapActions } from 'vuex';
-const API_URL = 'http://localhost:8080/api/v1/script';
+const API_URL = 'http://i7B202.p.ssafy.io:8080/api/v1/script';
 
 export default {
     name: "ScriptDetail",

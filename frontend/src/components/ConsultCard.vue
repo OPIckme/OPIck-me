@@ -13,7 +13,7 @@
 import ConsultStartModal from './Modal/ConsultStartModal.vue'
 import axios from 'axios';
 import { mapActions } from 'vuex';
-const API_URL = 'http://localhost:8080/api/v1/consult/complete';
+const API_URL = 'http://i7B202.p.ssafy.io:8080/api/v1/consult/complete';
 
 export default {
     name: "ConsultCard",
