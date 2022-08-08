@@ -171,8 +171,8 @@ export default {
     axios.post(API_URL + '/script', {
         userId: this.userId,
         questionId: this.questionInfo.id,
-        scriptContent: "Oh, my home. I live in a normal looking apartment in Seoul. Capital city in Korea. My apartment is standard. There are three rooms, two bathrooms, a kitchen, and a balcony. You know, the best place in my apartment is the bedroom. That is the place where I spend most of my time. The bedroom is so spacious than other apartments. There is a queen size bed and a nice mood light. I usually spend my time on the bed with my smartphone. It is literally comfortable. I think I am satisfied with my apartment.",
-        audioURL: "www.naver.com"
+        audioURL: "https://jaeyeong-s3.s3.ap-northeast-2.amazonaws.com/testAudio.wav",
+        keyName: "testAudio.mp3",
     }).then(res=>{
       console.log(res)
     })
@@ -202,7 +202,7 @@ export default {
             this.mediaRecorder.onstop = ()=>{
                 
                 // 녹음이 종료되면, 배열에 담긴 오디오 데이터(Blob)들을 합친다: 코덱도 설정해준다.
-                this.blob = new Blob(this.audioArray, {"type": "audio/wav"});
+                this.blob = new Blob(this.audioArray, {"type": "audio/mp3"});
                 console.log(this.blob);
                 this.audioArray.splice(0); // 기존 오디오 데이터들은 모두 비워 초기화한다.
                 
@@ -216,8 +216,8 @@ export default {
                 // const filePath="C:/Users/multicampus/Downloads/"+filename;
                 uploadFile(this.blob)
                 // console.log(this.blobURL);
-
-
+                
+                this.saveScript()
                 // main(this.blob);                
             }
 

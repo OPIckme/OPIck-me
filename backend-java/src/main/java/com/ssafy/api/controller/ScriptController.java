@@ -13,11 +13,14 @@ import com.ssafy.db.entity.User;
 import com.ssafy.stt.STT;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
+import java.io.*;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -26,11 +29,14 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1/script")
 @RequiredArgsConstructor
+@Slf4j
 public class ScriptController {
     private final ScriptService scriptService;
     private final UserService userService;
     private final QuestionService questionService;
 
+
+    
     @PostMapping
     @ApiOperation(value = "스크립트 등록", notes = "userId,questionId,content, audiourl을 받아서 스크립트를 등록한다.")
     @ApiResponses({
@@ -45,10 +51,14 @@ public class ScriptController {
         Optional<Question> question = questionService.getQuestionByQuestionId(questionId);
 
         String audioUrl = scriptRegisterPostReq.getAudioURL();
-        String filePath = scriptRegisterPostReq.getFilePath();
-        String content = STT.asyncRecognizeFile(filePath);
+        String keyName = scriptRegisterPostReq.getKeyName();
 
-        deleteAudioFile(filePath);
+        String filePath="C:/Users/multicampus/Desktop/ssafy/S07P12B202/backend-java/"+keyName;
+
+        scriptService.getAudio(keyName);
+        String content = STT.asyncRecognizeFile(filePath);
+        System.out.println("content = " + content);
+//        deleteAudioFile(filePath);
         scriptService.createScript(user.get(), question.get(),content,audioUrl);
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201,"스크립트 추가 성공"));
@@ -101,4 +111,5 @@ public class ScriptController {
         }
 
     }
+
 }

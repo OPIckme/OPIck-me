@@ -18,9 +18,9 @@ export const uploadFile = (fileName) => {
         // Setting up S3 upload parameters
     const params = {
         Bucket: BUCKET_NAME,
-        Key: 'script/testAudio.wav', // File name you want to save as in S3            
+        Key: 'testAudio.mp3', // File name you want to save as in S3            
         Body: fileContent,
-        ContentType: 'audio/wav'
+        ContentType: 'audio/mp3'
     };
         // Uploading files to the bucket
     s3.upload(params, function(err, data) {
