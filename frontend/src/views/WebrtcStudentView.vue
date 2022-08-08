@@ -254,7 +254,7 @@ export default {
                 inputStream.addTrack(track);
             }
 
-            if (role === 'teacher') {
+            if (role === 'consultant') {
             scriptButton.removeAttribute("style")
             }
             if(username) {
