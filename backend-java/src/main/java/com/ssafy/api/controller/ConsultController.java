@@ -1,7 +1,7 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.ConsultRegisterPostReq;
-import com.ssafy.api.response.ConsultListRes;
+import com.ssafy.api.response.ConsultMapRes;
 import com.ssafy.api.service.ConsultService;
 import com.ssafy.api.service.ScriptService;
 import com.ssafy.common.model.response.BaseResponseBody;
@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Api(value = "상담 API", tags = {"Consult."})
@@ -44,11 +44,11 @@ public class ConsultController {
     @GetMapping
     @ApiOperation(value = "대기중인 상담 조회", notes = "대기중인 상담 목록을 조회한다.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "대기중인 상담 목록 조회 성공", response = ConsultListRes.class),
+            @ApiResponse(code = 200, message = "대기중인 상담 목록 조회 성공", response = ConsultMapRes.class),
     })
-    public ResponseEntity<ConsultListRes> getWaitingList() {
-        List<Consult> waitingList = consultService.waitingList();
-        return ResponseEntity.status(200).body(ConsultListRes.of(200,"Success to get consult list", waitingList));
+    public ResponseEntity<ConsultMapRes> getWaitingMap() {
+        Map<Long, Consult> waitingConsultMap = consultService.waitingConsultMap();
+        return ResponseEntity.status(200).body(ConsultMapRes.of(200,"Success to get consult list", waitingConsultMap));
     }
 
     @PutMapping("/complete/{consultId}")

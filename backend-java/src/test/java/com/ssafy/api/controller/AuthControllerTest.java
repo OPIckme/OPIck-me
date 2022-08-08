@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest
+@Transactional
 public class AuthControllerTest {
 
     @Autowired
@@ -32,7 +34,7 @@ public class AuthControllerTest {
 
     @Test
     public void 로그인_성공() throws Exception {
-        String testId="user";
+        String testId="user123";
         String testPassword="password1";
 
         Map<String, String> input = new HashMap<>();
@@ -40,7 +42,7 @@ public class AuthControllerTest {
         input.put("password", testPassword);
 
         UserRegisterPostReq userRegisterInfo=new UserRegisterPostReq();
-        userRegisterInfo.setUsername("user");
+        userRegisterInfo.setUsername("user123");
         userRegisterInfo.setPassword("password1");
         userRegisterInfo.setEmail("user@naver.com");
         userRegisterInfo.setNickname("nickname");

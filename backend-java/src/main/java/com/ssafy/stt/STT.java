@@ -24,7 +24,8 @@ public class STT {
                     RecognitionConfig.newBuilder()
                             .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
                             .setLanguageCode("en-US")
-                            .setSampleRateHertz(16000)
+                            .setSampleRateHertz(48000)
+                            .setAudioChannelCount(1)
                             .build();
             RecognitionAudio audio = RecognitionAudio.newBuilder().setContent(audioBytes).build();
 

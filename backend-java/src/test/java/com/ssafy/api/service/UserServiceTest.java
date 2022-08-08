@@ -20,7 +20,7 @@ class UserServiceTest {
     void 회원가입() throws Exception {
         //given
         UserRegisterPostReq userRegisterInfo=new UserRegisterPostReq();
-        userRegisterInfo.setUsername("user");
+        userRegisterInfo.setUsername("user123");
         userRegisterInfo.setPassword("password");
         userRegisterInfo.setEmail("user@naver.com");
         userRegisterInfo.setNickname("nickname");
@@ -38,7 +38,7 @@ class UserServiceTest {
     void 중복_회원_예외() throws Exception {
         //given
         UserRegisterPostReq userRegisterInfo=new UserRegisterPostReq();
-        userRegisterInfo.setUsername("user");
+        userRegisterInfo.setUsername("user123");
         userRegisterInfo.setPassword("password");
         userRegisterInfo.setEmail("user@naver.com");
         userRegisterInfo.setNickname("nickname");
