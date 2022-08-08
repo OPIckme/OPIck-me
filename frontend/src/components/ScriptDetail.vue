@@ -31,8 +31,7 @@ import MainPageNavbar from './MainPageNavbar.vue';
 import FeedbackModal from './Modal/FeedbackModal.vue';
 import axios from 'axios';
 import { mapActions } from 'vuex';
-
-const API_URL = 'http://i7B202.p.ssafy.io:8080/api/v1/script';
+import {API_URL} from '@/api/http.js';
 
 
 export default {
@@ -58,7 +57,7 @@ export default {
             this.click = !this.click;
         },
         getScript(){
-          axios.get(API_URL + `/${this.scriptId}`)
+          axios.get(API_URL + `/script/${this.scriptId}`)
           .then(res => {
             console.log(res.data.script)
             this.script = res.data.script

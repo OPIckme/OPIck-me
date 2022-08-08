@@ -15,7 +15,7 @@
 <script>
 import MainPageNavbar from './MainPageNavbar.vue';
 import axios from 'axios';
-const API_URL = 'http://i7B202.p.ssafy.io:8080/api/v1/feedback';
+import {API_URL} from '@/api/http.js';
 
 export default {
     name: "FeedbackDetail",
@@ -36,7 +36,7 @@ export default {
             this.click = !this.click;
         },
         getFeedback(){
-          axios.get(API_URL + `/${this.feedbackId}`)
+          axios.get(API_URL + `/feedback/${this.feedbackId}`)
           .then(res => {
             console.log(res.data.feedback)
             this.feedback = res.data.feedback

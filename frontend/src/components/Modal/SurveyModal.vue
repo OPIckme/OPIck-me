@@ -130,9 +130,7 @@
 import axios from 'axios';
 
 import {uploadFile} from '@/plugins/s3upload';
-// import {main} from '@/plugins/stt'
-
-const API_URL = 'http://i7B202.p.ssafy.io:8080/api/v1';
+import {API_URL} from '@/api/http.js';
 import { mapActions } from 'vuex';
 
 

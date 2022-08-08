@@ -1,5 +1,5 @@
-import axios from 'axios'
-const API_URL = 'http://i7B202.p.ssafy.io:8080/api/v1/script';
+import axios from 'axios';
+import {API_URL} from '@/api/http.js';
 
 export const script = {
     state: {
@@ -19,7 +19,7 @@ export const script = {
 
     actions: {
         fetchScriptList( { commit } ) {
-            axios.get(API_URL)
+            axios.get(API_URL + '/script')
             .then(res =>{
               commit('SET_SCRIPTLIST', res.data.scriptList)
               console.log(res.data.scriptList)
@@ -27,7 +27,7 @@ export const script = {
         },
 
         fetchScript( { commit }, scriptId ) {
-            axios.get(API_URL + `/${scriptId}`)
+            axios.get(API_URL + `/script/${scriptId}`)
             .then(res => {
                 commit('SET_SCRIPT', res.data.script)
                 console.log(res.data.script)
@@ -36,7 +36,7 @@ export const script = {
 
         modifyScript( {commit}, {scriptId, scriptContent} ){
             axios({
-                url: API_URL + `/edit/${scriptId}`,
+                url: API_URL + `/script/edit/${scriptId}`,
                 method: 'put',
                 data: {scriptContent}
             })

@@ -22,10 +22,11 @@
 
 <script>
 import axios from 'axios';
-const API_URL = 'http://i7B202.p.ssafy.io:8080/api/v1';
+import {API_URL} from '@/api/http.js';
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
 import { mapActions } from 'vuex';
+
 
 export default {
   data() {

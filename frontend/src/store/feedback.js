@@ -1,5 +1,5 @@
-import axios from 'axios'
-const API_URL = 'http://i7B202.p.ssafy.io:8080/api/v1/feedback';
+import axios from 'axios';
+import {API_URL} from '@/api/http.js';
 
 export const feedback = {
     state: {
@@ -19,7 +19,7 @@ export const feedback = {
 
     actions: {
         fetchFeedbackList( { commit } ) {
-            axios.get(API_URL)
+            axios.get(API_URL +'/feedback')
             .then(res =>{
               commit('SET_FEEDBACKLIST', res.data)
               console.log(res.data)

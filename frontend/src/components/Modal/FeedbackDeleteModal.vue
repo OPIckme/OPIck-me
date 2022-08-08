@@ -19,7 +19,7 @@
 
 <script>
 import axios from 'axios';
-const API_URL = 'http://i7B202.p.ssafy.io:8080/api/v1/feedback';
+import {API_URL} from '@/api/http.js';
 import { mapActions } from 'vuex';
 
 export default {
@@ -38,7 +38,7 @@ export default {
       ...mapActions(['fetchFeedbackList']),
     deleteFeedback(){
       console.log(this.feedbackId)
-      axios.delete(API_URL + `/${this.feedbackId}`
+      axios.delete(API_URL + `/feedback/${this.feedbackId}`
       ).then(res => {
         console.log(res)
         this.fetchFeedbackList()
