@@ -1,6 +1,5 @@
 package com.ssafy.api.service;
 
-import com.ssafy.api.request.ScriptRegisterPostReq;
 import com.ssafy.db.entity.Question;
 import com.ssafy.db.entity.Script;
 import com.ssafy.db.entity.User;
@@ -17,5 +16,9 @@ public interface ScriptService {
     Optional<Script> getDetail(Long script_id);
     void deleteByScriptId(Long scriptId);
 
+
+    void getAudio(String keyName);
+
     Script modifyScript(Long scriptId, String content);
+
 }

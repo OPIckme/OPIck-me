@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="onSubmit">
         <div class="field padding-bottom--24">
-            <textarea v-model="content" cols="50" rows="5" id="content" style=width:700px;height:300px;></textarea>
+            <textarea v-model="content" cols="50" rows="5" id="content" ></textarea>
         </div>
         <div class="field padding-bottom--24">
             <button class="btn btn-primary">수정하기</button>

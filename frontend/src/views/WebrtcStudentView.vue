@@ -254,11 +254,11 @@ export default {
                 inputStream.addTrack(track);
             }
 
-            if (role === 'teacher') {
+            if (role === 'consultant') {
             scriptButton.removeAttribute("style")
             }
             if(username) {
-                var socket = new SockJS('http://3.34.51.116:8080/ws');
+                var socket = new SockJS('http://3.34.51.116:8000/ws');
                 stompClient = Stomp.over(socket);
                 stompClient.connect({}, () => {
                     stompClient.subscribe('/topic/public/' + room, onMessageReceived);

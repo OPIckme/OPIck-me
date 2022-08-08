@@ -1,5 +1,5 @@
 import axios from 'axios'
-const API_URL = 'http://localhost:8080/api/v1/feedback';
+const API_URL = 'http://i7B202.p.ssafy.io:8080/api/v1/feedback';
 
 export const feedback = {
     state: {

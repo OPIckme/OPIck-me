@@ -4,5 +4,5 @@ module.exports = defineConfig({
   lintOnSave:false,
   devServer:{
 	  allowedHosts:'all',
-  },
+  }
 })
