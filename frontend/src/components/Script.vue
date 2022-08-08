@@ -18,7 +18,7 @@ export default {
         ...mapActions(['fetchScriptList']),
     },
     created() {
-        this.fetchScriptList()
+        this.fetchScriptList(this.$store.state.auth.user.username)
     },
     computed: {
         currentUser() {
@@ -31,9 +31,7 @@ export default {
             this.$router.push("/");
         }
     },
-    // updated(){
-    //     this.fetchScriptList()
-    // },
+
     components: { ScriptCard, SurveyModal }
     }
 </script>

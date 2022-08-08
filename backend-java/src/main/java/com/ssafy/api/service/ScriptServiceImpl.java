@@ -27,6 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service("scriptService")
 @Transactional
@@ -57,7 +58,9 @@ public class ScriptServiceImpl implements ScriptService {
     }
 
     @Override
-    public List<Script> getScriptList() { return scriptRepository.findAll();}
+    public List<Script> getScriptList(Long userId) {
+        return scriptRepository.findAll().stream().filter(v -> v.getUser().getId() == userId).collect(Collectors.toList());
+    }
 
     @Override
     public Optional<Script> getDetail(Long scriptId) {return scriptRepository.findById(scriptId);}

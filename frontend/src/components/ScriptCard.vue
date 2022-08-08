@@ -36,9 +36,6 @@ export default {
         params:{scriptId:this.script.id}
         })
     },
-    // deleteScript(){
-    //   axios.delete(API_URL + `/${this.script.id}`)
-    // }
     },
 }
 </script>

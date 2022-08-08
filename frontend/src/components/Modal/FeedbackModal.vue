@@ -22,10 +22,11 @@
 
 <script>
 import axios from 'axios';
-const API_URL = 'http://i7B202.p.ssafy.io:8080/api/v1';
+import {API_URL} from '@/api/http.js';
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
 import { mapActions } from 'vuex';
+
 
 export default {
   data() {
@@ -50,7 +51,7 @@ export default {
             console.log(res)
             this.fetchWaitingConsultMap()
           })
-          var socket = new SockJS('http://3.34.51.116:8080/ws');
+          var socket = new SockJS('http://3.34.51.116:5443/ws');
           var stompClient = Stomp.over(socket);
           stompClient.connect({}, () => {
             stompClient.send("/topic/public/",
