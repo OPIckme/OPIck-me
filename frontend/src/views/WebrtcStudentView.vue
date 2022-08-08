@@ -258,7 +258,7 @@ export default {
             scriptButton.removeAttribute("style")
             }
             if(username) {
-                var socket = new SockJS('http://3.34.51.116:8000/ws');
+                var socket = new SockJS('http://3.34.51.116:5443/ws');
                 stompClient = Stomp.over(socket);
                 stompClient.connect({}, () => {
                     stompClient.subscribe('/topic/public/' + room, onMessageReceived);
