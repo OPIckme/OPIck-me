@@ -50,7 +50,7 @@ export default {
             console.log(res)
             this.fetchWaitingConsultMap()
           })
-          var socket = new SockJS('http://3.34.51.116:8000/ws');
+          var socket = new SockJS('http://3.34.51.116:5443/ws');
           var stompClient = Stomp.over(socket);
           stompClient.connect({}, () => {
             stompClient.send("/topic/public/",
