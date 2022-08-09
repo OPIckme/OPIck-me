@@ -1,11 +1,9 @@
 <template>
-<nav class="navbar" style="background-color:#0742F2; height: 80px;">
-  <div class="container-fluid">
-    <router-link to="/mainpage" @click.native="fetchHere1" :id="here1">
-      <img src="../assets/logo.png" alt="" style="width:100px">
-    </router-link>
-    <button  @click.native="fetchHere1" :id="here1" class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Logout" >Logout</button>
-  </div>
+<nav class="navbar sticky-top" style="background-color:#0742F2; height: 80px;">
+  <router-link class="position-absolute top-50 start-50 translate-middle  " to="/mainpage" @click.native="fetchHere1" :id="here1">
+    <img src="../assets/logo.png" alt="" style="width:120px">
+  </router-link>
+  <button  @click.native="fetchHere1" :id="here1" class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Logout" >Logout</button>
 </nav>
 <div v-if="role==='student'" class="menu d-flex justify-content-evenly" style="background-color:white;">
   <router-link to="/mainpage" @click.native="fetchHere1" class="script" :id="here1">Script</router-link>
@@ -55,7 +53,8 @@ export default {
   cursor: pointer;
   display: flex;
   font-family: Inter,sans-serif;
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: bold;
   height: 36px;
   justify-content: center;
   line-height: 24px;
@@ -67,6 +66,8 @@ export default {
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  position: relative;
+  left: 85%;
 }
 
 .Logout:after {
@@ -117,13 +118,15 @@ a{
 }
 #on{
   /* position:relative; */
-  color:#262626;
+  color:#020E33;
   text-decoration: underline;
+  text-underline-position:under;
 }
 .script{
   margin:0;
   padding:0;
-  font-size:50px;
+  font-size:45px;
+  font-weight: bold;
   font-family: Inter,sans-serif;
   text-transform:uppercase;
   position:relative;
@@ -132,13 +135,14 @@ a{
 .script:before{
   content:"script";
   position:absolute;
-  color:#262626;
+  color:#020E33;
   top:0;
   left:0;
   width:0%;
   overflow:hidden;
   transition:all 0.5s;
   text-decoration: underline;
+  text-underline-position:under;
 }
 .script:hover:before{
   width:100%;
@@ -149,7 +153,9 @@ a{
 .feedback{
   margin:0;
   padding:0;
-  font-size:50px;
+  font-size:45px;
+  font-weight: bold;
+  font-family: Inter,sans-serif;
   text-transform:uppercase;
   position:relative;
   color:#ccc;
@@ -157,13 +163,14 @@ a{
 .feedback:before{
   content:"feedback";
   position:absolute;
-  color:#262626;
+  color:#020E33;
   top:0;
   left:0;
   width:0%;
   overflow:hidden;
   transition:all 0.5s;
   text-decoration: underline;
+  text-underline-position:under;
 }
 .feedback:hover:before{
   width:100%;

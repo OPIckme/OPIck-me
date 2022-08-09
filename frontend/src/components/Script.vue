@@ -1,6 +1,6 @@
 <template>
 <!-- Script 생성 버튼 -->
-<button style="margin-top:2.5rem; margin-bottom: 2rem; width: 200px; height: 45px;" class="btn btn-primary scriptbutton" data-bs-toggle="modal" href="#SurveyModal" role="button">Script 생성</button>
+<button style="margin-top:2.5rem; margin-bottom: 1rem; margin-left: 0.5rem; width: 200px; height: 45px;" class="btn btn-primary scriptbutton" data-bs-toggle="modal" href="#SurveyModal" role="button">Script 생성</button>
 <!-- script card -->
 <div  class="row">
     <ScriptCard 
@@ -44,6 +44,7 @@ export default {
 </script>
 
 <style scoped>
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
 .scriptbutton{
     display: inline-block;
     outline: 0;
