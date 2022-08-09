@@ -3,34 +3,19 @@
   <div class="row">
     <p class="col">{{ waitingconsult.script.question.topic }}</p>
     <p class="col-6">{{ waitingconsult.script.question.questionContent }}</p>
-    <button @click="changeState" class="btn col" style="color:white; background-color:#F2CB05;" data-bs-toggle="modal" data-bs-target="#Consultstart">상담하기</button>
+    <button class="btn col" style="color:white; background-color:#F2CB05;" data-bs-toggle="modal" data-bs-target="#Consultstart">상담하기</button>
   </div>
 </div>
-<ConsultStartModal></ConsultStartModal>
+<ConsultStartModal :waitingconsult="waitingconsult"></ConsultStartModal>
 </template>
 
 <script>
 import ConsultStartModal from './Modal/ConsultStartModal.vue'
-import axios from 'axios';
-import { mapActions } from 'vuex';
-import {API_URL} from '@/api/http.js';
 
 export default {
     name: "ConsultCard",
     props : {
       waitingconsult : Object
-    },
-    setup() {
-    },
-    methods: {
-      ...mapActions(['fetchWaitingConsultMap']),
-        changeState(){
-          axios.put(API_URL+ `consult/complete/${this.waitingconsult.id}`
-          ).then(res => {
-            console.log(res)
-            this.fetchWaitingConsultMap()
-          })
-    },
     },
     components : { ConsultStartModal }
 }

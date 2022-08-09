@@ -63,7 +63,12 @@ public class ScriptServiceImpl implements ScriptService {
     }
 
     @Override
-    public Optional<Script> getDetail(Long scriptId) {return scriptRepository.findById(scriptId);}
+    public Optional<Script> getDetail(Long scriptId, Long userId) {
+        return scriptRepository.findById(scriptId).filter(v->v.getUser().getId() == userId);
+    }
+
+//    @Override
+//    public Optional<Script> getDetail(Long scriptId) {return scriptRepository.findById(scriptId);}
 
     @Override
     public void deleteByScriptId(Long scriptId) {

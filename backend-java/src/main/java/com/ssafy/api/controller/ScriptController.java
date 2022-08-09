@@ -85,7 +85,8 @@ public class ScriptController {
     })
     public ResponseEntity<ScriptDetailRes> getScriptDetail(@PathVariable String username, @PathVariable Long scriptId){
         User user = userService.getUserByUsername(username).get();
-        Script script = scriptService.getDetail(scriptId).get();
+        Long userId = user.getId();
+        Script script = scriptService.getDetail(scriptId, userId).get();
 
         return ResponseEntity.status(200).body(ScriptDetailRes.of(200,"스크립트 세부사항 불러오기 성공!",script));
     }

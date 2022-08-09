@@ -18,10 +18,8 @@ export const consult = {
         fetchWaitingConsultMap( { commit } ) {
           axios.get(API_URL +'/consult')
           .then(res =>{
-            commit('SET_WAITINGCONSULTMAP', res.data.consultMap)
-            console.log(res.data.consultMap)              
+            commit('SET_WAITINGCONSULTMAP', res.data.consultMap)   
         } ).catch(error => console.log(error.resonse))         
       },
     },
-
   }

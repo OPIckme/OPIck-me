@@ -177,7 +177,6 @@ export default {
         keyName: "testAudio.mp3",
     }).then(res=>{
       console.log(res)
-      this.fetchScriptList()
     })
   },
 

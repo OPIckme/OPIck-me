@@ -8,9 +8,7 @@
       </div>
       <div class="modal-body">
         <p>상담을 시작합니다.</p>
-        <div class="spinner-border text-primary" role="status">
-        <button type="button" class="btn btn-primary"  @click="feedBack()">Yes</button>
-        </div>
+        <button type="button" class="btn btn-primary"  @click="startConsult()">Yes</button>
       </div>
     </div>
   </div>
@@ -18,11 +16,23 @@
 </template>
 
 <script>
+import axios from 'axios';
+import { mapActions } from 'vuex';
+import {API_URL} from '@/api/http.js';
 
 export default {
+  name: "ConsultStartModal",
+  props: {
+    waitingconsult : Object
+  },
   methods : {
-    feedBack() {
-            this.$router.push("/webrtcstudent");
+    ...mapActions(['fetchWaitingConsultMap']),
+    startConsult() {
+          axios.put(API_URL+ `/consult/complete/${this.waitingconsult.id}`
+          ).then(res => {
+          this.fetchWaitingConsultMap()
+          })
+          this.$router.push("/webrtcstudent");
         },
   }
 }
