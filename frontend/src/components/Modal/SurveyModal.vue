@@ -33,7 +33,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button @click="getQuestion(topic,level),level='',topic=''" class="btn btn-primary" data-bs-target="#SurveyModal2" data-bs-toggle="modal">START</button>
+        <button @click="getQuestion(topic,level)" class="btn btn-primary" :data-bs-target="surveyCheck()" data-bs-toggle="modal">START</button>
       </div>
     </div>
   </div>
@@ -141,6 +141,7 @@ export default {
       topic : '',
       level : '',
       questionInfo : {},
+      audio: {},
       audioUrl : '',
       userId:this.$store.state.auth.user.id,
       //---audio 녹음 data 시작--
@@ -154,7 +155,7 @@ export default {
   methods : {
     ...mapActions(['fetchScriptList']),
 
-     getQuestion(topic,level) {
+      getQuestion(topic,level) {
     axios.get(API_URL + '/question/random', {
       params: {
         topic: topic,
@@ -168,6 +169,14 @@ export default {
         console.log(this.questionInfo)
       });
   },
+
+      surveyCheck() {
+        // survey에서 topic이나 level이 선택 안되면 넘어가지 않는다.
+        
+        if (this.topic !== "" && this.level !== "") { // topic과 level이 선택되어야만
+          return "#SurveyModal2";
+          }
+      },
 
   saveScript() {
     axios.post(API_URL + '/script', {
