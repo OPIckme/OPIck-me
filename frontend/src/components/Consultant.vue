@@ -27,7 +27,7 @@ export default {
             this.$router.push("/");
         }
 
-        var socket = new SockJS('http://3.34.51.116:8080/ws');
+        var socket = new SockJS('https://3.34.51.116:8443/ws');
         var stompClient = Stomp.over(socket);
         stompClient.connect({}, () => {
             stompClient.subscribe('/topic/public/', (payload) => {
