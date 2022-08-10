@@ -50,7 +50,7 @@
                         <option value="#37B24D">녹색</option>
                     </select>
                 </div>
-                <div class="row" ref="script" contenteditable="true" style="display : inline; outline : none">
+                <div class="row" ref="script" contenteditable="true" style="display : none; outline : none">
                     Who is your favorite actor or actress?
                     Describe a particular story about something this person did which you heard about in the news.
                     Begin with some details about the actor or actress and then describe all the details of what occurred,
@@ -123,6 +123,12 @@ var dataChannel = peerConnection.createDataChannel("dataChannel", { reliable: tr
 var stompClient = null;
 
 export default {
+    props: {
+        room : {
+            type: String,
+            default: ""
+        }
+    },
     mounted() {
         const fontSizeSelector = this.$refs.fontSize;
         const selectFontColor = this.$refs.fontColor
@@ -130,10 +136,11 @@ export default {
         var copy = this.$refs.copy
         var messageArea = this.$refs.messageArea;
         var username = this.$store.state.auth.user.username;
-        var room = 'wow';
+        var room = this.$route.params.room;
         var videoInput = this.$refs.videoInput
         var videoOutput = this.$refs.videoOutput
         var script = this.$refs.script
+        var pre = this.$refs.script.innerHTML
         let btnBold = this.$refs.btnBold
         let role = this.$store.state.auth.user.role
         let inboundStream = null;
@@ -365,7 +372,7 @@ export default {
                 editorMenu.removeAttribute("style")
             }
             if(username) {
-                var socket = new SockJS('https://localhost:5443/ws');
+                var socket = new SockJS('https://3.34.51.116:8443/ws');
                 stompClient = Stomp.over(socket);
                 stompClient.connect({}, () => {
                     stompClient.subscribe('/topic/public/' + room, onMessageReceived);
@@ -415,17 +422,20 @@ export default {
 
         openCall()
         
-        setInterval(() => {
-            var pre = this.$refs.script.innerHTML
+        var interval = setInterval(() => {
+            console.log(pre)
             var post = this.$refs.script.innerHTML            
             if (pre != post){
                 dataChannel.send(JSON.stringify({
                     "username" : this.$store.state.auth.user.username,
                     "message" : post
                 }))
+                pre = post
             }
-            }, 100)
-
+            if (pre === null){
+                clearInterval(interval)
+            }
+        }, 100)
     },
     computed: {
         currentUser() {
@@ -434,7 +444,7 @@ export default {
     },
     methods: {
         scriptControl(){
-            if (scriptButton.innerText === 'Script ON'){
+            if (this.$refs.scriptButton.innerText === 'Script ON'){
                 dataChannel.send("스크립트 시작")
                 script.removeAttribute("style")
                 this.$refs.videoInput.classList.remove("col-8")

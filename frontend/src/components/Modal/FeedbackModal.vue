@@ -32,26 +32,27 @@ export default {
   data() {
     return {
       feedbackModalId: "create" + this.scriptId,
+      roomId: Math.random().toString(36)
     }
   },
   props: {
     scriptId: String,
-    script: Object
+    script: Object,
   },
   methods: {
     ...mapActions(['fetchWaitingConsultMap']),
         feedBack() {
-            this.$router.push("/webrtcstudent");
+            this.$router.push({name : "webrtcstudent", params: {room: this.roomId}});
         },
         createConsult() {
           axios.post(API_URL + '/consult', {
-            room: "www.naver.com",
+            room: this.roomId,
             scriptId: this.scriptId
           }).then(res => {
             console.log(res)
             this.fetchWaitingConsultMap()
           })
-          var socket = new SockJS('http://3.34.51.116:5443/ws');
+          var socket = new SockJS('https://3.34.51.116:8443/ws');
           var stompClient = Stomp.over(socket);
           stompClient.connect({}, () => {
             stompClient.send("/topic/public/",
@@ -62,6 +63,6 @@ export default {
             )
             }, () => {});
         }
-    },
+    }
 }
 </script>
