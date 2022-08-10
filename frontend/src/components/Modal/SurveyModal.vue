@@ -4,7 +4,7 @@
   <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalToggleLabel">Survey</h5>
+        <h5 class="modal-title" id="exampleModalToggleLabel">Survey(Topic과 Level을 선택해주세요.)</h5>
         <!-- select level -->
         <div class="d-flex flex-column">
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -43,18 +43,40 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalToggleLabel2">문제듣기</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="stopSound()"></button>
       </div>
       <div class="modal-body">
         <!-- 듣기 -->
-        <svg @click.prevent.once="playSound(audioUrl)" xmlns="http://www.w3.org/2000/svg" width="160" height="160" fill="currentColor" class="bi bi-volume-up-fill" viewBox="0 0 16 16">
+        <svg @click="playSound(audioUrl)" xmlns="http://www.w3.org/2000/svg" width="160" height="160" fill="currentColor" class="bi bi-volume-up-fill" viewBox="0 0 16 16" id="problem_listen">
           <path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/>
           <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/>
           <path d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"/>
         </svg>
+        <!-- 문제 듣기 안되는 스피커 -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="160"
+            height="160"
+            fill="currentColor"
+            class="bi bi-volume-up-fill"
+            viewBox="0 0 16 16"
+            id="problem_nolisten"
+            display="none"
+          >
+            <!-- v-if="!isPlaying" -->
+            <path
+              d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"
+            />
+            <path
+              d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"
+            />
+            <path
+              d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"
+            />
+          </svg>
         <!-- 녹음 -->
         <h1>
-          <svg class="bi bi-record-circle" @click="start" data-bs-target="#SurveyModal3" data-bs-toggle="modal" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 16 16">
+          <svg class="bi bi-record-circle" @click="start" data-bs-target="#SurveyModal3" data-bs-toggle="modal" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 16 16" display="none" id="record_script">
             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
             <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
           </svg>
@@ -128,12 +150,11 @@
 
 <script>
 import axios from 'axios';
+// import InputTopic from "../InputTopic.vue";
 
 import {uploadFile} from '@/plugins/s3upload';
 import {API_URL} from '@/api/http.js';
 import { mapActions } from 'vuex';
-
-
 
 export default {
   data(){
@@ -144,6 +165,7 @@ export default {
       audio: {},
       audioUrl : '',
       userId:this.$store.state.auth.user.id,
+      category: ["해외 여행", "국내 여행"],
       //---audio 녹음 data 시작--
       mediaRecorder:null,
       audioArray : [],
@@ -156,6 +178,14 @@ export default {
     ...mapActions(['fetchScriptList']),
 
       getQuestion(topic,level) {
+        if (this.topic == "" && this.level !== "") { // topic이 선택되지 않았을 때
+          alert("Topic을 선택해주세요.");
+          }
+
+         if (this.topic !== "" && this.level == "") { // level이 선택되지 않았을 때
+          alert("Level을 선택해주세요.");
+          }
+
     axios.get(API_URL + '/question/random', {
       params: {
         topic: topic,
@@ -172,7 +202,7 @@ export default {
 
       surveyCheck() {
         // survey에서 topic이나 level이 선택 안되면 넘어가지 않는다.
-        
+
         if (this.topic !== "" && this.level !== "") { // topic과 level이 선택되어야만
           return "#SurveyModal2";
           }
@@ -189,15 +219,70 @@ export default {
     })
   },
 
-    playSound (sound) {
-      if(sound) {
-        var audio = new Audio(sound);
-        audio.play();
+    playSound(sound) {
+      // 문제 듣기
+      if (sound) {
+        this.audio = new Audio(sound); // data에 audio 객체 있음.
+        this.audio.play();
+
+        const problem_listen = document.getElementById("problem_listen"); // 문제 듣기 가져오기
+        const problem_nolisten = document.getElementById("problem_nolisten"); // 문제 듣지 않기 가져오기
+
+        // problem_listen 숨기기 (display: none)
+        if (problem_listen.style.display !== "none") {
+          // none이 아니면 none으로 바꿔서 숨기기
+          problem_listen.style.display = "none";
+        }
+
+        // problem_nolisten 보이기 (display: block)
+        if (problem_nolisten.style.display !== "block") {
+          // block 아니면 block 바꿔서 보이기
+          problem_nolisten.style.display = "block";
+        }
+
+        this.audio.onended = function () {
+          // 문제 듣기가 종료되었을 때
+
+          // problem_listen 보이기 (display: block)
+          if (problem_listen.style.display !== "block") {
+            // block 아니면 block 바꿔서 보이기
+            problem_listen.style.display = "block";
+          }
+
+          // problem_nolisten 숨기기 (display: none)
+          if (problem_nolisten.style.display !== "none") {
+            // none이 아니면 none으로 바꿔서 숨기기
+            problem_nolisten.style.display = "none";
+          }
+
+          const record = document.getElementById("record_script"); // 녹음 아이디 가져오기 v-if로 고치기
+
+          // record 녹음 버튼 보이기 (display: none)
+          if (record.style.display !== "block") {
+            // 원래 안보였으면
+            record.style.display = "block"; // 보이게 하기
+          }
+        };
       }
     },
-  
+
+    stopSound() {
+      // 문제 듣기를 중지한다.
+      this.audio.pause(); // 데이터에서 가져와서 사용한다. 오디오를 정지한다.
+      this.audio.currentTime = 0; // 오디오 시간 초기화
+
+      const record = document.getElementById("record_script"); // 녹음 아이디 가져오기
+
+      // modal X 버튼 누르면 record 녹음 버튼 숨기기
+      if (record.style.display !== "none") {
+        // 원래 보였으면
+        record.style.display = "none"; // 숨기기
+      }
+    },
 
    async start(){
+            this.stopSound(); // 문제를 듣다가 녹음 버튼 누르면 문제 듣기 종료
+
             // 마이크 mediaStream 생성: Promise를 반환하므로 async/await 사용
             const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
 
