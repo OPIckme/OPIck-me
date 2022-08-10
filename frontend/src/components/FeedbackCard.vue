@@ -1,15 +1,10 @@
 <template>
-<div class="card" style="width: 16rem; height: 12rem;">
+<div class="card text-center">
   <div class="card-body">
-    <svg data-bs-toggle="modal" :data-bs-target="feedbackDeleteModalId" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-      <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
-    </svg>
-    <div  style="background-color:#0742F2;">
-      <p>{{ feedback.created_at.slice(0,10) }}</p>
-      <p>{{ feedback.script.question.topic }}</p>
-    </div>
-      <button @click="routingDetail" class="btn" style="color:white; background-color:#F2CB05;">복습하기</button>
+    <i class="bi bi-trash3" style="margin-top:0.2rem; float: right; font-size: 17px;" data-bs-toggle="modal" :data-bs-target="feedbackDeleteModalId"></i>
+    <p style="margin-top: 0.5rem; text-align: left; font-size:13px;">{{ feedback.created_at.slice(0,10) }}</p>
+    <p class="topic">{{ feedback.script.question.topic }}</p>
+    <button @click="routingDetail" class="btn">Review</button>
   </div>
 </div>
 <FeedbackDeleteModal :feedbackId="feedback.id"></FeedbackDeleteModal>
@@ -43,7 +38,48 @@ export default {
 </script>
 
 <style scoped>
-p {
-  color : white;
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
+.card{
+  width: 18rem; 
+  height: 12rem; 
+  margin: 1rem; 
+  margin-left: 1.25rem; 
+  margin-right: 1.25rem;
+  border-radius: 15px;
+}
+.topic{
+  margin-top: 0.5rem; 
+  font-size:20px; 
+  font-weight: bold;
+}
+/* CSS */
+button {
+  margin-top: 1.2rem;
+  background-color: #F2CB05;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+  transition: 200ms;
+  width: 100%;
+  box-sizing: border-box;
+  border: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+button:not(:disabled):hover,
+button:not(:disabled):focus {
+  outline: 0;
+  background: #F2CB05;
+  box-shadow: 0 0 0 2px rgba(0,0,0,.2), 0 3px 8px 0 rgba(0,0,0,.15);
+}
+
+button:disabled {
+  filter: saturate(0.2) opacity(0.5);
+  -webkit-filter: saturate(0.2) opacity(0.5);
+  cursor: not-allowed;
 }
 </style>
