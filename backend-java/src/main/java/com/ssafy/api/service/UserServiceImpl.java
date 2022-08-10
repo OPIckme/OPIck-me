@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void validateDuplicateMember(UserRegisterPostReq userRegisterInfo) {
 		if (getUserByUsername(userRegisterInfo.getUsername()).orElse(null) != null) {
-			throw new IllegalStateException("이미 존재하는 회원입니다.");
+			throw new IllegalStateException("Please enter a different username.");
 		}
 	}
 	@Override
