@@ -13,7 +13,7 @@ public interface ScriptService {
     Optional<Script> getScriptByScriptId(Long scriptId);
     List<Script> getScriptList(Long userId);
 
-    Optional<Script> getDetail(Long script_id);
+    Optional<Script> getDetail(Long scriptId, Long userId);
     void deleteByScriptId(Long scriptId);
 
 

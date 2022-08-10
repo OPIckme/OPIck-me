@@ -13,7 +13,7 @@ public interface FeedbackService {
     BaseResponseBody delete(Long feedbackId);
     Feedback create(String content, Script script);
     List<Feedback> getList(Long userId);
-    Optional<Feedback> getDetail(Long feedbackId);
+    Optional<Feedback> getDetail(Long feedbackId, Long userId);
 
     boolean overlapCheck(Long scriptId);
 }
