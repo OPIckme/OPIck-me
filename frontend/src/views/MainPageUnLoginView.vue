@@ -39,7 +39,6 @@ export default {
 </script>
 
 <style>
-
 /* login button CSS */
 .navbar{
   z-index: 1;
@@ -48,7 +47,7 @@ export default {
   align-items: center;
   background-color: #F2CB05;
   border: 1px solid #111;
-  border-radius: 8px;
+  border-radius: 50px;
   box-sizing: border-box;
   color: white;
   cursor: pointer;
@@ -70,7 +69,7 @@ export default {
 
 .Login:after {
   background-color: #111;
-  border-radius: 8px;
+  border-radius: 50px;
   content: "";
   display: block;
   height: 48px;

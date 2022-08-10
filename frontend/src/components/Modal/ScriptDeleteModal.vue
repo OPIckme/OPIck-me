@@ -20,8 +20,8 @@
 
 <script>
 import axios from 'axios';
-const API_URL = 'http://i7B202.p.ssafy.io:8080/api/v1/script';
 import { mapActions } from 'vuex';
+import {API_URL} from '@/api/http.js';
 
 export default {
     name: "ScriptDeleteModal",
@@ -39,10 +39,10 @@ export default {
     ...mapActions(['fetchScriptList']),
     deleteScript(){
       console.log(this.scriptId)
-      axios.delete(API_URL + `/${this.scriptId}`
+      axios.delete(API_URL + `/script/${this.scriptId}`
       ).then(res => {
         console.log(res)
-        this.fetchScriptList()
+        this.fetchScriptList(this.$store.state.auth.user.username)
         })
       }
     },

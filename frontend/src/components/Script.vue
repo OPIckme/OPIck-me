@@ -1,8 +1,15 @@
 <template>
 <!-- Script 생성 버튼 -->
-<a class="btn btn-primary" data-bs-toggle="modal" href="#SurveyModal" role="button">Script 생성</a>
+<button style="margin-top:2.5rem; margin-bottom: 1rem; margin-left: 0.5rem; width: 200px; height: 45px;" class="btn btn-primary scriptbutton" data-bs-toggle="modal" href="#SurveyModal" role="button">Script 생성</button>
 <!-- script card -->
-<ScriptCard v-for="script in scriptList" :key="script.id" :script="script"></ScriptCard>
+<div  class="row">
+    <ScriptCard 
+    class="col-lg-2 col-md-3 col-sm-4" 
+    v-for="script in scriptList" 
+    :key="script.id" 
+    :script="script">
+    </ScriptCard>
+</div>
 
 <SurveyModal></SurveyModal>
 </template>
@@ -18,7 +25,7 @@ export default {
         ...mapActions(['fetchScriptList']),
     },
     created() {
-        this.fetchScriptList()
+        this.fetchScriptList(this.$store.state.auth.user.username)
     },
     computed: {
         currentUser() {
@@ -31,9 +38,39 @@ export default {
             this.$router.push("/");
         }
     },
-    // updated(){
-    //     this.fetchScriptList()
-    // },
+
     components: { ScriptCard, SurveyModal }
     }
 </script>
+
+<style scoped>
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
+.scriptbutton{
+    display: inline-block;
+    outline: 0;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+    padding: 9px 22px;
+    font-size: 20px;
+    height: 50px;
+    font-weight: 400;
+    color: #fff;
+    text-align: center;
+    line-height: normal;
+    background: #0742F2;
+    border-radius: 50px;
+    transition: 200ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+.scriptbutton:not(:disabled):hover,
+.scriptbutton:not(:disabled):focus{
+    outline: 0;
+    background: #0742F2;
+    box-shadow: 0 0 0 2px rgba(0,0,0,.2), 0 3px 8px 0 rgba(0,0,0,.15);
+}
+                
+                
+</style>

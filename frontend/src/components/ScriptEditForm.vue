@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="onSubmit">
         <div class="field padding-bottom--24">
-            <textarea v-model="content" cols="50" rows="5" id="content" ></textarea>
+            <textarea v-model="content" cols="50" rows="5" id="content"></textarea>
         </div>
         <div class="field padding-bottom--24">
             <button class="btn btn-primary">수정하기</button>
@@ -20,7 +20,8 @@ export default {
     },
     data() {
         return {
-            content: this.script.scriptContent
+            content: this.script.scriptContent,
+            username: this.$store.state.auth.user.username
         }
     },
     methods: {
@@ -31,7 +32,8 @@ export default {
             scriptContent: this.content
             }
             this.modifyScript(payload)
-            this.fetchScript(this.script.id)
+            console.log(this.username, this.script.id)
+            this.fetchScript(this.username, this.script.id)
             this.$router.push({
             name:'scriptdetail',
             params:{scriptId:this.script.id}

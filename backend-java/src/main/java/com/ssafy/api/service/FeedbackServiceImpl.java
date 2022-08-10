@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +31,8 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Transactional(readOnly = true)
-    public List<Feedback> getList(){
-        return feedbackRepository.findAll();
+    public List<Feedback> getList(Long userId){
+        return feedbackRepository.findAll().stream().filter(v -> v.getScript().getUser().getId() == userId).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
