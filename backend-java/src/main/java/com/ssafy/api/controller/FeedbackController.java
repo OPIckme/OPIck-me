@@ -60,7 +60,8 @@ public class FeedbackController {
     @ApiOperation(value = "피드백 디테일 조회", notes = "피드백 id로 디테일 조회.")
     public ResponseEntity<FeedbackRes> getDetail(@PathVariable String username, @PathVariable Long feedbackId){
         User user = userService.getUserByUsername(username).get();
-        Feedback feedback= feedbackService.getDetail(feedbackId).orElseThrow(new Supplier<IllegalArgumentException>() {
+        Long userId = user.getId();
+        Feedback feedback= feedbackService.getDetail(feedbackId, userId).orElseThrow(new Supplier<IllegalArgumentException>() {
             @Override
             public IllegalArgumentException get() {
                 return new IllegalArgumentException("해당 피드백이 없습니다. id : " + feedbackId);
