@@ -1,51 +1,34 @@
 <template>
-<ConsultCard v-for="waitingconsult in waitingConsultMap" :key="waitingconsult.id" :waitingconsult="waitingconsult"></ConsultCard>
+<div class="container text-center border border-dark border-start-0 border-end-0" style="background-color:white;">
+  <div class="row">
+    <p class="col">{{ waitingconsult.script.question.topic }}</p>
+    <p class="col-6">{{ waitingconsult.script.question.questionContent }}</p>
+    <button @click="changeState" class="btn col" style="color:white; background-color:#F2CB05;" data-bs-toggle="modal" :data-bs-target="waitingconsultId">상담하기</button>
+  </div>
+</div>
+<ConsultStartModal :waitingconsult="waitingconsult"></ConsultStartModal>
 </template>
 
 <script>
-import { mapActions,mapGetters } from 'vuex';
-import Stomp from 'webstomp-client'
-import SockJS from 'sockjs-client'
-import ConsultCard from './ConsultCard.vue';
+import ConsultStartModal from './Modal/ConsultStartModal.vue'
+import { mapActions } from 'vuex';
+
 
 export default {
-    name:'Consultant',
+    name: "ConsultCard",
+    data() {
+      return {
+        waitingconsultId : '#consult' + this.waitingconsult.id
+      }
+    },
+    props : {
+      waitingconsult : Object
+    },
+    setup() {
+    },
     methods: {
-        ...mapActions(['fetchWaitingConsultMap']),
+      ...mapActions(['fetchWaitingConsultMap']),
     },
-    created() {
-        this.fetchWaitingConsultMap()
-    },
-    computed: {
-        ...mapGetters(['waitingConsultMap']),
-        currentUser() {
-            return this.$store.state.auth.user;
-        },
-    },
-    mounted() {
-        if (!this.currentUser) {
-            this.$router.push("/");
-        }
-
-        var socket = new SockJS('https://3.34.51.116:8443/ws');
-        var stompClient = Stomp.over(socket);
-        stompClient.connect({}, () => {
-            stompClient.subscribe('/topic/public/', (payload) => {
-                var message = JSON.parse(payload.body);
-                console.log({script : {
-                    id : message.id,
-                    question : {
-                        topic : message.topic,
-                        questionContent : message.questionContent
-                        }}})
-                this.waitingConsultMap.push({script : {
-                    id : message.id,
-                    question : {
-                        topic : message.topic,
-                        questionContent : message.questionContent
-                    }}})
-            })}, () =>{});
-    },
-    components: { ConsultCard }
+    components : { ConsultStartModal }
 }
 </script>
