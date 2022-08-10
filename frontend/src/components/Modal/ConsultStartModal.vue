@@ -9,7 +9,7 @@
       <div class="modal-body">
         <p>상담을 시작합니다.</p>
         <div class="spinner-border text-primary" role="status">
-        <button type="button" class="btn btn-primary"  @click="[feedBack(), changeState()]">Yes</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"  @click="[feedBack(), changeState()]">Yes</button>
         </div>
       </div>
     </div>
