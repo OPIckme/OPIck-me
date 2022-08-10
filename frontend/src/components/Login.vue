@@ -13,14 +13,23 @@
     <Form @submit="handleRegister" :validation-schema="schema">
       <h1>Sign Up</h1>
       <div v-if="!successful">
+      <div class="form-group">
         <Field name="username" type="text" placeholder="ID" class="form-control" />
         <ErrorMessage name="username" class="error-feedback" />
+      </div>
+      <div class="form-group">
         <Field name="password" type="password" placeholder="Password" class="form-control" />
         <ErrorMessage name="password" class="error-feedback" />
+      </div>
+      <div class="form-group">
         <Field name="email" type="email" placeholder="Email" class="form-control" />
         <ErrorMessage name="email" class="error-feedback" />
+      </div>
+      <div class="form-group">
         <Field name="nickname" type="nickname" placeholder="Nickname" class="form-control" />
         <ErrorMessage name="nickname" class="error-feedback" />
+      </div>
+      <div class="form-group">
         <button class="btn" :disabled="loading">
           <span
             v-show="loading"
@@ -29,28 +38,27 @@
           Sign Up
         </button>
       </div>
+      </div>
     </Form>
 	</div>
 	<div class="form-container sign-in-container">
     <Form @submit="handleLogin" :validation-schema="schema">
       <h1>Sign In</h1>
-        <div class="form-group">
-          <Field name="username" type="text" placeholder="Username" class="form-control" />
-          <ErrorMessage name="username"  class="error-feedback" />
-        </div>
+      <div class="form-group">
+        <Field name="username" type="text" placeholder="Username" class="form-control" />
+        <ErrorMessage name="username"  class="error-feedback" />
+      </div>
       <div class="form-group">
         <Field name="password" type="password" placeholder="Password" class="form-control" />
         <ErrorMessage name="password" class="error-feedback" />
       </div>
-      <div class="form-group">
-        <button class="btn" :disabled="loading">
-          <span
-            v-show="loading"
-            class="spinner-border spinner-border-sm"
-          ></span>
-          <span>Sign In</span>
-        </button>
-      </div>
+      <button class="btn" :disabled="loading">
+        <span
+          v-show="loading"
+          class="spinner-border spinner-border-sm"
+        ></span>
+        <span>Sign In</span>
+      </button>
     </Form>
 	</div>
 
@@ -218,10 +226,13 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+.form-group{
+  width: 350px;
+}
 
 h1 {
   font-weight: bold;
-  margin: 0;
+  margin-bottom: 1rem;
 }
 
 p {

@@ -10,8 +10,8 @@
         상담을 종료하시겠습니까?
       </div>
       <div class="modal-footer">
-        <button v-if="role==='student'" type="button" class="btn btn-primary"  @click="consultCloseStudent">Yes</button>
-        <button v-else type="button" class="btn btn-primary"  @click="consultCloseConsult">Yes</button>
+        <button v-if="role==='student'" type="button" class="btn btn-primary" data-bs-dismiss="modal"  @click="consultCloseStudent">Yes</button>
+        <button v-else type="button" class="btn btn-primary" data-bs-dismiss="modal"  @click="consultCloseConsult">Yes</button>
       </div>
     </div>
   </div>
