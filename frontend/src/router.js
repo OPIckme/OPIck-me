@@ -61,6 +61,7 @@ const routes = [
     name: "webrtcstudent",
     // lazy-loaded
     component: WebrtcStudentView,
+    props: true
   },
   {
     path: "/user",
