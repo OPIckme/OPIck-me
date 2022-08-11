@@ -208,7 +208,6 @@ import {uploadFile} from '@/plugins/s3upload';
 import { mapActions } from 'vuex';
 import { v4 } from 'uuid';
 import {API_URL} from '@/api/http.js';
-import { mapActions } from 'vuex';
 
 
 export default {
