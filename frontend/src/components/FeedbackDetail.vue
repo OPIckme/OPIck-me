@@ -20,7 +20,7 @@
     <p>{{ createdAt.slice(0,-3) }}</p>
     <hr>
     <p>[Script]</p>
-    <div id="content"></div>
+    <div class="script" id="content"></div>
   </div>
 </div>
 </template>
