@@ -19,20 +19,17 @@
     <h2>Q. {{ script.question.questionContent }}</h2>
     <p>{{ script.createdAt.slice(0,10) }}</p>
     <hr>
+    <div class="buttonbar d-flex justify-content-between">
+      <audio controls :src=script.audioUrl></audio>
+      <div class="buttons">
+        <!-- 스크립트 수정하기 -->
+        <button class="btn" @click="routingScriptEdit"><i class="bi bi-pencil-fill"></i>수정하기</button>
+        <!-- 피드백 신청하기 -->
+        <button @click.prevent="createConsult" data-bs-toggle="modal" :data-bs-target="feedbackModalId" class="btn"><i class="bi bi-people-fill"></i>피드백 신청하기</button>
+      </div>
+    </div>
     <p>[Script]</p>
     <p class="script">{{ script.scriptContent }}</p>
-    <!-- 재생 -->
-    <svg @click.prevent="clickCaret(), play(audio)" v-if="click" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
-      <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
-    </svg>
-    <!-- 정지 -->
-    <svg @click.prevent="clickCaret(), pause(audio)" v-if="!click" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16">
-      <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/>
-    </svg>
-    <!-- 스크립트 수정하기 -->
-    <button class="btn btn-primary" @click="routingScriptEdit"><i class="bi bi-pencil-fill"></i>수정하기</button>
-    <!-- 피드백 신청하기 -->
-    <button @click.prevent="createConsult" data-bs-toggle="modal" :data-bs-target="feedbackModalId" class="btn btn-primary"><i class="bi bi-people-fill"></i>피드백 신청하기</button>
   </div>
   <FeedbackModal :scriptId="scriptId" :script="script"></FeedbackModal>
   <LogoutModal></LogoutModal>
@@ -174,6 +171,12 @@ label{
 </style>
 <style scoped>
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
+i{
+  margin-right: 0.5rem;
+}
+.btn{
+  margin-left: 0.5rem;
+}
 h2{
   font-weight: bold;
 }
