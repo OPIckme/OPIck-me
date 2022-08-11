@@ -8,7 +8,7 @@ export const script = {
     },
 
     getters: {
-        scriptList: state => state.scriptList,
+        scriptList: state => state.scriptList.slice().reverse(),
         script: state => state.script,
     },
 
