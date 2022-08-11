@@ -57,42 +57,6 @@ class ConsultServiceTest {
 
     }
 
-    @Test
-    @DisplayName("상담상태변경 성공!")
-    public void 상담상태변경() throws Exception {
-        //Given
-        User user = createUser();
-        Question question = createQuestion();
-        Script script = createScript(user, question);
-        String room = "randomRoomNumber";
-        Consult consult = consultService.create(script, room);
-        //When
-        Consult completedConsult = consultService.modifyState(consult.getId());
-        //Then
-        assertThat(true).isEqualTo(consultRepository.findById(completedConsult.getId()).get().isState());
-    }
-
-    @Test
-    @DisplayName("대기중인상담목록조회 성공!")
-    public void 대기중인상담목록조회() throws Exception {
-        //Given
-        User user = createUser();
-        userRepository.save(user);
-        Question question = createQuestion();
-        questionRepository.save(question);
-        Script script = createScript(user, question);
-        String room = "randomRoomNumber";
-        scriptRepository.save(script);
-        Consult consult1 = consultService.create(script,room);
-        Consult consult2 = consultService.create(script,room);
-        Consult completedConsult2 = consultService.modifyState(consult2.getId());
-        Consult consult3 = consultService.create(script,room);
-        //When
-        Map<Long, Consult> waitingConsultMap = consultService.waitingConsultMap();
-        // Then
-        //consult2를 제외한 consult1과 consult3이 들어가 있어야 한다.
-        assertThat(waitingConsultMap).containsValues(consult1,consult3);
-    }
 
     private User createUser() {
         User user = new User();
