@@ -186,12 +186,11 @@ h2{
   line-height: 1.5rem;
 }
 .container{
-  margin-top: 7rem;
-  width: 1200px;
+  margin-top: 3rem;
+  padding: 4rem;
 }
 .scriptdetail{
   background-color: #fff;
-  /* border-radius: 10px; */
   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
       0 10px 10px rgba(0,0,0,0.22);
   position: relative;
