@@ -19,7 +19,7 @@
     <h2>Q. {{ script.question.questionContent }}</h2>
     <p>{{ script.createdAt.slice(0,10) }}</p>
     <hr>
-    <script-edit-form :script="script" action="update"></script-edit-form>
+    <script-edit-form :script="script"></script-edit-form>
   </div>
   <FeedbackModal :scriptId="scriptId" :script="script"></FeedbackModal>
   <LogoutModal></LogoutModal>
@@ -29,34 +29,38 @@
 <script>
 import LogoutModal from './Modal/LogoutModal.vue';
 import ScriptEditForm from './ScriptEditForm.vue';
-import { mapActions, mapGetters } from 'vuex';
+import axios from 'axios';
+import {API_URL} from '@/api/http.js';
 
 export default {
     name: "ScriptEdit",
     data() {
         return{
+            script: {},
             scriptId: parseInt(this.$route.params.scriptId),
-            role:this.$store.state.auth.user.role,
             username: this.$store.state.auth.user.username,
         }
     },
-    computed: {
-        ...mapGetters(['script'])
-    },
     methods: {
-        ...mapActions(['fetchScript']),
         back() {
             this.$router.push({
                 name:'scriptdetail',
                 params:{
                     username:this.username,
-                    scriptId:this.script.id}
+                    scriptId:this.scriptId}
             })
+        },
+        getScript(){
+          axios.get(API_URL + `/script/${this.username}/${this.scriptId}`)
+          .then(res => {
+            console.log(res.data.script)
+            this.script = res.data.script
+            }
+          )
         },
     },
     created() {
-        const payload = {username: this.username, scriptId: this.scriptId }
-        this.fetchScript(payload)
+        this.getScript()
     },
     components: { LogoutModal, ScriptEditForm }
 }

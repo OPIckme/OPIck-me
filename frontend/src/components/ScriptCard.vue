@@ -2,7 +2,7 @@
 <div class="card text-center">
   <div class="card-body">
     <i class="bi bi-trash3" style="margin-top:0.2rem; float: right; font-size: 17px;" data-bs-toggle="modal" :data-bs-target="modalId"></i>
-    <p style="margin-top: 0.5rem; text-align: left; font-size:13px;">{{ script.createdAt.slice(0,10) }}</p>
+    <p style="margin-top: 0.5rem; text-align: left; font-size:13px;">{{ createdAt.slice(0,-3) }}</p>
     <p class="topic">{{ script.question.topic }}</p>
     <button @click="routingDetail" class="btn">Go!</button>
   </div>
@@ -16,7 +16,8 @@ export default {
     name: "ScriptCard",
     data() {
       return {
-        modalId:"#delete"+this.script.id
+        modalId:"#delete"+this.script.id,
+        createdAt: ''
       }
     },
     props : {
@@ -31,8 +32,12 @@ export default {
         name:'scriptdetail',
         params:{scriptId:this.script.id}
         })
+      },
     },
-    },
+    mounted() {
+      const d = new Date(this.script.createdAt)
+      this.createdAt = d.toLocaleString()
+    }
 }
 </script>
 

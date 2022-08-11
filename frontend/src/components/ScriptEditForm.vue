@@ -29,7 +29,7 @@ export default {
             scriptContent: this.content
             }
             this.modifyScript(payload)
-            console.log(this.username, this.script.id)
+            console.log(this.username, this.script.scriptContent)
             this.fetchScript(this.username, this.script.id)
             this.$router.push({
             name:'scriptdetail',

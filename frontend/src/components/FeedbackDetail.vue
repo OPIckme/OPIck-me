@@ -17,7 +17,7 @@
     <hr>
     <h5>{{ feedback.script.question.topic }}</h5>
     <h2>Q. {{ feedback.script.question.questionContent }}</h2>
-    <p>{{ feedback.created_at.slice(0,10) }}</p>
+    <p>{{ createdAt.slice(0,-3) }}</p>
     <hr>
     <p>[Script]</p>
     <div class="script" id="content"></div>
@@ -38,6 +38,7 @@ export default {
       feedback: {},
       feedbackId: parseInt(this.$route.params.feedbackId),
       username: this.$store.state.auth.user.username,
+      createdAt: ''
       };
     },
     methods: {
@@ -58,6 +59,8 @@ export default {
       var div = document.querySelector('#content');
       var content = this.feedback.content;
       div.innerHTML = content;
+      const d = new Date(this.feedback.created_at)
+      this.createdAt = d.toLocaleString()
     },
     components: { LogoutModal }
 }

@@ -8,7 +8,7 @@ export const feedback = {
     },
 
     getters: {
-      feedbackList: state => state.feedbackList,
+      feedbackList: state => state.feedbackList.slice().reverse(),
       feedback: state => state.feedback,
     },
 
