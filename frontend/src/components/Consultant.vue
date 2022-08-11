@@ -1,5 +1,9 @@
 <template>
-<ConsultCard v-for="waitingconsult in waitingConsultMap" :key="waitingconsult.id" :waitingconsult="waitingconsult"></ConsultCard>
+<ConsultCard 
+    v-for="waitingconsult in waitingConsultMap" 
+    :key="waitingconsult.id" 
+    :waitingconsult="waitingconsult">
+</ConsultCard>
 </template>
 
 <script>

@@ -39,6 +39,11 @@ export default {
 </script>
 
 <style scoped>
+p{
+  margin: 1rem;
+  font-size: 45px;
+  font-weight: bold;
+}
 /* Logout button */
 .navbar{
   z-index: 1;
