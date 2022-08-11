@@ -131,10 +131,11 @@ import axios from 'axios';
 
 import {uploadFile} from '@/plugins/s3upload';
 // import {main} from '@/plugins/stt'
-
-const API_URL = 'http://i7B202.p.ssafy.io:8080/api/v1';
+const API_URL = 'http://localhost:8080/api/v1';
+// const API_URL = 'http://i7B202.p.ssafy.io:8080/api/v1';
 import { mapActions } from 'vuex';
-
+// import {run} from '@/plugins/s3_stt'
+import { v4 } from 'uuid';
 
 
 export default {
@@ -156,32 +157,32 @@ export default {
   methods : {
     ...mapActions(['fetchScriptList']),
 
-     getQuestion(topic,level) {
-    axios.get(API_URL + '/question/random', {
-      params: {
-        topic: topic,
-        level: level
-      }
-    })
+    getQuestion(topic,level) {
+      axios.get(API_URL + '/question/random', {
+        params: {
+          topic: topic,
+          level: level
+        }
+      })
       .then(response => {
         console.log(response)
         this.questionInfo = response.data
         this.audioUrl = response.data.audioUrl
         console.log(this.questionInfo)
       });
-  },
+    },
 
-  saveScript() {
-    axios.post(API_URL + '/script', {
+    saveScript(fileName) {
+      axios.post(API_URL + '/script', {
         userId: this.userId,
         questionId: this.questionInfo.id,
-        audioURL: "https://jaeyeong-s3.s3.ap-northeast-2.amazonaws.com/testAudio.wav",
-        keyName: "testAudio.mp3",
-    }).then(res=>{
-      console.log(res)
-      this.fetchScriptList()
-    })
-  },
+        audioURL: `https://jaeyeong-s3.s3.ap-northeast-2.amazonaws.com/${fileName}.webm`,
+        keyName: fileName,
+      }).then(res=>{
+        console.log(res)
+        this.fetchScriptList()
+      })
+    },
 
     playSound (sound) {
       if(sound) {
@@ -190,53 +191,64 @@ export default {
       }
     },
   
+    async start(){
+      const uuid =v4()
 
-   async start(){
-            // 마이크 mediaStream 생성: Promise를 반환하므로 async/await 사용
-            const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
+      // 마이크 mediaStream 생성: Promise를 반환하므로 async/await 사용
+      const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
 
-            // MediaRecorder 생성
-            this.mediaRecorder = new MediaRecorder(mediaStream);
+      // MediaRecorder 생성
+      this.mediaRecorder = new MediaRecorder(mediaStream);
 
-            // 이벤트핸들러: 녹음 데이터 취득 처리
-            this.mediaRecorder.ondataavailable = (event)=>{
-                this.audioArray.push(event.data); // 오디오 데이터가 취득될 때마다 배열에 담아둔다.
-            }
+      // 이벤트핸들러: 녹음 데이터 취득 처리
+      this.mediaRecorder.ondataavailable = (event)=>{
+          this.audioArray.push(event.data); // 오디오 데이터가 취득될 때마다 배열에 담아둔다.
+      }
 
-            // 이벤트핸들러: 녹음 종료 처리 & 재생하기
-            this.mediaRecorder.onstop = ()=>{
-                
-                // 녹음이 종료되면, 배열에 담긴 오디오 데이터(Blob)들을 합친다: 코덱도 설정해준다.
-                this.blob = new Blob(this.audioArray, {"type": "audio/mp3"});
-                console.log(this.blob);
-                this.audioArray.splice(0); // 기존 오디오 데이터들은 모두 비워 초기화한다.
-                
-                // Blob 데이터에 접근할 수 있는 주소를 생성한다.
-                this.blobURL = window.URL.createObjectURL(this.blob);
-                // const anchor = document.createElement("a");
-                // anchor.href = this.blobURL;
-                // anchor.download = "test.raw"; 
-                // anchor.click()
-                console.log(uploadFile)
-                // const filePath="C:/Users/multicampus/Downloads/"+filename;
-                uploadFile(this.blob)
-                // console.log(this.blobURL);
-                
-                this.saveScript()
-                // main(this.blob);                
-            }
+      // 이벤트핸들러: 녹음 종료 처리 & 재생하기
+      this.mediaRecorder.onstop = ()=>{
+        const audioType="webm"
+        const fileName=uuid
+        // 녹음이 종료되면, 배열에 담긴 오디오 데이터(Blob)들을 합친다: 코덱도 설정해준다.
+        this.blob = new Blob(this.audioArray, {"type":`audio/${audioType}`});
+        console.log(this.blob);
+        this.audioArray.splice(0); // 기존 오디오 데이터들은 모두 비워 초기화한다.
+        
+        // Blob 데이터에 접근할 수 있는 주소를 생성한다.
+        this.blobURL = window.URL.createObjectURL(this.blob);
+        
 
-            // 녹음 시작
-            this.mediaRecorder.start();
+        // s3에 업로드하기 위한 파라미터
+        const uploadParams = {
+          Bucket: "jaeyeong-s3",
+          Key: `${fileName}.${audioType}`, // File name you want to save as in S3            
+          Body: this.blob,
+          ContentType: `audio/${audioType}`
+        };
+        
+        // s3 stt 파라미터
+        const sttParams = {
+          TranscriptionJobName: fileName,
+          LanguageCode: "en-US", // For example, 'en-US'
+          MediaFormat: audioType, // For example, 'wav'
+          Media: {
+            MediaFileUri: `s3://jaeyeong-s3/${fileName}.${audioType}`,
+          },
+          OutputBucketName: "jaeyeong-s3"
+        };
+        uploadFile(uploadParams,sttParams)
+        // run(sttParams)
+        this.saveScript(uuid)
+            
+      }
+
+      // 녹음 시작
+      this.mediaRecorder.start();
      },
      async stop(){
-        this.mediaRecorder.stop();
-
-      
+      this.mediaRecorder.stop();
      },     
   },
-  
-
 
 }
 </script>

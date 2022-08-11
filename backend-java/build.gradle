@@ -164,9 +164,9 @@ dependencies {
 
     // aws s3
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.6.RELEASE'
-//    implementation 'com.amazonaws:aws-java-sdk-s3:1.11.475'
-//    implementation 'com.amazonaws:aws-java-sdk-secretsmanager:1.11.339'
-//    implementation 'com.amazonaws:aws-encryption-sdk-java:1.6.0'
+
+    // webm2mp3 converter
+    compile group: 'ws.schild', name: 'jave-all-deps', version: '3.3.1'
 
     //IntelliJ용
     //IntelliJ에서는 하기 annotationProcessor를 쓰면 별도의 querydsl 플러그인 및 플러그인 설정이 불필요.

@@ -80,6 +80,7 @@ public class ScriptServiceImpl implements ScriptService {
                 .withRegion(Regions.AP_NORTHEAST_2)
                 .build();
         try {
+
             S3Object o = s3.getObject(bucket_name, keyName);
             S3ObjectInputStream s3is = o.getObjectContent();
             FileOutputStream fos = new FileOutputStream(new File(keyName));

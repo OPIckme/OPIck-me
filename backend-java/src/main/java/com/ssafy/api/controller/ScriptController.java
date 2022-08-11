@@ -8,6 +8,7 @@ import com.ssafy.api.service.QuestionService;
 import com.ssafy.api.service.ScriptService;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.model.response.BaseResponseBody;
+import com.ssafy.converter.Converter;
 import com.ssafy.db.entity.Question;
 import com.ssafy.db.entity.Script;
 import com.ssafy.db.entity.User;
@@ -35,8 +36,8 @@ public class ScriptController {
     private final ScriptService scriptService;
     private final UserService userService;
     private final QuestionService questionService;
-
-
+    private final Converter converter;
+    private final STT stt;
     
     @PostMapping
     @ApiOperation(value = "스크립트 등록", notes = "userId,questionId,content, audiourl을 받아서 스크립트를 등록한다.")
@@ -53,13 +54,17 @@ public class ScriptController {
 
         String audioUrl = scriptRegisterPostReq.getAudioURL();
         String keyName = scriptRegisterPostReq.getKeyName();
+        String fileName=keyName+".webm";
+        String targetName=keyName+".mp3";
 
-        String filePath="C:/Users/multicampus/Desktop/ssafy/S07P12B202/backend-java/"+keyName;
+        // aws에서 로컬에 오디오파일 다운
+        scriptService.getAudio(fileName);
+        // 오디오파일 변환
+        converter.webm2mp3(fileName,targetName);
 
-        scriptService.getAudio(keyName);
-        String content = STT.asyncRecognizeFile(filePath);
-//        System.out.println("content = " + content);
-        deleteAudioFile(filePath);
+        String content = stt.asyncRecognizeFile(targetName);
+        System.out.println("content = " + content);
+//        deleteAudioFile(filePath);
         scriptService.createScript(user.get(), question.get(),content,audioUrl);
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201,"스크립트 추가 성공"));
