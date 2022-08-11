@@ -8,19 +8,33 @@
   </div>
 </nav>
 
+
 <div :class="container" id="container">
+  <!-- 회원가입 -->
 	<div class="form-container sign-up-container">
-    <Form @submit="handleRegister" :validation-schema="schema">
+    <Form @submit="handleRegister" :validation-schema="schemaSignup">
       <h1>Sign Up</h1>
       <div v-if="!successful">
-        <Field name="username" type="text" placeholder="ID" class="form-control" />
+      <div class="form-group">
+        <Field name="username" type="text" placeholder="ID" class="form-control" maxlength="16"/>
         <ErrorMessage name="username" class="error-feedback" />
-        <Field name="password" type="password" placeholder="Password" class="form-control" />
+      </div>
+      <div class="form-group">
+        <Field name="password" type="password" placeholder="Password" class="form-control" maxlength="16"/>
         <ErrorMessage name="password" class="error-feedback" />
+      </div>
+      <div class="form-group">
         <Field name="email" type="email" placeholder="Email" class="form-control" />
         <ErrorMessage name="email" class="error-feedback" />
+      </div>
+      <div class="form-group">
         <Field name="nickname" type="nickname" placeholder="Nickname" class="form-control" />
         <ErrorMessage name="nickname" class="error-feedback" />
+      </div>
+      <div class="form-group">
+        <div v-if="messageSignup">
+        {{ messageSignup }}
+        </div>
         <button class="btn" :disabled="loading">
           <span
             v-show="loading"
@@ -29,28 +43,31 @@
           Sign Up
         </button>
       </div>
+    </div>
     </Form>
 	</div>
+  <!-- 로그인 -->
 	<div class="form-container sign-in-container">
-    <Form @submit="handleLogin" :validation-schema="schema">
+    <Form @submit="handleLogin" :validation-schema="schemaLogin">
       <h1>Sign In</h1>
-        <div class="form-group">
-          <Field name="username" type="text" placeholder="Username" class="form-control" />
-          <ErrorMessage name="username"  class="error-feedback" />
-        </div>
       <div class="form-group">
-        <Field name="password" type="password" placeholder="Password" class="form-control" />
+        <Field name="username" type="text" placeholder="Username" class="form-control" maxlength="16"/>
+        <ErrorMessage name="username"  class="error-feedback" />
+      </div>
+      <div class="form-group">
+        <Field name="password" type="password" placeholder="Password" class="form-control" maxlength="16"/>
         <ErrorMessage name="password" class="error-feedback" />
       </div>
-      <div class="form-group">
-        <button class="btn" :disabled="loading">
-          <span
-            v-show="loading"
-            class="spinner-border spinner-border-sm"
-          ></span>
-          <span>Sign In</span>
-        </button>
+      <div v-if="messageLogin">
+        {{ messageLogin }}
       </div>
+      <button class="btn" :disabled="loading">
+        <span
+          v-show="loading"
+          class="spinner-border spinner-border-sm"
+        ></span>
+        <span>Sign In</span>
+      </button>
     </Form>
 	</div>
 
@@ -71,45 +88,6 @@
 </div>
 
 
-<!-- 로그인 폼 -->
-
-  <!-- <h1>Login</h1>
-  <div class="card card-container">
-    <Form @submit="handleLogin" :validation-schema="schema">
-
-      <label for="username">Username</label>
-      <Field name="username" type="text" class="form-control" />
-      <ErrorMessage name="username" class="error-feedback" />
-
-      <label for="password">Password</label>
-      <Field name="password" type="password" class="form-control" />
-      <ErrorMessage name="password" class="error-feedback" />
-
-      <button class="btn btn-primary btn-block" :disabled="loading">
-        <span
-          v-show="loading"
-          class="spinner-border spinner-border-sm"
-        ></span>
-        <span>Login</span>
-      </button>
-
-    <router-link to="/register" class="nav-link">
-      <button class="btn btn-primary btn-block" :disabled="loading">
-        <span
-          v-show="loading"
-          class="spinner-border spinner-border-sm"
-        ></span>
-        <span>Sign Up</span>
-      </button>
-    </router-link>
-    로그인 오류 메세지
-
-      <div v-if="message" class="alert alert-danger" role="alert">
-        {{ message }}
-      </div>
-
-    </Form>
-  </div> -->
 </template>
 <script>
 import { Form, Field, ErrorMessage } from "vee-validate";
@@ -123,30 +101,44 @@ export default {
     ErrorMessage,
 },
   data() {
-    const schema = yup.object().shape({
+    const schemaLogin = yup.object().shape({
       username: yup
         .string()
         .required("Username is required!")
-        .min(3, "Must be at least 3 characters!")
-        .max(20, "Must be maximum 20 characters!"),
-      // email: yup
-      //   .string()
-      //   .required("Email is required!")
-      //   .email("Email is invalid!")
-      //   .max(50, "Must be maximum 50 characters!"),
+        .min(4, "Must be at least 4 characters!")
+        .max(16, "Must be maximum 16 characters!"),
       password: yup
         .string()
         .required("Password is required!")
-        .min(6, "Must be at least 6 characters!")
-        .max(40, "Must be maximum 40 characters!"),
+        .min(9, "Must be at least 9 characters!")
+        .max(16, "Must be maximum 16 characters!"),
+    });
+    const schemaSignup = yup.object().shape({
+      username: yup
+        .string()
+        .required("Username is required!")
+        .min(4, "Must be at least 4 characters!")
+        .max(16, "Must be maximum 16 characters!"),
+      email: yup
+        .string()
+        .required("Email is required!")
+        .email("Email is invalid!")
+        .max(50, "Must be maximum 50 characters!"),
+      password: yup
+        .string()
+        .required("Password is required!")
+        .min(9, "Must be at least 9 characters!")
+        .max(16, "Must be maximum 16 characters!"),
     });
     return {
       // Sing Up
       successful: false,
-      // Sign In
+      messageSignup: "",
+      schemaSignup,
+      // Login
       loading: false,
-      message: "",
-      schema,
+      messageLogin: "",
+      schemaLogin,
       // css
       container:"container",
     };
@@ -161,11 +153,6 @@ export default {
       this.$router.push("/mainpage");
     }
   },
-  // created() {
-  //   if (this.loggedIn) {
-  //     this.$router.push("/mainpage");
-  //   }
-  // },
   methods: {
     signUpButton(){
       this.container = "container right-panel-active"
@@ -181,7 +168,7 @@ export default {
         },
         (error) => {
           this.loading = false;
-          this.message =
+          this.messageLogin =
             (error.response &&
               error.response.data &&
               error.response.data.message) ||
@@ -191,17 +178,17 @@ export default {
       );
     },
     handleRegister(user) {
-      this.message = "";
+      this.messageSignup = "";
       this.successful = false;
       this.loading = true;
       this.$store.dispatch("auth/register", user).then(
         (data) => {
-          this.message = data.message;
+          this.messageSignup = data.message;
           this.successful = true;
           this.loading = false;
         },
         (error) => {
-          this.message =
+          this.messageSignup =
             (error.response &&
               error.response.data &&
               error.response.data.message) ||
@@ -218,10 +205,13 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+.form-group{
+  width: 350px;
+}
 
 h1 {
   font-weight: bold;
-  margin: 0;
+  margin-bottom: 1rem;
 }
 
 p {
