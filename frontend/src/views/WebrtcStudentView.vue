@@ -17,11 +17,44 @@
                     <video id="videoInput" autoplay class="col-8 my-3" style="display : inline" muted="true"
                     ref="videoInput"></video>
                 </div>
-                <div class="row" ref="script" style="display : none">
-                    <p>Who is your favorite actor or actress?
-                        Describe a particular story about something this person did which you heard about in the news.
-                        Begin with some details about the actor or actress and then describe all the details of what occurred,
-                        in particular, tell me about thethings that made this experience so memorable to people who like movies.</p>
+                <div ref="editorMenu" style="display : none">
+                    <button ref="btnBold">
+                        <b>B</b>
+                    </button>
+                    <select ref="fontSize">
+                        <option value="">폰트 사이즈</option>
+                        <option value="1">10px</option>
+                        <option value="2">13px</option>
+                        <option value="3">16px</option>
+                        <option value="4">18px</option>
+                        <option value="5">24px</option>
+                        <option value="6">32px</option>
+                        <option value="7">48px</option>
+                    </select>
+                    <select ref="fontColor">
+                        <option value="">색상</option>
+                        <option value="#000000">검정</option>
+                        <option value="#FFFFFF">흰색</option>
+                        <option value="#CCCCCC">회색</option>
+                        <option value="#F03E3E">빨강</option>
+                        <option value="#1971C2">파랑</option>
+                        <option value="#37B24D">녹색</option>
+                    </select>
+                    <select ref="fontBackground">
+                        <option value="rgba(0, 0, 0, 0)">배경색상</option>
+                        <option value="#000000">검정</option>
+                        <option value="#FFFFFF">흰색</option>
+                        <option value="#CCCCCC">회색</option>
+                        <option value="#F03E3E">빨강</option>
+                        <option value="#1971C2">파랑</option>
+                        <option value="#37B24D">녹색</option>
+                    </select>
+                </div>
+                <div class="row" ref="script" contenteditable="true" style="display : none; outline : none">
+                    Who is your favorite actor or actress?
+                    Describe a particular story about something this person did which you heard about in the news.
+                    Begin with some details about the actor or actress and then describe all the details of what occurred,
+                    in particular, tell me about thethings that made this experience so memorable to people who like movies.
                 </div>
                 <div>
                     <div>
@@ -90,23 +123,97 @@ var dataChannel = peerConnection.createDataChannel("dataChannel", { reliable: tr
 var stompClient = null;
 
 export default {
+    props: {
+        room : {
+            type: String,
+            default: ""
+        }
+    },
     mounted() {
+        const fontSizeSelector = this.$refs.fontSize;
+        const selectFontColor = this.$refs.fontColor
+        const selectFontBackground = this.$refs.fontBackground
+        var copy = this.$refs.copy
         var messageArea = this.$refs.messageArea;
         var username = this.$store.state.auth.user.username;
-        var room = 'wow';
+        var room = this.$route.params.room;
         var videoInput = this.$refs.videoInput
         var videoOutput = this.$refs.videoOutput
         var script = this.$refs.script
+        var pre = this.$refs.script.innerHTML
+        let btnBold = this.$refs.btnBold
         let role = this.$store.state.auth.user.role
         let inboundStream = null;
         let scriptButton = this.$refs.scriptButton
-
+        let editorMenu = this.$refs.editorMenu
+            
         dataChannel.onerror = function(error) {
             console.log("Error:", error);
         };
         dataChannel.onclose = function() {
             console.log("Data channel is closed");
         };
+        
+        selectFontColor.addEventListener('change', function () {
+            setFontColor(this.value);
+        });
+        
+        selectFontBackground.addEventListener('change', function () {
+            setFontBackground(this.value);
+        });
+        
+        function setFontColor(color) {
+            document.execCommand('foreColor', false, color);
+            focusEditor();
+        }
+
+        function setFontBackground(color) {
+            document.execCommand('hiliteColor', false, color);
+            focusEditor();
+        }
+
+        fontSizeSelector.addEventListener('change', function () {
+            changeFontSize(this.value);
+        });
+
+        function changeFontSize(size) {
+            document.execCommand('fontSize', false, size);
+            focusEditor();
+        }
+
+        function setStyle(style) {
+            document.execCommand(style);
+            focusEditor();
+            checkStyle();
+        }
+
+        function checkStyle() {
+            if (isStyle('bold')) {
+                btnBold.classList.add('active');
+            } else {
+                btnBold.classList.remove('active');
+            }
+        }
+
+        function isStyle(style) {
+            return document.queryCommandState(style);
+        }
+
+        function focusEditor() {
+            script.focus({preventScroll: true});
+        }
+
+        script.addEventListener('keydown', function () {
+            checkStyle();
+        });
+
+        script.addEventListener('mousedown', function () {
+            checkStyle();
+        });
+
+        btnBold.addEventListener('click', function () {
+            setStyle('bold');
+        });
 
         function onError(error) {
             console.log('Could not connect to WebSocket server. Please refresh this page to try again!');
@@ -170,7 +277,7 @@ export default {
                     type : message.content.type
                     }));
             } else {
-                console.log(message)
+                copy.innerHTML = message.content
             }
             if (message.type === 'JOIN'|| message.type === 'LEAVE'){
                 var textElement = document.createElement('p');
@@ -217,24 +324,28 @@ export default {
                 } 
             }else {
                 var data = JSON.parse(event.data)
-                var messageElement = document.createElement('li');
-                messageElement.classList.add('chat-message');
+                if (data.username != username){
+                    script.innerHTML = data.message
+                } else {
+                    var messageElement = document.createElement('li');
+                    messageElement.classList.add('chat-message');
 
-                var usernameElement = document.createElement('span');
-                var usernameText = document.createTextNode(data.username);
-                usernameElement.appendChild(usernameText);
-                messageElement.appendChild(usernameElement);
+                    var usernameElement = document.createElement('span');
+                    var usernameText = document.createTextNode(data.username);
+                    usernameElement.appendChild(usernameText);
+                    messageElement.appendChild(usernameElement);
 
-                if (data.message != null){
-                    var textElement = document.createElement('p');
-                    var messageText = document.createTextNode(data.message);
-                    textElement.appendChild(messageText);
+                    if (data.message != null){
+                        var textElement = document.createElement('p');
+                        var messageText = document.createTextNode(data.message);
+                        textElement.appendChild(messageText);
 
-                    messageElement.appendChild(textElement);
+                        messageElement.appendChild(textElement);
 
-                    messageArea.appendChild(messageElement);
-                    messageArea.scrollTop = messageArea.scrollHeight;
-                }
+                        messageArea.appendChild(messageElement);
+                        messageArea.scrollTop = messageArea.scrollHeight;
+                    }
+                }                
             }
         };
 
@@ -254,11 +365,14 @@ export default {
                 inputStream.addTrack(track);
             }
 
-            if (role === 'teacher') {
-            scriptButton.removeAttribute("style")
+            if (role === 'consultant') {
+                scriptButton.removeAttribute("style")
+                script.setAttribute("style", "display : inline")
+                script.setAttribute("contenteditable", "true")
+                editorMenu.removeAttribute("style")
             }
             if(username) {
-                var socket = new SockJS('http://3.34.51.116:8080/ws');
+                var socket = new SockJS('https://3.34.51.116:8443/ws');
                 stompClient = Stomp.over(socket);
                 stompClient.connect({}, () => {
                     stompClient.subscribe('/topic/public/' + room, onMessageReceived);
@@ -307,7 +421,21 @@ export default {
         };
 
         openCall()
-
+        
+        var interval = setInterval(() => {
+            console.log(pre)
+            var post = this.$refs.script.innerHTML            
+            if (pre != post){
+                dataChannel.send(JSON.stringify({
+                    "username" : this.$store.state.auth.user.username,
+                    "message" : post
+                }))
+                pre = post
+            }
+            if (pre === null){
+                clearInterval(interval)
+            }
+        }, 100)
     },
     computed: {
         currentUser() {
@@ -316,7 +444,7 @@ export default {
     },
     methods: {
         scriptControl(){
-            if (scriptButton.innerText === 'Script ON'){
+            if (this.$refs.scriptButton.innerText === 'Script ON'){
                 dataChannel.send("스크립트 시작")
                 script.removeAttribute("style")
                 this.$refs.videoInput.classList.remove("col-8")
@@ -382,7 +510,7 @@ export default {
                 this.$refs.messageArea.scrollTop = this.$refs.messageArea.scrollHeight;
                 this.$refs.messageInput.value = '';
             }
-        },
+        }
     },
     components: { ConsultCloseModal }
 };

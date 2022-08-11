@@ -1,7 +1,17 @@
 <template>
 <MainPageNavbar></MainPageNavbar>
 <!-- feedback card -->
-<FeedbackCard v-for="feedback in feedbackList" :key="feedback.id" :feedback="feedback"></FeedbackCard>
+<div style="margin-top:4rem">
+    <div class="row">
+        <FeedbackCard 
+        style="margin-top:40px;"
+        class="col-lg-2 col-md-3 col-sm-4" 
+        v-for="feedback in feedbackList" 
+        :key="feedback.id" 
+        :feedback="feedback">
+        </FeedbackCard>
+    </div>
+</div>
 </template>
 
 <script>
@@ -15,7 +25,7 @@ export default {
         ...mapActions(['fetchFeedbackList']),
     },
     created() {
-        this.fetchFeedbackList()
+        this.fetchFeedbackList(this.$store.state.auth.user.username)
     },
     computed: {
         currentUser() {

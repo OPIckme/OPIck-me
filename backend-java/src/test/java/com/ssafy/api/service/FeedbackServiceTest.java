@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -76,7 +75,7 @@ class FeedbackServiceTest {
         Feedback feedback1 = feedbackService.create("feedbackContent1", script);
         Feedback feedback2 = feedbackService.create("feedbackContent2", script);
         //When
-        List<Feedback> feedbackList = feedbackService.getList();
+        List<Feedback> feedbackList = feedbackService.getList(user.getId());
         //Then
         assertThat(feedbackList).contains(feedback1, feedback2);
     }

@@ -1,57 +1,231 @@
 <template>
-<MainPageNavbar></MainPageNavbar>
-<!-- 나가기 -->
-<svg @click="back" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-backspace" viewBox="0 0 16 16">
-  <path d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708l2.147-2.147 2.146 2.147a.5.5 0 0 0 .707-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.536 5.146a.5.5 0 0 0-.707 0z"/>
-  <path d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1h7.08zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-7.08z"/>
-</svg>
-<h1>{{ feedback.created_at.slice(0,10) }}</h1>
-<p>{{ feedback.script.question.topic }}</p>
-<h5>{{ feedback.script.question.questionContent }}</h5>
-<p>[Script]</p>
-<p>{{ feedback.content }}</p>
+<nav class="navbar sticky-top" style="background-color:#0742F2; height: 80px;">
+  <router-link class="position-absolute top-50 start-50 translate-middle  " to="/mainpage">
+    <img src="../assets/logo.png" alt="" style="width:120px">
+  </router-link>
+  <button class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Logout" >Logout</button>
+</nav>
+<LogoutModal></LogoutModal>
+<div class="scriptdetail">
+  <!-- 나가기 -->
+  <div @click="back" class="close-container">
+    <div class="leftright"></div>
+    <div class="rightleft"></div>
+    <label class="close">back</label>
+  </div>
+  <div class="container">
+    <hr>
+    <h5>{{ feedback.script.question.topic }}</h5>
+    <h2>Q. {{ feedback.script.question.questionContent }}</h2>
+    <p>{{ createdAt.slice(0,-3) }}</p>
+    <hr>
+    <p>[Script]</p>
+    <div class="script" id="content"></div>
+  </div>
+</div>
 </template>
 
 <script>
-import MainPageNavbar from './MainPageNavbar.vue';
+import LogoutModal from './Modal/LogoutModal.vue';
 import axios from 'axios';
-const API_URL = 'http://i7B202.p.ssafy.io:8080/api/v1/feedback';
+import {API_URL} from '@/api/http.js';
+
 
 export default {
     name: "FeedbackDetail",
     data() {
     return {
-      click:true,
       feedback: {},
       feedbackId: parseInt(this.$route.params.feedbackId),
-    };
-  },
-    setup() {
+      username: this.$store.state.auth.user.username,
+      createdAt: ''
+      };
     },
     methods: {
         back() {
             this.$router.push("/feedback");
         },
-        clickCaret(){
-            this.click = !this.click;
-        },
         getFeedback(){
-          axios.get(API_URL + `/${this.feedbackId}`)
+          axios.get(API_URL + `/feedback/${this.username}/${this.feedbackId}`)
           .then(res => {
-            console.log(res.data.feedback)
             this.feedback = res.data.feedback
           })
         },
-        play(sound) {
-          if (sound) {
-            var audio = new Audio(sound);
-            audio.play();
-          }
-        },
     },
     created() {
-        this.getFeedback()
+      this.getFeedback()
     },
-    components: { MainPageNavbar }
+    mounted() {
+      var div = document.querySelector('#content');
+      var content = this.feedback.content;
+      div.innerHTML = content;
+      const d = new Date(this.feedback.created_at)
+      this.createdAt = d.toLocaleString()
+    },
+    components: { LogoutModal }
 }
 </script>
+<style lang="scss" scoped>
+$softorange: #020E33;
+$tomatored: #F25C66;
+$mediumblu: #1E272D;
+
+.close-container{
+  margin: 1.5rem;
+  margin-right: 65px;
+  width: 35px;
+  height: 35px;
+  float: right;
+  cursor: pointer;
+}
+
+.leftright{
+  height: 4px;
+  width: 35px;
+  position: absolute;
+  margin-top: 24px;
+  background-color: $softorange;
+  border-radius: 2px;
+  transform: rotate(45deg);
+  transition: all .3s ease-in;
+}
+
+.rightleft{
+  height: 4px;
+  width: 35px;
+  position: absolute;
+  margin-top: 24px;
+  background-color: $softorange;
+  border-radius: 2px;
+  transform: rotate(-45deg);
+  transition: all .3s ease-in;
+}
+
+label{
+  color: $softorange;
+  font-family: Helvetica, Arial, sans-serif; 
+  font-size: .6em;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all .3s ease-in;
+  opacity: 0;
+}
+.close{
+  margin: 60px 0 0 5px;
+  position: absolute;
+}
+
+.close-container:hover .leftright{
+  transform: rotate(-45deg);
+  background-color: $tomatored;
+}
+.close-container:hover .rightleft{
+  transform: rotate(45deg);
+  background-color: $tomatored;
+}
+.close-container:hover label{
+  opacity: 1;
+}
+
+
+</style>
+<style scoped>
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
+i{
+  margin-right: 0.5rem;
+}
+.btn{
+  margin-left: 0.5rem;
+}
+h2{
+  font-weight: bold;
+}
+.script{
+  font-size: 18px;
+  letter-spacing: 1px;
+  line-height: 1.5rem;
+}
+.container{
+  margin-top: 3rem;
+  padding: 4rem;
+}
+.scriptdetail{
+  background-color: #fff;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+      0 10px 10px rgba(0,0,0,0.22);
+  position: relative;
+  overflow: hidden;
+  width: 1296px;
+  max-width: 100%;
+  min-height: 600px;
+}
+p{
+  width: 100%;
+  margin-top: 2rem;
+}
+/* Logout button */
+.navbar{
+  z-index: 1;
+}
+.Logout {
+  align-items: center;
+  background-color: #F2CB05;
+  border: 2px solid #111;
+  border-radius: 50px;
+  box-sizing: border-box;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  font-family: Inter,sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  height: 36px;
+  justify-content: center;
+  line-height: 24px;
+  max-width: 100%;
+  padding: 0 25px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  position: relative;
+  left: 85%;
+}
+
+.Logout:after {
+  background-color: #111;
+  border-radius: 50px;
+  content: "";
+  display: block;
+  height: 36px;
+  left: 0;
+  width: 100%;
+  position: absolute;
+  top: -2px;
+  transform: translate(6px, 6px);
+  transition: transform .2s ease-out;
+  z-index: -1;
+}
+
+.Logout:hover:after {
+  transform: translate(0, 0);
+}
+
+.Logout:active {
+  background-color: #F2CB05;
+  outline: 0;
+}
+
+.LogLogoutin:hover {
+  outline: 0;
+}
+
+@media (min-width: 768px) {
+  .Logout {
+    padding: 0 20px;
+  }
+}
+</style>

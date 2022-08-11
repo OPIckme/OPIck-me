@@ -29,7 +29,12 @@
     "crypto": "^1.0.1",
     "fs": "^0.0.1-security",
     "google-gax": "^3.1.2",
+    "jquery": "^3.6.0",
     "pumpify": "^2.0.0",
+<<<<<<< HEAD
+=======
+    "sass": "^1.54.3",
+>>>>>>> 3ff573d64d3ad8503239c16e3a1684a06aa638e2
     "sockjs-client": "^1.6.1",
     "stream": "^0.0.2",
     "stream-events": "^1.0.4",
@@ -39,6 +44,7 @@
     "vue-router": "^4.1.2",
     "vue3-audio-player": "^1.0.5",
     "vuex": "^4.0.2",
+    "vuex-persistedstate": "^4.1.0",
     "webstomp-client": "^1.2.6",
     "yup": "^0.32.11"
   },
@@ -49,7 +55,9 @@
     "@vue/cli-plugin-eslint": "~5.0.0",
     "@vue/cli-service": "~5.0.0",
     "eslint": "^7.32.0",
-    "eslint-plugin-vue": "^8.0.3"
+    "eslint-plugin-vue": "^8.0.3",
+    "node-sass": "^7.0.1",
+    "sass-loader": "^13.0.2"
   },
   "eslintConfig": {
     "root": true,

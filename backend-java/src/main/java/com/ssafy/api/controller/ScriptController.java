@@ -70,24 +70,28 @@ public class ScriptController {
         return ResponseEntity.status(201).body(BaseResponseBody.of(201,"스크립트 추가 성공"));
     }
 
-    @GetMapping
+    @GetMapping("/{username}")
     @ApiOperation(value = "전체 스크립트 조회", notes = "모든 스크립트를 조회한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = ScriptListRes.class),
     })
-    public ResponseEntity<ScriptListRes> getList(){
-        List<Script> scriptList = scriptService.getScriptList();
+    public ResponseEntity<ScriptListRes> getList(@PathVariable String username){
+        User user = userService.getUserByUsername(username).get();
+        Long userId = user.getId();
+        List<Script> scriptList = scriptService.getScriptList(userId);
 
         return ResponseEntity.status(200).body(ScriptListRes.of(200,"스크립트 리스트 불러오기 성공!",scriptList));
     }
 
-    @GetMapping("/{scriptId}")
+    @GetMapping("/{username}/{scriptId}")
     @ApiOperation(value = "스크립트 디테일 조회", notes = "스크립트 id로 디테일 조회.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공", response = ScriptDetailRes.class),
     })
-    public ResponseEntity<ScriptDetailRes> getScriptDetail(@PathVariable Long scriptId){
-        Script script = scriptService.getDetail(scriptId).get();
+    public ResponseEntity<ScriptDetailRes> getScriptDetail(@PathVariable String username, @PathVariable Long scriptId){
+        User user = userService.getUserByUsername(username).get();
+        Long userId = user.getId();
+        Script script = scriptService.getDetail(scriptId, userId).get();
 
         return ResponseEntity.status(200).body(ScriptDetailRes.of(200,"스크립트 세부사항 불러오기 성공!",script));
     }

@@ -4,9 +4,11 @@ import com.ssafy.api.request.FeedbackRegisterPostReq;
 import com.ssafy.api.response.FeedbackRes;
 import com.ssafy.api.service.FeedbackService;
 import com.ssafy.api.service.ScriptService;
+import com.ssafy.api.service.UserService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Feedback;
 import com.ssafy.db.entity.Script;
+import com.ssafy.db.entity.User;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,8 @@ import java.util.function.Supplier;
 public class FeedbackController {
     private final FeedbackService feedbackService;
     private final ScriptService scriptService;
+
+    private final UserService userService;
 
     @PostMapping
     @ApiOperation(value = "피드백 생성", notes = "원본 스크립트 id와 피드백 내용으로 피드백을 생성한다.")
@@ -42,17 +46,22 @@ public class FeedbackController {
         throw new IllegalArgumentException("존재하지 않는 스크립트입니다.");
     }
 
-    @GetMapping
+    @GetMapping("/{username}")
     @ApiOperation(value = "전체 피드백 조회", notes = "모든 피드백을 조회한다.")
 
-    public List<Feedback> getList(){
-        return feedbackService.getList();
+    public List<Feedback> getList(@PathVariable String username){
+        User user = userService.getUserByUsername(username).get();
+        Long userId = user.getId();
+        List<Feedback> feedbackList = feedbackService.getList(userId);
+        return feedbackList;
     }
 
-    @GetMapping("/{feedbackId}")
+    @GetMapping("/{username}/{feedbackId}")
     @ApiOperation(value = "피드백 디테일 조회", notes = "피드백 id로 디테일 조회.")
-    public ResponseEntity<FeedbackRes> getDetail(@PathVariable Long feedbackId){
-        Feedback feedback= feedbackService.getDetail(feedbackId).orElseThrow(new Supplier<IllegalArgumentException>() {
+    public ResponseEntity<FeedbackRes> getDetail(@PathVariable String username, @PathVariable Long feedbackId){
+        User user = userService.getUserByUsername(username).get();
+        Long userId = user.getId();
+        Feedback feedback= feedbackService.getDetail(feedbackId, userId).orElseThrow(new Supplier<IllegalArgumentException>() {
             @Override
             public IllegalArgumentException get() {
                 return new IllegalArgumentException("해당 피드백이 없습니다. id : " + feedbackId);
