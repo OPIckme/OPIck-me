@@ -2,7 +2,7 @@
 <div class="card text-center">
   <div class="card-body">
     <i class="bi bi-trash3" style="margin-top:0.2rem; float: right; font-size: 17px;" data-bs-toggle="modal" :data-bs-target="feedbackDeleteModalId"></i>
-    <p style="margin-top: 0.5rem; text-align: left; font-size:13px;">{{ feedback.created_at.slice(0,10) }}</p>
+    <p style="margin-top: 0.5rem; text-align: left; font-size:13px;">{{ createdAt.slice(0,-3) }}</p>
     <p class="topic">{{ feedback.script.question.topic }}</p>
     <button @click="routingDetail" class="btn">Review</button>
   </div>
@@ -17,7 +17,8 @@ export default {
     name: "FeedbackCard",
     data() {
       return {
-        feedbackDeleteModalId:"#delete"+this.feedback.id
+        feedbackDeleteModalId:"#delete"+this.feedback.id,
+        createdAt: ''
       }
     },
     props : {
@@ -34,6 +35,10 @@ export default {
         })
     },
     },
+    mounted() {
+      const d = new Date(this.feedback.created_at)
+      this.createdAt = d.toLocaleString()
+    }
 }
 </script>
 

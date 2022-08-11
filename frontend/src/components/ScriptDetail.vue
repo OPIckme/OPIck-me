@@ -17,7 +17,7 @@
     <hr>
     <h5>{{ script.question.topic }}</h5>
     <h2>Q. {{ script.question.questionContent }}</h2>
-    <p>{{ script.createdAt.slice(0,10) }}</p>
+    <p>{{ createdAt.slice(0,-3) }}</p>
     <hr>
     <div class="buttonbar d-flex justify-content-between">
       <audio controls :src=script.audioUrl></audio>
@@ -56,6 +56,7 @@ export default {
       scriptId: parseInt(this.$route.params.scriptId),
       feedbackModalId: "",
       audio: {},
+      createdAt: '',
       username: this.$store.state.auth.user.username
     };
   },
@@ -96,6 +97,10 @@ export default {
           audio.isPlaying = false;
           audio.file.pause();
         }
+    },
+    mounted() {
+      const d = new Date(this.script.createdAt)
+      this.createdAt = d.toLocaleString()
     },
     created() {
         this.getScript()
