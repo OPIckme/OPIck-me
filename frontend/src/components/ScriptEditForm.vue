@@ -1,12 +1,9 @@
 <template>
-    <form @submit.prevent="onSubmit">
-        <div class="field padding-bottom--24">
-            <textarea v-model="content" cols="50" rows="5" id="content"></textarea>
-        </div>
-        <div class="field padding-bottom--24">
-            <button class="btn btn-primary">수정하기</button>
-        </div>
-    </form>
+<p>[Script to Edit]</p>
+<form @submit.prevent="onSubmit">
+    <textarea v-model="content" cols="50" rows="5" id="content"></textarea>
+    <button class="btn"><i class="bi bi-save2-fill"></i>Save</button>
+</form>
 
 </template>
 
@@ -32,7 +29,7 @@ export default {
             scriptContent: this.content
             }
             this.modifyScript(payload)
-            console.log(this.username, this.script.id)
+            console.log(this.username, this.script.scriptContent)
             this.fetchScript(this.username, this.script.id)
             this.$router.push({
             name:'scriptdetail',
@@ -42,3 +39,57 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+i{
+  margin-right: 1rem;
+}
+textarea{
+    width: 100%;
+    height: 20rem;
+    margin-top: 2rem;
+    font-size: 18px;
+    letter-spacing: 1px;
+    line-height: 1.5rem;
+    /* border: none; */
+    resize: none;
+}
+p{
+  width: 100%;
+  margin-top: 2rem;
+}
+form{
+    margin-bottom: 4rem;
+}
+button {
+  margin-top: 1.2rem;
+  background-color: #F2CB05;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  letter-spacing: 3px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  transition: 200ms;
+  width: 100%;
+  box-sizing: border-box;
+  border: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+button:not(:disabled):hover,
+button:not(:disabled):focus {
+  outline: 0;
+  background: #F2CB05;
+  box-shadow: 0 0 0 2px rgba(0,0,0,.2), 0 3px 8px 0 rgba(0,0,0,.15);
+}
+
+button:disabled {
+  filter: saturate(0.2) opacity(0.5);
+  -webkit-filter: saturate(0.2) opacity(0.5);
+  cursor: not-allowed;
+}
+</style>

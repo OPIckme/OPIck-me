@@ -7,7 +7,7 @@
         <h5 class="modal-title" id="exampleModalToggleLabel">Survey(Topic과 Level을 선택해주세요.)</h5>
         <!-- select level -->
         <div class="d-flex flex-column">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit()"></button>
           <span></span>
           <select v-model="level" class="form-select" aria-label="Default select example" style="width:200px">
             <option disabled value="">Open this select Level</option>
@@ -43,16 +43,43 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalToggleLabel2">문제듣기</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="stopSound()"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="stopSound(), surveyinit()"></button>
       </div>
       <div class="modal-body">
-        <!-- 듣기 -->
+      <!-- 듣기 -->
+      <svg @click="playSound(audioUrl)" version="1.1" id="problem_listen" width="160" height="160" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+        viewBox="0 0 392.663 392.663" style="enable-background:new 0 0 392.663 392.663;" xml:space="preserve">
+      <polyline style="fill:#FFFFFF;" points="93.091,248.377 230.853,337.524 230.853,55.019 93.091,144.166 "/>
+      <polygon style="fill:#56ACE0;" points="114.877,236.546 114.877,155.997 209.067,95.1 209.067,297.443 "/>
+      <g>
+        <path style="fill:#FFC10D;" d="M252.638,160.781v70.917c15.127-4.655,26.182-18.747,26.182-35.491S267.83,165.5,252.638,160.781z"
+          />
+        <rect x="21.851" y="149.144" style="fill:#FFC10D;" width="49.39" height="94.255"/>
+      </g>
+      <g>
+        <path style="fill:#194F82;" d="M252.768,138.413V34.979c0-8.663-9.568-13.834-16.873-9.115L78.933,127.358H10.925
+          C4.913,127.358,0,132.207,0,138.284v116.04c0,6.012,4.848,10.925,10.925,10.925h68.008l156.962,101.56
+          c7.24,4.719,16.873-0.517,16.873-9.115V254.13c27.216-5.172,47.968-29.156,47.968-57.859S280.048,143.585,252.768,138.413z
+          M71.24,243.399h-49.39v-94.255h49.39V243.399z M230.853,337.524L93.091,248.377v-19.394h21.786
+          c6.012,0,10.925-4.848,10.925-10.925c0-6.012-4.848-10.925-10.925-10.925H93.091v-21.786h43.636
+          c6.012,0,10.925-4.848,10.925-10.925c0-6.012-4.848-10.925-10.925-10.925H93.091v-19.394l137.762-89.147L230.853,337.524
+          L230.853,337.524z M252.638,231.762v-70.982c15.127,4.655,26.182,18.747,26.182,35.491S267.83,227.043,252.638,231.762z"/>
+        <path style="fill:#194F82;" d="M348.509,89.54c-4.267-4.267-11.184-4.267-15.451,0s-4.202,11.119,0.065,15.386
+          c23.337,23.402,37.689,55.725,37.689,91.281s-14.481,67.814-37.689,91.216c-4.267,4.267-4.331,11.119-0.065,15.386
+          c4.267,4.267,11.184,4.331,15.451,0c27.216-27.281,44.154-64.97,44.154-106.537S375.661,117.015,348.509,89.54z"/>
+        <path style="fill:#194F82;" d="M315.475,121.54c-4.008-3.943-10.925-3.426-14.933,0.517c-4.073,4.073-4.331,11.119-0.129,15.192
+          c15.063,15.127,24.501,35.943,24.501,58.958s-9.374,43.83-24.501,58.958c-4.073,4.073-3.943,11.119,0.129,15.192
+          c4.008,4.008,10.925,4.59,14.933,0.517c19.265-19.071,31.224-45.576,31.224-74.731C346.634,167.051,334.739,140.611,315.475,121.54
+          z"/>
+      </g>
+      </svg>
+        <!-- 듣기
         <svg @click="playSound(audioUrl)" xmlns="http://www.w3.org/2000/svg" width="160" height="160" fill="currentColor" class="bi bi-volume-up-fill" viewBox="0 0 16 16" id="problem_listen">
           <path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/>
           <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/>
           <path d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"/>
-        </svg>
-        <!-- 문제 듣기 안되는 스피커 -->
+        </svg> -->
+        <!-- 문제 듣기 안되는 스피커
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="160"
@@ -63,7 +90,6 @@
             id="problem_nolisten"
             display="none"
           >
-            <!-- v-if="!isPlaying" -->
             <path
               d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"
             />
@@ -73,7 +99,34 @@
             <path
               d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"
             />
-          </svg>
+          </svg> -->
+          <!-- 문제 듣기 안되는 스피커 -->
+<svg version="1.1" id="problem_nolisten"  width="160" height="160" display="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 392.663 392.663" style="enable-background:new 0 0 392.663 392.663;" xml:space="preserve">
+<polyline style="fill:#FFFFFF;" points="93.091,248.377 230.853,337.524 230.853,55.019 93.091,144.166 "/>
+<polygon style="fill:#56ACE0;" points="114.877,236.546 114.877,155.997 209.067,95.1 209.067,297.443 "/>
+<g>
+	<path style="fill:#FFC10D;" d="M252.638,160.781v70.917c15.127-4.655,26.182-18.747,26.182-35.491S267.83,165.5,252.638,160.781z"
+		/>
+	<rect x="21.851" y="149.144" style="fill:#FFC10D;" width="49.39" height="94.255"/>
+</g>
+<g>
+	<path style="fill:#194F82;" d="M252.768,138.413V34.979c0-8.663-9.568-13.834-16.873-9.115L78.933,127.358H10.925
+		C4.913,127.358,0,132.207,0,138.284v116.04c0,6.012,4.848,10.925,10.925,10.925h68.008l156.962,101.56
+		c7.24,4.719,16.873-0.517,16.873-9.115V254.13c27.216-5.172,47.968-29.156,47.968-57.859S280.048,143.585,252.768,138.413z
+		 M71.24,243.399h-49.39v-94.255h49.39V243.399z M230.853,337.524L93.091,248.377v-19.394h21.786
+		c6.012,0,10.925-4.848,10.925-10.925c0-6.012-4.848-10.925-10.925-10.925H93.091v-21.786h43.636
+		c6.012,0,10.925-4.848,10.925-10.925c0-6.012-4.848-10.925-10.925-10.925H93.091v-19.394l137.762-89.147L230.853,337.524
+		L230.853,337.524z M252.638,231.762v-70.982c15.127,4.655,26.182,18.747,26.182,35.491S267.83,227.043,252.638,231.762z"/>
+	<path style="fill:#194F82;" d="M348.509,89.54c-4.267-4.267-11.184-4.267-15.451,0s-4.202,11.119,0.065,15.386
+		c23.337,23.402,37.689,55.725,37.689,91.281s-14.481,67.814-37.689,91.216c-4.267,4.267-4.331,11.119-0.065,15.386
+		c4.267,4.267,11.184,4.331,15.451,0c27.216-27.281,44.154-64.97,44.154-106.537S375.661,117.015,348.509,89.54z"/>
+	<path style="fill:#194F82;" d="M315.475,121.54c-4.008-3.943-10.925-3.426-14.933,0.517c-4.073,4.073-4.331,11.119-0.129,15.192
+		c15.063,15.127,24.501,35.943,24.501,58.958s-9.374,43.83-24.501,58.958c-4.073,4.073-3.943,11.119,0.129,15.192
+		c4.008,4.008,10.925,4.59,14.933,0.517c19.265-19.071,31.224-45.576,31.224-74.731C346.634,167.051,334.739,140.611,315.475,121.54
+		z"/>
+</g>
+</svg>
         <!-- 녹음 -->
         <h1>
           <svg class="bi bi-record-circle" @click="start" data-bs-target="#SurveyModal3" data-bs-toggle="modal" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 16 16" display="none" id="record_script">
@@ -90,7 +143,7 @@
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit()"></button>
       </div>
       <div class="modal-body">
         <h5 class="modal-title" id="exampleModalToggleLabel3">
@@ -115,7 +168,7 @@
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit()"></button>
       </div>
       <div class="modal-body">
         <h5 class="modal-title" id="exampleModalToggleLabel4">
@@ -151,10 +204,11 @@
 <script>
 import axios from 'axios';
 // import InputTopic from "../InputTopic.vue";
-
 import {uploadFile} from '@/plugins/s3upload';
-import {API_URL} from '@/api/http.js';
 import { mapActions } from 'vuex';
+import { v4 } from 'uuid';
+import {API_URL} from '@/api/http.js';
+
 
 export default {
   data(){
@@ -177,47 +231,55 @@ export default {
   methods : {
     ...mapActions(['fetchScriptList']),
 
-      getQuestion(topic,level) {
-        if (this.topic == "" && this.level !== "") { // topic이 선택되지 않았을 때
-          alert("Topic을 선택해주세요.");
-          }
 
-         if (this.topic !== "" && this.level == "") { // level이 선택되지 않았을 때
-          alert("Level을 선택해주세요.");
-          }
-
-    axios.get(API_URL + '/question/random', {
-      params: {
-        topic: topic,
-        level: level
+    getQuestion(topic,level) {
+      if (this.topic == "" && this.level !== "") { // topic이 선택되지 않았을 때
+        alert("Topic을 선택해주세요.");
       }
-    })
+
+      if (this.topic !== "" && this.level == "") { // level이 선택되지 않았을 때
+        alert("Level을 선택해주세요.");
+      }
+
+      axios.get(API_URL + '/question/random', {
+        params: {
+          topic: topic,
+          level: level
+        }
+      })
       .then(response => {
         console.log(response)
         this.questionInfo = response.data
         this.audioUrl = response.data.audioUrl
         console.log(this.questionInfo)
       });
-  },
+    },
 
-      surveyCheck() {
-        // survey에서 topic이나 level이 선택 안되면 넘어가지 않는다.
 
-        if (this.topic !== "" && this.level !== "") { // topic과 level이 선택되어야만
-          return "#SurveyModal2";
-          }
-      },
-
-  saveScript() {
-    axios.post(API_URL + '/script', {
+    saveScript(fileName) {
+      axios.post(API_URL + '/script', {
         userId: this.userId,
         questionId: this.questionInfo.id,
-        audioURL: "https://jaeyeong-s3.s3.ap-northeast-2.amazonaws.com/testAudio.wav",
-        keyName: "testAudio.mp3",
-    }).then(res=>{
-      console.log(res)
-    })
-  },
+        audioURL: `https://jaeyeong-s3.s3.ap-northeast-2.amazonaws.com/${fileName}.webm`,
+        keyName: fileName,
+      }).then(res=>{
+        console.log(res)
+        this.fetchScriptList(this.$store.state.auth.user.username)
+      })
+    },
+
+    surveyCheck() {
+      // survey에서 topic이나 level이 선택 안되면 넘어가지 않는다.
+      if (this.topic !== "" && this.level !== "") { // topic과 level이 선택되어야만
+        return "#SurveyModal2";
+      }
+    },
+
+
+    surveyinit() { // survey 선택 창에서 x버튼 클릭하면 survey 선택 초기화
+      this.topic = ""; // topic 초기화
+      this.level = ""; // level 초기화
+    },
 
     playSound(sound) {
       // 문제 듣기
@@ -278,56 +340,81 @@ export default {
         // 원래 보였으면
         record.style.display = "none"; // 숨기기
       }
+
+      const problem_listen = document.getElementById("problem_listen"); // 문제 듣기 가져오기
+      const problem_nolisten = document.getElementById("problem_nolisten"); // 문제 듣지 않기 가져오기
+
+      // problem_listen 보이기 (display: block)
+      if (problem_listen.style.display !== "block") {
+        // block 아니면 block 바꿔서 보이기
+        problem_listen.style.display = "block";
+      }
+
+      // problem_nolisten 숨기기 (display: none)
+      if (problem_nolisten.style.display !== "none") {
+        // none이 아니면 none으로 바꿔서 숨기기
+        problem_nolisten.style.display = "none";
+      }
     },
 
-   async start(){
-            this.stopSound(); // 문제를 듣다가 녹음 버튼 누르면 문제 듣기 종료
+    async start(){
+      const uuid =v4()
+      this.stopSound(); // 문제를 듣다가 녹음 버튼 누르면 문제 듣기 종료
+      // 마이크 mediaStream 생성: Promise를 반환하므로 async/await 사용
+      const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
 
-            // 마이크 mediaStream 생성: Promise를 반환하므로 async/await 사용
-            const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
+      // MediaRecorder 생성
+      this.mediaRecorder = new MediaRecorder(mediaStream);
 
-            // MediaRecorder 생성
-            this.mediaRecorder = new MediaRecorder(mediaStream);
+      // 이벤트핸들러: 녹음 데이터 취득 처리
+      this.mediaRecorder.ondataavailable = (event)=>{
+          this.audioArray.push(event.data); // 오디오 데이터가 취득될 때마다 배열에 담아둔다.
+      }
 
-            // 이벤트핸들러: 녹음 데이터 취득 처리
-            this.mediaRecorder.ondataavailable = (event)=>{
-                this.audioArray.push(event.data); // 오디오 데이터가 취득될 때마다 배열에 담아둔다.
-            }
+      // 이벤트핸들러: 녹음 종료 처리 & 재생하기
+      this.mediaRecorder.onstop = ()=>{
+        const audioType="webm"
+        const fileName=uuid
+        // 녹음이 종료되면, 배열에 담긴 오디오 데이터(Blob)들을 합친다: 코덱도 설정해준다.
+        this.blob = new Blob(this.audioArray, {"type":`audio/${audioType}`});
+        console.log(this.blob);
+        this.audioArray.splice(0); // 기존 오디오 데이터들은 모두 비워 초기화한다.
+        
+        // Blob 데이터에 접근할 수 있는 주소를 생성한다.
+        this.blobURL = window.URL.createObjectURL(this.blob);
+        
 
-            // 이벤트핸들러: 녹음 종료 처리 & 재생하기
-            this.mediaRecorder.onstop = ()=>{
-                
-                // 녹음이 종료되면, 배열에 담긴 오디오 데이터(Blob)들을 합친다: 코덱도 설정해준다.
-                this.blob = new Blob(this.audioArray, {"type": "audio/mp3"});
-                console.log(this.blob);
-                this.audioArray.splice(0); // 기존 오디오 데이터들은 모두 비워 초기화한다.
-                
-                // Blob 데이터에 접근할 수 있는 주소를 생성한다.
-                this.blobURL = window.URL.createObjectURL(this.blob);
-                // const anchor = document.createElement("a");
-                // anchor.href = this.blobURL;
-                // anchor.download = "test.raw"; 
-                // anchor.click()
-                console.log(uploadFile)
-                // const filePath="C:/Users/multicampus/Downloads/"+filename;
-                uploadFile(this.blob)
-                // console.log(this.blobURL);
-                
-                this.saveScript()
-                // main(this.blob);                
-            }
+        // s3에 업로드하기 위한 파라미터
+        const uploadParams = {
+          Bucket: "jaeyeong-s3",
+          Key: `${fileName}.${audioType}`, // File name you want to save as in S3            
+          Body: this.blob,
+          ContentType: `audio/${audioType}`
+        };
+        
+        // s3 stt 파라미터
+        const sttParams = {
+          TranscriptionJobName: fileName,
+          LanguageCode: "en-US", // For example, 'en-US'
+          MediaFormat: audioType, // For example, 'wav'
+          Media: {
+            MediaFileUri: `s3://jaeyeong-s3/${fileName}.${audioType}`,
+          },
+          OutputBucketName: "jaeyeong-s3"
+        };
+        uploadFile(uploadParams,sttParams)
+        // run(sttParams)
+        this.saveScript(uuid)
+            
+      }
 
-            // 녹음 시작
-            this.mediaRecorder.start();
+      // 녹음 시작
+      this.mediaRecorder.start();
      },
      async stop(){
-        this.mediaRecorder.stop();
-
-      
+      this.mediaRecorder.stop();
      },     
   },
-  
-
 
 }
 </script>
@@ -336,4 +423,57 @@ export default {
 .modal-content {
   background-color: #E3F2FD;
 }
+
+#problem_nolisten{
+  animation: up-down 1.4s infinite ease-in-out alternate;
+}
+
+@keyframes up-down{
+  from{
+    transform: translatey(0px);
+  }
+  to{
+    transform: translatey(-20px);
+  }
+}
+
+#problem_listen {
+  transition: all 0.5s linear;
+  }
+  
+#problem_listen:hover {
+  transform: scale( 1.3 )
+  }
+
+/* 박스 위아래로 움직이는 애니메이션 코드 */
+/* .box{
+  width: 100%;
+  height: 120px;
+  text-align: center;
+  color: #E62200;
+  max-width: 300px;
+  border: solid 10px #ffa23c;
+  background: #fff;
+  border-radius: 15px;
+  padding-top: 30px;
+  animation: up-down 1.4s infinite ease-in-out alternate;
+} */
+
+/* 박스 확대 코드 */
+/* * {
+  box-sizing: border-box;
+  }
+  
+.jb-box {
+  width: 100px;
+  height: 100px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: orange;
+  transition: all 0.5s linear;
+  }
+  
+  .jb-box:hover {
+    transform: scaleX( 1.5 )
+    } */
 </style>

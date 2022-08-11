@@ -1,37 +1,49 @@
 <template>
-<MainPageNavbar></MainPageNavbar>
-<!-- 나가기 -->
-<svg @click="back" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-backspace" viewBox="0 0 16 16">
-  <path d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708l2.147-2.147 2.146 2.147a.5.5 0 0 0 .707-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.536 5.146a.5.5 0 0 0-.707 0z"/>
-  <path d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1h7.08zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-7.08z"/>
-</svg>
-<h1>{{ script.createdAt }}</h1>
-<p>{{ script.question.topic }}</p>
-<h5>{{ script.question.questionContent }}</h5>
-<p>[Script]</p>
-<p>{{ script.scriptContent }}</p>
-<!-- 재생 -->
-<svg @click.prevent="clickCaret(), play(audio)" v-if="click" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
-  <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
-</svg>
-<!-- 정지 -->
-<svg @click.prevent="clickCaret(), pause(audio)" v-if="!click" xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16">
-  <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/>
-</svg>
-<!-- 스크립트 수정하기 -->
-<button class="btn btn-primary" @click="routingScriptEdit">수정하기</button>
-<!-- 피드백 신청하기 -->
-<button @click.prevent="createConsult" data-bs-toggle="modal" :data-bs-target="feedbackModalId" class="btn btn-primary">피드백 신청하기</button>
-{{ feedbackModalId }}
-<FeedbackModal :scriptId="scriptId" :script="script"></FeedbackModal>
+<nav class="navbar sticky-top" style="background-color:#0742F2; height: 80px;">
+  <router-link class="position-absolute top-50 start-50 translate-middle  " to="/mainpage">
+    <img src="../assets/logo.png" alt="" style="width:120px">
+  </router-link>
+  <button class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Logout" >Logout</button>
+</nav>
+
+<div class="scriptdetail">
+  <!-- 나가기 -->
+  <div @click="back" class="close-container">
+    <div class="leftright"></div>
+    <div class="rightleft"></div>
+    <label class="close">back</label>
+  </div>
+  <div class="container">
+    <hr>
+    <h5>{{ script.question.topic }}</h5>
+    <h2>Q. {{ script.question.questionContent }}</h2>
+    <p>{{ createdAt.slice(0,-3) }}</p>
+    <hr>
+    <div class="buttonbar d-flex justify-content-between">
+      <audio controls :src=script.audioUrl></audio>
+      <div class="buttons">
+        <!-- 스크립트 수정하기 -->
+        <button class="btn" @click="routingScriptEdit"><i class="bi bi-pencil-fill"></i>수정하기</button>
+        <!-- 피드백 신청하기 -->
+        <button @click.prevent="createConsult" data-bs-toggle="modal" :data-bs-target="feedbackModalId" class="btn"><i class="bi bi-people-fill"></i>피드백 신청하기</button>
+      </div>
+    </div>
+    <p>[Script]</p>
+    <p class="script">{{ script.scriptContent }}</p>
+  </div>
+  <FeedbackModal :scriptId="scriptId" :script="script"></FeedbackModal>
+  <LogoutModal></LogoutModal>
+</div>
 </template>
 
 <script>
-import MainPageNavbar from './MainPageNavbar.vue';
+import LogoutModal from './Modal/LogoutModal.vue';
+// import MainPageNavbar from './MainPageNavbar.vue';
 import FeedbackModal from './Modal/FeedbackModal.vue';
 import axios from 'axios';
 import { mapActions } from 'vuex';
 import {API_URL} from '@/api/http.js';
+
 
 
 export default {
@@ -44,6 +56,7 @@ export default {
       scriptId: parseInt(this.$route.params.scriptId),
       feedbackModalId: "",
       audio: {},
+      createdAt: '',
       username: this.$store.state.auth.user.username
     };
   },
@@ -85,9 +98,178 @@ export default {
           audio.file.pause();
         }
     },
+    mounted() {
+      const d = new Date(this.script.createdAt)
+      this.createdAt = d.toLocaleString()
+    },
     created() {
         this.getScript()
     },
-    components: { MainPageNavbar, FeedbackModal }
+    components: { FeedbackModal, LogoutModal }
 }
 </script>
+
+<style lang="scss" scoped>
+$softorange: #020E33;
+$tomatored: #F25C66;
+$mediumblu: #1E272D;
+
+.close-container{
+  margin: 1.5rem;
+  margin-right: 65px;
+  width: 35px;
+  height: 35px;
+  float: right;
+  cursor: pointer;
+}
+
+.leftright{
+  height: 4px;
+  width: 35px;
+  position: absolute;
+  margin-top: 24px;
+  background-color: $softorange;
+  border-radius: 2px;
+  transform: rotate(45deg);
+  transition: all .3s ease-in;
+}
+
+.rightleft{
+  height: 4px;
+  width: 35px;
+  position: absolute;
+  margin-top: 24px;
+  background-color: $softorange;
+  border-radius: 2px;
+  transform: rotate(-45deg);
+  transition: all .3s ease-in;
+}
+
+label{
+  color: $softorange;
+  font-family: Helvetica, Arial, sans-serif; 
+  font-size: .6em;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all .3s ease-in;
+  opacity: 0;
+}
+.close{
+  margin: 60px 0 0 5px;
+  position: absolute;
+}
+
+.close-container:hover .leftright{
+  transform: rotate(-45deg);
+  background-color: $tomatored;
+}
+.close-container:hover .rightleft{
+  transform: rotate(45deg);
+  background-color: $tomatored;
+}
+.close-container:hover label{
+  opacity: 1;
+}
+
+
+</style>
+<style scoped>
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
+i{
+  margin-right: 0.5rem;
+}
+.btn{
+  margin-left: 0.5rem;
+}
+h2{
+  font-weight: bold;
+}
+.script{
+  font-size: 18px;
+  letter-spacing: 1px;
+  line-height: 1.5rem;
+}
+.container{
+  margin-top: 3rem;
+  padding: 4rem;
+}
+.scriptdetail{
+  background-color: #fff;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+      0 10px 10px rgba(0,0,0,0.22);
+  position: relative;
+  overflow: hidden;
+  width: 1296px;
+  max-width: 100%;
+  min-height: 600px;
+}
+p{
+  width: 100%;
+  margin-top: 2rem;
+}
+/* Logout button */
+.navbar{
+  z-index: 1;
+}
+.Logout {
+  align-items: center;
+  background-color: #F2CB05;
+  border: 2px solid #111;
+  border-radius: 50px;
+  box-sizing: border-box;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  font-family: Inter,sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  height: 36px;
+  justify-content: center;
+  line-height: 24px;
+  max-width: 100%;
+  padding: 0 25px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  position: relative;
+  left: 85%;
+}
+
+.Logout:after {
+  background-color: #111;
+  border-radius: 50px;
+  content: "";
+  display: block;
+  height: 36px;
+  left: 0;
+  width: 100%;
+  position: absolute;
+  top: -2px;
+  transform: translate(6px, 6px);
+  transition: transform .2s ease-out;
+  z-index: -1;
+}
+
+.Logout:hover:after {
+  transform: translate(0, 0);
+}
+
+.Logout:active {
+  background-color: #F2CB05;
+  outline: 0;
+}
+
+.LogLogoutin:hover {
+  outline: 0;
+}
+
+@media (min-width: 768px) {
+  .Logout {
+    padding: 0 20px;
+  }
+}
+</style>
