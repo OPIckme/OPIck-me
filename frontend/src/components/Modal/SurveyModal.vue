@@ -204,10 +204,11 @@
 <script>
 import axios from 'axios';
 // import InputTopic from "../InputTopic.vue";
-
 import {uploadFile} from '@/plugins/s3upload';
-import {API_URL} from '@/api/http.js';
 import { mapActions } from 'vuex';
+import { v4 } from 'uuid';
+import {API_URL} from '@/api/http.js';
+
 
 export default {
   data(){
@@ -230,52 +231,55 @@ export default {
   methods : {
     ...mapActions(['fetchScriptList']),
 
-      getQuestion(topic,level) {
-        if (this.topic == "" && this.level !== "") { // topic이 선택되지 않았을 때
-          alert("Topic을 선택해주세요.");
-          }
 
-         if (this.topic !== "" && this.level == "") { // level이 선택되지 않았을 때
-          alert("Level을 선택해주세요.");
-          }
-
-    axios.get(API_URL + '/question/random', {
-      params: {
-        topic: topic,
-        level: level
+    getQuestion(topic,level) {
+      if (this.topic == "" && this.level !== "") { // topic이 선택되지 않았을 때
+        alert("Topic을 선택해주세요.");
       }
-    })
+
+      if (this.topic !== "" && this.level == "") { // level이 선택되지 않았을 때
+        alert("Level을 선택해주세요.");
+      }
+
+      axios.get(API_URL + '/question/random', {
+        params: {
+          topic: topic,
+          level: level
+        }
+      })
       .then(response => {
         console.log(response)
         this.questionInfo = response.data
         this.audioUrl = response.data.audioUrl
         console.log(this.questionInfo)
       });
-  },
+    },
 
-      surveyCheck() {
-        // survey에서 topic이나 level이 선택 안되면 넘어가지 않는다.
 
-        if (this.topic !== "" && this.level !== "") { // topic과 level이 선택되어야만
-          return "#SurveyModal2";
-          }
-      },
-
-  saveScript() {
-    axios.post(API_URL + '/script', {
+    saveScript(fileName) {
+      axios.post(API_URL + '/script', {
         userId: this.userId,
         questionId: this.questionInfo.id,
-        audioURL: "https://jaeyeong-s3.s3.ap-northeast-2.amazonaws.com/testAudio.wav",
-        keyName: "testAudio.mp3",
-    }).then(res=>{
-      console.log(res)
-    })
-  },
+        audioURL: `https://jaeyeong-s3.s3.ap-northeast-2.amazonaws.com/${fileName}.webm`,
+        keyName: fileName,
+      }).then(res=>{
+        console.log(res)
+        this.fetchScriptList(this.$store.state.auth.user.username)
+      })
+    },
 
-  surveyinit() { // survey 선택 창에서 x버튼 클릭하면 survey 선택 초기화
-    this.topic = ""; // topic 초기화
-    this.level = ""; // level 초기화
-  },
+    surveyCheck() {
+      // survey에서 topic이나 level이 선택 안되면 넘어가지 않는다.
+      if (this.topic !== "" && this.level !== "") { // topic과 level이 선택되어야만
+        return "#SurveyModal2";
+      }
+    },
+
+
+    surveyinit() { // survey 선택 창에서 x버튼 클릭하면 survey 선택 초기화
+      this.topic = ""; // topic 초기화
+      this.level = ""; // level 초기화
+    },
 
     playSound(sound) {
       // 문제 듣기
@@ -353,54 +357,64 @@ export default {
       }
     },
 
-   async start(){
-            this.stopSound(); // 문제를 듣다가 녹음 버튼 누르면 문제 듣기 종료
+    async start(){
+      const uuid =v4()
+      this.stopSound(); // 문제를 듣다가 녹음 버튼 누르면 문제 듣기 종료
+      // 마이크 mediaStream 생성: Promise를 반환하므로 async/await 사용
+      const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
 
-            // 마이크 mediaStream 생성: Promise를 반환하므로 async/await 사용
-            const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
+      // MediaRecorder 생성
+      this.mediaRecorder = new MediaRecorder(mediaStream);
 
-            // MediaRecorder 생성
-            this.mediaRecorder = new MediaRecorder(mediaStream);
+      // 이벤트핸들러: 녹음 데이터 취득 처리
+      this.mediaRecorder.ondataavailable = (event)=>{
+          this.audioArray.push(event.data); // 오디오 데이터가 취득될 때마다 배열에 담아둔다.
+      }
 
-            // 이벤트핸들러: 녹음 데이터 취득 처리
-            this.mediaRecorder.ondataavailable = (event)=>{
-                this.audioArray.push(event.data); // 오디오 데이터가 취득될 때마다 배열에 담아둔다.
-            }
+      // 이벤트핸들러: 녹음 종료 처리 & 재생하기
+      this.mediaRecorder.onstop = ()=>{
+        const audioType="webm"
+        const fileName=uuid
+        // 녹음이 종료되면, 배열에 담긴 오디오 데이터(Blob)들을 합친다: 코덱도 설정해준다.
+        this.blob = new Blob(this.audioArray, {"type":`audio/${audioType}`});
+        console.log(this.blob);
+        this.audioArray.splice(0); // 기존 오디오 데이터들은 모두 비워 초기화한다.
+        
+        // Blob 데이터에 접근할 수 있는 주소를 생성한다.
+        this.blobURL = window.URL.createObjectURL(this.blob);
+        
 
-            // 이벤트핸들러: 녹음 종료 처리 & 재생하기
-            this.mediaRecorder.onstop = ()=>{
-                
-                // 녹음이 종료되면, 배열에 담긴 오디오 데이터(Blob)들을 합친다: 코덱도 설정해준다.
-                this.blob = new Blob(this.audioArray, {"type": "audio/mp3"});
-                console.log(this.blob);
-                this.audioArray.splice(0); // 기존 오디오 데이터들은 모두 비워 초기화한다.
-                
-                // Blob 데이터에 접근할 수 있는 주소를 생성한다.
-                this.blobURL = window.URL.createObjectURL(this.blob);
-                // const anchor = document.createElement("a");
-                // anchor.href = this.blobURL;
-                // anchor.download = "test.raw"; 
-                // anchor.click()
-                console.log(uploadFile)
-                // const filePath="C:/Users/multicampus/Downloads/"+filename;
-                uploadFile(this.blob)
-                // console.log(this.blobURL);
-                
-                this.saveScript()
-                // main(this.blob);                
-            }
+        // s3에 업로드하기 위한 파라미터
+        const uploadParams = {
+          Bucket: "jaeyeong-s3",
+          Key: `${fileName}.${audioType}`, // File name you want to save as in S3            
+          Body: this.blob,
+          ContentType: `audio/${audioType}`
+        };
+        
+        // s3 stt 파라미터
+        const sttParams = {
+          TranscriptionJobName: fileName,
+          LanguageCode: "en-US", // For example, 'en-US'
+          MediaFormat: audioType, // For example, 'wav'
+          Media: {
+            MediaFileUri: `s3://jaeyeong-s3/${fileName}.${audioType}`,
+          },
+          OutputBucketName: "jaeyeong-s3"
+        };
+        uploadFile(uploadParams,sttParams)
+        // run(sttParams)
+        this.saveScript(uuid)
+            
+      }
 
-            // 녹음 시작
-            this.mediaRecorder.start();
+      // 녹음 시작
+      this.mediaRecorder.start();
      },
      async stop(){
-        this.mediaRecorder.stop();
-
-      
+      this.mediaRecorder.stop();
      },     
   },
-  
-
 
 }
 </script>
