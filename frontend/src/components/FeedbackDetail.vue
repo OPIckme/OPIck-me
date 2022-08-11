@@ -20,45 +20,44 @@
     <p>{{ feedback.created_at.slice(0,10) }}</p>
     <hr>
     <p>[Script]</p>
-    <p class="script">{{ feedback.content }}</p>
+    <div id="content"></div>
   </div>
 </div>
 </template>
 
 <script>
 import LogoutModal from './Modal/LogoutModal.vue';
-import { mapActions, mapGetters } from 'vuex';
+import axios from 'axios';
+import {API_URL} from '@/api/http.js';
+
 
 export default {
     name: "FeedbackDetail",
     data() {
     return {
-      click:true,
+      feedback: {},
       feedbackId: parseInt(this.$route.params.feedbackId),
       username: this.$store.state.auth.user.username,
-    };
-  },
+      };
+    },
     methods: {
-      ...mapActions(['fetchFeedback']),
         back() {
             this.$router.push("/feedback");
         },
-        clickCaret(){
-            this.click = !this.click;
-        },
-        play(sound) {
-          if (sound) {
-            var audio = new Audio(sound);
-            audio.play();
-          }
+        getFeedback(){
+          axios.get(API_URL + `/feedback/${this.username}/${this.feedbackId}`)
+          .then(res => {
+            this.feedback = res.data.feedback
+          })
         },
     },
     created() {
-      const payload = {username: this.username, feedbackId: this.feedbackId }
-        this.fetchFeedback(payload)
+      this.getFeedback()
     },
-    computed: {
-      ...mapGetters(['feedback'])
+    mounted() {
+      var div = document.querySelector('#content');
+      var content = this.feedback.content;
+      div.innerHTML = content;
     },
     components: { LogoutModal }
 }
