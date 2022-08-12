@@ -5,7 +5,7 @@
     <div class="modal-content">
       <button type="button" class="btn-close position-absolute top-0 end-0" data-bs-dismiss="modal" aria-label="Close"></button>
       <p class="position-absolute top-50 start-50 translate-middle">상담을 시작하시겠습니까?</p>
-      <button type="button" class="btn position-absolute bottom-0 start-50 translate-middle-x" data-bs-dismiss="modal"  @click="[feedBack(), changeState()]">Yes</button>
+      <button type="button" class="btn position-absolute bottom-0 start-50 translate-middle-x" data-bs-dismiss="modal"  @click="[feedBack(), completeConsult()]">Yes</button>
     </div>
   </div>
 </div>
@@ -26,16 +26,21 @@ export default {
   },
   methods : {
     feedBack() {
-            console.log(this.waitingconsult)
-            this.$router.push({name : "webrtcstudent", params: {room: this.waitingconsult.room}});
-        },
-    changeState(){
-          axios.put(API_URL+ `/consult/complete/${this.waitingconsult.id}`
-          ).then(res => {
-            console.log(res)
-            this.fetchWaitingConsultMap()
-          })
-      },
+      console.log(this.waitingconsult)
+      this.$router.push({name : "webrtcstudent", params: {
+        room: this.waitingconsult.room,
+        script: this.waitingconsult.script.scriptContent,
+        topic: this.waitingconsult.script.question.topic,
+        question: this.waitingconsult.script.question.questionContent
+        }});
+    },
+    completeConsult(){
+      axios.delete(API_URL+ `/consult/complete/${this.waitingconsult.id}`)
+      .then(res => {
+        console.log(res)
+        this.fetchWaitingConsultMap()
+      })
+    },
   }
 }
 </script>

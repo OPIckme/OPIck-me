@@ -5,7 +5,7 @@
     <div class="modal-content">
       <button type="button" class="btn-close position-absolute top-0 end-0" data-bs-dismiss="modal" aria-label="Close"></button>
       <p class="position-absolute top-50 start-50 translate-middle">상담을 종료하시겠습니까?</p> 
-      <button v-if="role==='student'" type="button" class="btn position-absolute bottom-0 start-50 translate-middle-x" data-bs-dismiss="modal"  @click="consultCloseStudent">Yes</button>
+      <button v-if="role==='student'" type="button" class="btn position-absolute bottom-0 start-50 translate-middle-x" data-bs-dismiss="modal"  @click="consultCloseStudent(),completeConsult()">Yes</button>
       <button v-else type="button" class="btn position-absolute bottom-0 start-50 translate-middle-x" data-bs-dismiss="modal"  @click="consultCloseConsult">Yes</button>
     </div>
   </div>
@@ -13,20 +13,34 @@
 </template>
 
 <script>
+import {API_URL} from '@/api/http.js';
+import axios from 'axios';
+import { mapGetters } from 'vuex';
 export default {
   data(){
-          return{
-              role:this.$store.state.auth.user.role
-          }
-      },
+    return{
+      role:this.$store.state.auth.user.role
+    }
+  },
+  computed:{
+    ...mapGetters(['consultId']),
+  },
   methods: {
-        consultCloseStudent() {
-            this.$router.push("/feedback");
-        },
-        consultCloseConsult() {
-            this.$router.push("/mainpage");
-        },
+    consultCloseStudent() {
+      this.$emit("change",1)
+      this.$router.push("/feedback");
     },
+    consultCloseConsult() {
+      this.$emit("change",1)
+      this.$router.push("/mainpage");
+    },
+    completeConsult(){
+      axios.delete(API_URL+ `/consult/complete/${this.consultId}`)
+      .then(res => {
+        console.log(res)
+      })
+    },
+  },
 }
 </script>
 

@@ -17,14 +17,12 @@ public class Consult {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "script_id")
     private Script script;
 
     @CreationTimestamp
     private Timestamp createdAt;
-
-    private boolean state; // 디폴트 값 false
 
     private String room;
 }
