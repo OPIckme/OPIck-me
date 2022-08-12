@@ -35,7 +35,7 @@ export default {
       axios.delete(API_URL + `/feedback/${this.feedbackId}`
       ).then(res => {
         console.log(res)
-        this.fetchFeedbackList()
+        this.fetchFeedbackList(this.$store.state.auth.user.username)
       })
     }
     },

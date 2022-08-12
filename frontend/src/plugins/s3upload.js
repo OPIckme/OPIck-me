@@ -11,7 +11,7 @@ const s3 = new AWS.S3({
     secretAccessKey: SECRET
 });
 
-export const uploadFile = (params) => {
+export const uploadFile = (params,saveScript,uuid) => {
     // Read content from the file
         // Setting up S3 upload parameters  
         // Uploading files to the bucket
@@ -20,7 +20,7 @@ export const uploadFile = (params) => {
         if (err) {
             console.log(err)
         }
-
+        saveScript(uuid)
         console.log(`File uploaded successfully. ${data.Location}`);
     });
 };
