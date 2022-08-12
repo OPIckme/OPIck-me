@@ -6,85 +6,94 @@
         <button class="btn" style="color:white; background-color:#F2CB05;" data-bs-toggle="modal" data-bs-target="#Consultclose">상담종료</button>
     </div>
 </nav>
-<div class="container">
-    <h1>1대1상담</h1>
-    <div style="margin-left : 3px; margin-right : 3px;">
+<div>
+    <div style="margin-left : 3px;">
         <div class="row">
             <div class="col-8">
-                <div class="row justify-content-center mx-3">
-                    <video id="videoOutput" autoplay class="col-8 my-3" style="display : inline"
-                    ref="videoOutput"></video>
-                    <video id="videoInput" autoplay class="col-8 my-3" style="display : inline" muted="true"
-                    ref="videoInput"></video>
-                </div>
-                <div ref="editorMenu" style="display : none">
-                    <button ref="btnBold">
-                        <b>B</b>
-                    </button>
-                    <select ref="fontSize">
-                        <option value="">폰트 사이즈</option>
-                        <option value="1">10px</option>
-                        <option value="2">13px</option>
-                        <option value="3">16px</option>
-                        <option value="4">18px</option>
-                        <option value="5">24px</option>
-                        <option value="6">32px</option>
-                        <option value="7">48px</option>
-                    </select>
-                    <select ref="fontColor">
-                        <option value="">색상</option>
-                        <option value="#000000">검정</option>
-                        <option value="#FFFFFF">흰색</option>
-                        <option value="#CCCCCC">회색</option>
-                        <option value="#F03E3E">빨강</option>
-                        <option value="#1971C2">파랑</option>
-                        <option value="#37B24D">녹색</option>
-                    </select>
-                    <select ref="fontBackground">
-                        <option value="rgba(0, 0, 0, 0)">배경색상</option>
-                        <option value="#000000">검정</option>
-                        <option value="#FFFFFF">흰색</option>
-                        <option value="#CCCCCC">회색</option>
-                        <option value="#F03E3E">빨강</option>
-                        <option value="#1971C2">파랑</option>
-                        <option value="#37B24D">녹색</option>
-                    </select>
-                </div>
-                <div class="row" ref="script" contenteditable="true" style="display : none; outline : none">
-                    Who is your favorite actor or actress?
-                    Describe a particular story about something this person did which you heard about in the news.
-                    Begin with some details about the actor or actress and then describe all the details of what occurred,
-                    in particular, tell me about thethings that made this experience so memorable to people who like movies.
-                </div>
-                <div>
-                    <div>
-                        <button @click.prevent="scriptControl" ref="scriptButton" style="display:none">Script ON</button>
+                <div class="row mx-3">
+                    <div class="outer col-8 my-3" ref="outputOuter">
+                        <video id="videoOutput" autoplay style="display : inline;"
+                        ref="videoOutput"></video>
                     </div>
-                    <button @click.prevent="muteControl" ref="sound">음소거</button>
-                    <button @click.prevent="screenControl" ref="screen">비디오 중지</button>
+                    <div class="outer col-8 my-3" ref="inputOuter">
+                        <video id="videoInput" autoplay style="display : inline;" muted="true"
+                        ref="videoInput"></video>
+                    </div>
+                </div>
+                <div class="row justify-content-between my-2 mx-3">
+                    <button class="col-3 button" @click.prevent="scriptControl" ref="scriptButton" style="display:none">Script ON</button>
+                    <div class="col-7">
+                        <div class="row justify-content-end" ref="editorMenu" style="display : none">
+                            <select class="col-2 mx-1" ref="fontSize">
+                                <option value="">크기</option>
+                                <option value="1">10px</option>
+                                <option value="2">13px</option>
+                                <option value="3">16px</option>
+                                <option value="4">18px</option>
+                                <option value="5">24px</option>
+                                <option value="6">32px</option>
+                                <option value="7">48px</option>
+                            </select>
+                            <select class="col-2 mx-1" ref="fontColor">
+                                <option value="">색상</option>
+                                <option value="#000000">검정</option>
+                                <option value="#FFFFFF">흰색</option>
+                                <option value="#CCCCCC">회색</option>
+                                <option value="#F03E3E">빨강</option>
+                                <option value="#1971C2">파랑</option>
+                                <option value="#37B24D">녹색</option>
+                            </select>
+                            <select class="col-2 mx-1" ref="fontBackground">
+                                <option value="rgba(0, 0, 0, 0)">배경</option>
+                                <option value="#000000">검정</option>
+                                <option value="#FFFFFF">흰색</option>
+                                <option value="#CCCCCC">회색</option>
+                                <option value="#F03E3E">빨강</option>
+                                <option value="#1971C2">파랑</option>
+                                <option value="#37B24D">녹색</option>
+                            </select>
+                            <button class="col-2 ms-1" ref="btnBold" style="border-radius : 10px">
+                                <b>굵게</b>
+                            </button>
+                        </div>
+                    </div>
+    
+                </div>
+                <div class="row justify-content-center" ref="bigScript" style="display:none">
+                    <p class="col-11" ref="topic" style="margin-bottom: 0px; margin-top: 10px">{{ this.topic }}</p>
+                    <h3 class="col-11" ref="question" style="margin-top : 10px; margin-left : 20px; margin-right : 20px">Q. {{ this.question }}</h3>
+                    <h5 class="col-11" style="margin-top : 10px; margin-left : 10px; margin-right : 10px">[Script]</h5>
+                    <div class="col-11" style="margin-top : 10px; margin-left : 10px; margin-right : 10px">
+                        <div ref="script" style="display : inline; outline : none;"></div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <button class="col-3 mx-2 button" @click.prevent="muteControl" ref="sound">
+                    <img src="https://img.icons8.com/fluency-systems-regular/48/000000/microphone--v1.png"/>
+                    음소거
+                    </button>
+                    <button class="col-3 mx-2 button" @click.prevent="screenControl" ref="screen">비디오 중지</button>
                 </div>
             </div>
 
-            <div ref="chat-page" class="hidden col-4">
-                <div class="chat-container">
-                    <div class="connecting">
+            <div ref="chat-page" class="col-4">
+                <div class="chat-container" style="height : 92%; background-color : white; overflow: auto;">
+                    <div ref="messageArea">
                     </div>
-                    <ul ref="messageArea">
-                    </ul>
-                    <form @submit.prevent="sendMessage" ref="messageForm" name="messageForm">
-                        <div class="form-group">
-                            <div class="input-group clearfix">
-                                <input type="text" ref="messageInput" placeholder="Type a message..." autocomplete="off" class="form-control"/>
-                                <button type="submit" class="primary">보내기</button>
-                            </div>
-                        </div>
-                    </form>
                 </div>
+                <form @submit.prevent="sendMessage" ref="messageForm" name="messageForm">
+                    <div class="form-group">
+                        <div class="input-group clearfix">
+                            <input type="text" ref="messageInput" placeholder="Type a message..." autocomplete="off" class="form-control"/>
+                            <button type="submit" class="primary">보내기</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
-<ConsultCloseModal></ConsultCloseModal>
+<ConsultCloseModal @change="change"></ConsultCloseModal>
 </template>
 <script>
 import ConsultCloseModal from '@/components/Modal/ConsultCloseModal.vue';
@@ -110,8 +119,8 @@ var constraints = {
             ideal : 10,
             max : 15
         },
-        width : 1280,
-        height : 720,
+        width : 420,
+        height : 210,
         facingMode : "user"
     },
 
@@ -123,17 +132,33 @@ var dataChannel = peerConnection.createDataChannel("dataChannel", { reliable: tr
 var stompClient = null;
 
 export default {
+    data(){
+        return {
+            trigger : 0
+        }
+    },
     props: {
         room : {
             type: String,
             default: ""
-        }
+        },
+        topic : {
+            type: String,
+            default: ""
+        },
+        script : {
+            type: String,
+            default: ""
+        },
+        question : {
+            type: String,
+            default: ""
+        },
     },
     mounted() {
         const fontSizeSelector = this.$refs.fontSize;
         const selectFontColor = this.$refs.fontColor
         const selectFontBackground = this.$refs.fontBackground
-        var copy = this.$refs.copy
         var messageArea = this.$refs.messageArea;
         var username = this.$store.state.auth.user.username;
         var room = this.$route.params.room;
@@ -146,7 +171,12 @@ export default {
         let inboundStream = null;
         let scriptButton = this.$refs.scriptButton
         let editorMenu = this.$refs.editorMenu
-            
+        let bigScript = this.$refs.bigScript
+        let inputOuter = this.$refs.inputOuter
+        let outputOuter = this.$refs.outputOuter
+
+        script.innerText = this.$route.params.script
+
         dataChannel.onerror = function(error) {
             console.log("Error:", error);
         };
@@ -222,13 +252,13 @@ export default {
         function onMessageReceived(payload) {
             var message = JSON.parse(payload.body);
             if(message.type === 'JOIN') {
-                var messageElement = document.createElement('li');
+                var messageElement = document.createElement('p');
                 messageElement.classList.add('event-message');
-                message.content = message.sender + ' 님이 입장하셨습니다.';
+                messageElement.innerText = message.sender + ' 님이 입장하셨습니다.';
             } else if (message.type === 'LEAVE') {
-                var messageElement = document.createElement('li');
+                var messageElement = document.createElement('p');
                 messageElement.classList.add('event-message');
-                message.content = message.sender + ' 님이 퇴장하셨습니다.';
+                messageElement.innerText = message.sender + ' 님이 퇴장하셨습니다.';
             } else if (message.type === 'OFFER') {
                 if (message.sender != username){
                     peerConnection.setRemoteDescription(new RTCSessionDescription({
@@ -277,15 +307,11 @@ export default {
                     type : message.content.type
                     }));
             } else {
-                copy.innerHTML = message.content
+                if (username != message.sender){
+                    script.innerHTML = message.content
+                }
             }
             if (message.type === 'JOIN'|| message.type === 'LEAVE'){
-                var textElement = document.createElement('p');
-                var messageText = document.createTextNode(message.content);
-                textElement.appendChild(messageText);
-
-                messageElement.appendChild(textElement);
-
                 messageArea.appendChild(messageElement);
                 messageArea.scrollTop = messageArea.scrollHeight;
             }
@@ -304,48 +330,28 @@ export default {
                 } else if (event.data === '음소거 해제'){
                     videoOutput.srcObject.getAudioTracks()[0].enabled = true
                 } else if (event.data === '비디오 시작'){
-                    videoOutput.removeAttribute('style')
+                    videoOutput.setAttribute('style','border-radius: 10px; display: inline')
                 } else if (event.data === '스크립트 시작'){
-                    script.removeAttribute("style")
-                    scriptButton.innerText = "Script OFF"
-                    videoInput.classList.remove("col-8")
-                    videoInput.classList.add("col-6")
-                    videoOutput.classList.remove("col-8")
-                    videoOutput.classList.add("col-6")
+                    bigScript.setAttribute("style","background-color : white; height: 300px; margin-bottom : 10px")
+                    inputOuter.classList.remove("col-8")
+                    inputOuter.classList.add("col-6")
+                    outputOuter.classList.remove("col-8")
+                    outputOuter.classList.add("col-6")
                 } else if (event.data === '스크립트 중지'){
-                    script.setAttribute("style", "display : none")
-                    scriptButton.innerText = "Script ON"
-                    videoInput.classList.remove("col-6")
-                    videoInput.classList.add("col-8")
-                    videoOutput.classList.remove("col-6")
-                    videoOutput.classList.add("col-8")
+                    bigScript.setAttribute("style", "display : none")
+                    inputOuter.classList.remove("col-6")
+                    inputOuter.classList.add("col-8")
+                    outputOuter.classList.remove("col-6")
+                    outputOuter.classList.add("col-8")
                 } else {
                     videoOutput.setAttribute("style","display:none")
                 } 
             }else {
                 var data = JSON.parse(event.data)
-                if (data.username != username){
-                    script.innerHTML = data.message
-                } else {
-                    var messageElement = document.createElement('li');
-                    messageElement.classList.add('chat-message');
-
-                    var usernameElement = document.createElement('span');
-                    var usernameText = document.createTextNode(data.username);
-                    usernameElement.appendChild(usernameText);
-                    messageElement.appendChild(usernameElement);
-
-                    if (data.message != null){
-                        var textElement = document.createElement('p');
-                        var messageText = document.createTextNode(data.message);
-                        textElement.appendChild(messageText);
-
-                        messageElement.appendChild(textElement);
-
-                        messageArea.appendChild(messageElement);
-                        messageArea.scrollTop = messageArea.scrollHeight;
-                    }
-                }                
+                var messageElement = document.createElement('p');
+                messageElement.classList.add('chat-message');
+                messageElement.innerText = data.username + ': ' + data.message
+                messageArea.appendChild(messageElement)            
             }
         };
 
@@ -366,10 +372,15 @@ export default {
             }
 
             if (role === 'consultant') {
-                scriptButton.removeAttribute("style")
-                script.setAttribute("style", "display : inline")
+                scriptButton.setAttribute("style", "display : inline")
                 script.setAttribute("contenteditable", "true")
                 editorMenu.removeAttribute("style")
+                bigScript.setAttribute("style","background-color : white; height: 40vh; margin-bottom : 10px; overflow : auto")
+                console.log(inputOuter)
+                inputOuter.classList.remove("col-8")
+                inputOuter.classList.add("col-6")
+                outputOuter.classList.remove("col-8")
+                outputOuter.classList.add("col-6")
             }
             if(username) {
                 var socket = new SockJS('https://3.34.51.116:8443/ws');
@@ -423,17 +434,19 @@ export default {
         openCall()
         
         var interval = setInterval(() => {
-            console.log(pre)
-            var post = this.$refs.script.innerHTML            
-            if (pre != post){
-                dataChannel.send(JSON.stringify({
-                    "username" : this.$store.state.auth.user.username,
-                    "message" : post
-                }))
-                pre = post
-            }
-            if (pre === null){
+            if (this.trigger == 1){
                 clearInterval(interval)
+            }
+            var post = script.innerHTML            
+            if (pre != post){
+                stompClient.send('/topic/public/' + room,
+                        JSON.stringify({
+                            content : post,
+                            sender : username
+                        }),
+                        {}
+                );
+                pre = post
             }
         }, 100)
     },
@@ -445,30 +458,20 @@ export default {
     methods: {
         scriptControl(){
             if (this.$refs.scriptButton.innerText === 'Script ON'){
-                dataChannel.send("스크립트 시작")
-                script.removeAttribute("style")
-                this.$refs.videoInput.classList.remove("col-8")
-                this.$refs.videoInput.classList.add("col-6")
-                this.$refs.videoOutput.classList.remove("col-8")
-                this.$refs.videoOutput.classList.add("col-6")
+                //dataChannel.send("스크립트 시작")
                 this.$refs.scriptButton.innerText = "Script OFF"
             }else {
-                this.$refs.script.setAttribute("style","display : none")
-                dataChannel.send("스크립트 중지")
-                this.$refs.videoInput.classList.remove("col-6")
-                this.$refs.videoInput.classList.add("col-8")
-                this.$refs.videoOutput.classList.remove("col-6")
-                this.$refs.videoOutput.classList.add("col-8")
+                //dataChannel.send("스크립트 중지")
                 this.$refs.scriptButton.innerText = "Script ON"
             }
         },
         screenControl(){
             if (this.$refs.screen.innerText === '비디오 중지'){
-                this.$refs.videoInput.setAttribute("style","display:none")
+                this.$refs.inputOuter.setAttribute("style","display:none;")
                 dataChannel.send("비디오 중지")
                 this.$refs.screen.innerText = "비디오 시작"
             }else {
-                this.$refs.videoInput.setAttribute("style","display:inline")
+                this.$refs.inputOuter.setAttribute("style","display:inline")
                 dataChannel.send("비디오 시작")
                 this.$refs.screen.innerText = "비디오 중지"
             }
@@ -492,27 +495,75 @@ export default {
                     "message" : messageContent
                 }))
 
-                var messageElement = document.createElement('li');
+                var messageElement = document.createElement('p');
                 messageElement.classList.add('chat-message');
-
-                var usernameElement = document.createElement('span');
-                var usernameText = document.createTextNode(this.$store.state.auth.user.username);
-                usernameElement.appendChild(usernameText);
-                messageElement.appendChild(usernameElement);
-
-                var textElement = document.createElement('p');
-                var messageText = document.createTextNode(messageContent);
-                textElement.appendChild(messageText);
-
-                messageElement.appendChild(textElement);
-
-                this.$refs.messageArea.appendChild(messageElement);
+                messageElement.innerText = this.$store.state.auth.user.username + ': ' + messageContent
+                this.$refs.messageArea.appendChild(messageElement) 
                 this.$refs.messageArea.scrollTop = this.$refs.messageArea.scrollHeight;
                 this.$refs.messageInput.value = '';
             }
+        },
+        change(value) {
+            this.trigger = value
         }
     },
     components: { ConsultCloseModal }
 };
 
 </script>
+
+<style>
+    @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
+
+    *:focus {
+        outline: none;
+    }
+    font {
+        padding: 0px !important;
+    }
+    .button {
+        margin-top: 1.2rem;
+        background-color: #0742F2;
+        border-radius: 12px;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+        text-align: center;
+        transition: 200ms;
+        width: 100%;
+        box-sizing: border-box;
+        border: 0;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        }
+
+    .button:not(:disabled):hover,
+    .button:not(:disabled):focus {
+    outline: 0;
+    background: #0742F2;
+    box-shadow: 0 0 0 2px rgba(0,0,0,.2), 0 3px 8px 0 rgba(0,0,0,.15);
+    }
+
+    .button:disabled {
+    filter: saturate(0.2) opacity(0.5);
+    -webkit-filter: saturate(0.2) opacity(0.5);
+    cursor: not-allowed;
+    }
+    
+    select {
+        border-radius: 10px;
+    }
+
+    .outer {
+        border-radius: 10%;
+        overflow: hidden;
+        padding : 0px !important;
+        margin : 0px !important;
+    }
+
+    video {
+        width : 100%;
+        height : 100%
+    }
+</style>
