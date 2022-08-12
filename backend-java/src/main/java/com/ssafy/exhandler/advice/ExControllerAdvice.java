@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.nio.file.NoSuchFileException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -81,4 +82,15 @@ public class ExControllerAdvice {
         log.error("[exceptionHandler] ex e", e);
         return new ErrorResult("BAD", e.getMessage());
     }
+
+    // 다른데이터를 참조하고 있는데 삭제
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ErrorResult sqlIntegrityConstraintViolationExHandler(SQLIntegrityConstraintViolationException e) {
+        log.error("[exceptionHandler] ex e", e);
+        return new ErrorResult("BAD", e.getMessage());
+    }
+
+
+
 }

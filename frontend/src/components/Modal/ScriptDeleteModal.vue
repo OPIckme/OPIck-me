@@ -33,11 +33,14 @@ export default {
     ...mapActions(['fetchScriptList']),
     deleteScript(){
       console.log(this.scriptId)
-      axios.delete(API_URL + `/script/${this.scriptId}`
-      ).then(res => {
+      axios.delete(API_URL + `/script/${this.scriptId}`)
+      .then(res => {
         console.log(res)
         this.fetchScriptList(this.$store.state.auth.user.username)
-        })
+      })
+      .catch(e =>{
+        console.log(e)
+      })
       }
     },
 }

@@ -2,6 +2,7 @@ package com.ssafy.api.controller;
 
 import com.ssafy.api.request.ConsultRegisterPostReq;
 import com.ssafy.api.response.ConsultMapRes;
+import com.ssafy.api.response.ConsultRes;
 import com.ssafy.api.service.ConsultService;
 import com.ssafy.api.service.ScriptService;
 import com.ssafy.common.model.response.BaseResponseBody;
@@ -37,8 +38,8 @@ public class ConsultController {
         String room = consultRegisterPostReq.getRoom();
 
 
-        consultService.create(script.get(), room);
-        return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success created consult"));
+        Consult consult=consultService.create(script.get(), room);
+        return ResponseEntity.status(201).body(ConsultRes.of(201, "Success created consult",consult));
         }
 
     @GetMapping
@@ -51,8 +52,8 @@ public class ConsultController {
         return ResponseEntity.status(200).body(ConsultMapRes.of(200,"Success to get consult list", waitingConsultMap));
     }
 
-    @PutMapping("/complete/{consultId}")
-    @ApiOperation(value = "상담 상태 변경", notes = "상담 상태를 완료로 변경한다.")
+    @DeleteMapping("/complete/{consultId}")
+    @ApiOperation(value = "상담 완료 삭제", notes = "상담 완료로 db에서 삭제.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 500, message = "상담 없음"),
@@ -61,10 +62,10 @@ public class ConsultController {
     public ResponseEntity<? extends BaseResponseBody> complete(@PathVariable Long consultId) {
 
         if (consultService.exist(consultId)){
-        // 이미 진행완료된 상담 => service 단에서 에러 던짐
-        // 상담 무사히 완료
-        consultService.modifyState(consultId);
-        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Consult completed!"));
+            // 이미 진행완료된 상담 => service 단에서 에러 던짐
+            // 상담 무사히 완료
+            consultService.delete(consultId);
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Consult completed!"));
         }
         // 없는 상담
         throw new IllegalArgumentException("존재하지 않는 상담입니다.");
