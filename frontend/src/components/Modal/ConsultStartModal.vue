@@ -27,7 +27,12 @@ export default {
   methods : {
     feedBack() {
       console.log(this.waitingconsult)
-      this.$router.push({name : "webrtcstudent", params: {room: this.waitingconsult.room}});
+      this.$router.push({name : "webrtcstudent", params: {
+        room: this.waitingconsult.room,
+        script: this.waitingconsult.script.scriptContent,
+        topic: this.waitingconsult.script.question.topic,
+        question: this.waitingconsult.script.question.questionContent
+        }});
     },
     completeConsult(){
       axios.delete(API_URL+ `/consult/complete/${this.waitingconsult.id}`)

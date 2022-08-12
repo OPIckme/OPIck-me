@@ -27,9 +27,11 @@ export default {
   },
   methods: {
     consultCloseStudent() {
+      this.$emit("change",1)
       this.$router.push("/feedback");
     },
     consultCloseConsult() {
+      this.$emit("change",1)
       this.$router.push("/mainpage");
     },
     completeConsult(){
