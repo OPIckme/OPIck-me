@@ -10,7 +10,7 @@
     <div style="margin-left : 3px;">
         <div class="row">
             <div class="col-8">
-                <div class="row mx-3">
+                <div class="row justify-content-center mx-3">
                     <div class="outer col-8 my-3" ref="outputOuter">
                         <video id="videoOutput" autoplay style="display : inline;"
                         ref="videoOutput"></video>
@@ -93,7 +93,7 @@
         </div>
     </div>
 </div>
-<ConsultCloseModal @change="change"></ConsultCloseModal>
+<ConsultCloseModal :modify="modify" @change="change"></ConsultCloseModal>
 </template>
 <script>
 import ConsultCloseModal from '@/components/Modal/ConsultCloseModal.vue';
@@ -134,7 +134,8 @@ var stompClient = null;
 export default {
     data(){
         return {
-            trigger : 0
+            trigger : 0,
+            modify : ''
         }
     },
     props: {
@@ -176,7 +177,6 @@ export default {
         let outputOuter = this.$refs.outputOuter
 
         script.innerText = this.$route.params.script
-
         dataChannel.onerror = function(error) {
             console.log("Error:", error);
         };
@@ -348,9 +348,9 @@ export default {
                 } 
             }else {
                 var data = JSON.parse(event.data)
-                var messageElement = document.createElement('p');
-                messageElement.classList.add('chat-message');
-                messageElement.innerText = data.username + ': ' + data.message
+                var messageElement = document.createElement('div');
+                messageElement.setAttribute("style","border-radius : 10px;")
+                messageElement.innerText = data.message
                 messageArea.appendChild(messageElement)            
             }
         };
@@ -437,8 +437,9 @@ export default {
             if (this.trigger == 1){
                 clearInterval(interval)
             }
-            var post = script.innerHTML            
-            if (pre != post){
+            var post = script.innerHTML
+            this.modify = post          
+            if (pre != post && this.$store.state.auth.user.role === 'consultant'){
                 stompClient.send('/topic/public/' + room,
                         JSON.stringify({
                             content : post,
@@ -446,6 +447,7 @@ export default {
                         }),
                         {}
                 );
+                focusEditor();
                 pre = post
             }
         }, 100)
@@ -496,7 +498,7 @@ export default {
                 }))
 
                 var messageElement = document.createElement('p');
-                messageElement.classList.add('chat-message');
+                messageElement.setAttribute("style","border-radius : 10px; float: right")
                 messageElement.innerText = this.$store.state.auth.user.username + ': ' + messageContent
                 this.$refs.messageArea.appendChild(messageElement) 
                 this.$refs.messageArea.scrollTop = this.$refs.messageArea.scrollHeight;
@@ -556,7 +558,7 @@ export default {
     }
 
     .outer {
-        border-radius: 10%;
+        border-radius: 15px;
         overflow: hidden;
         padding : 0px !important;
         margin : 0px !important;
