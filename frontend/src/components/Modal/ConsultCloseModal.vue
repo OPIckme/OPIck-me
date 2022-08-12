@@ -15,7 +15,7 @@
 <script>
 import {API_URL} from '@/api/http.js';
 import axios from 'axios';
-import { mapGetters } from 'vuex';
+import { mapGetters,mapActions } from 'vuex';
 export default {
   data(){
     return{
@@ -26,8 +26,10 @@ export default {
     ...mapGetters(['consultId']),
   },
   methods: {
+    ...mapActions(['fetchHere2']),
     consultCloseStudent() {
       this.$emit("change",1)
+      this.fetchHere2()
       this.$router.push("/feedback");
     },
     consultCloseConsult() {
