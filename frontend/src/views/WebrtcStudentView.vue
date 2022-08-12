@@ -383,7 +383,7 @@ export default {
                 outputOuter.classList.add("col-6")
             }
             if(username) {
-                var socket = new SockJS('https://3.34.51.116:8443/ws');
+                var socket = new SockJS('https://i7b202.p.ssafy.io/ws');
                 stompClient = Stomp.over(socket);
                 stompClient.connect({}, () => {
                     stompClient.subscribe('/topic/public/' + room, onMessageReceived);
