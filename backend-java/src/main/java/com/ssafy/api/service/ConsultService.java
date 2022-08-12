@@ -14,9 +14,8 @@ public interface ConsultService {
 
     Map<Long, Consult> waitingConsultMap();
 
-    Consult modifyState(Long consultId);
-
     boolean exist(Long consultId);
 
+    void delete(Long consultId);
     Optional<Consult> getConsultByConsultId(Long consultId);
 }

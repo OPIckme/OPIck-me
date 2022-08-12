@@ -3,6 +3,7 @@ package com.ssafy.stt;
 import com.google.api.gax.longrunning.OperationFuture;
 import com.google.cloud.speech.v1.*;
 import com.google.protobuf.ByteString;
+import org.springframework.stereotype.Component;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,8 +11,9 @@ import java.nio.file.Paths;
 import java.util.List;
 
 
+@Component
 public class STT {
-    public static String asyncRecognizeFile(String fileName) throws Exception {
+    public String asyncRecognizeFile(String fileName) throws Exception {
         // Instantiates a client with GOOGLE_APPLICATION_CREDENTIALS
         try (SpeechClient speech = SpeechClient.create()) {
 
@@ -22,10 +24,10 @@ public class STT {
             // Configure request with local raw PCM audio
             RecognitionConfig config =
                     RecognitionConfig.newBuilder()
-                            .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
+                            .setEncoding(RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED)
                             .setLanguageCode("en-US")
-                            .setSampleRateHertz(48000)
-                            .setAudioChannelCount(1)
+                            .setSampleRateHertz(44100)
+                            .setAudioChannelCount(2)
                             .build();
             RecognitionAudio audio = RecognitionAudio.newBuilder().setContent(audioBytes).build();
 
