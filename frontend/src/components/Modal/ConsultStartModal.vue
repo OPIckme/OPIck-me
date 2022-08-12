@@ -31,7 +31,8 @@ export default {
         room: this.waitingconsult.room,
         script: this.waitingconsult.script.scriptContent,
         topic: this.waitingconsult.script.question.topic,
-        question: this.waitingconsult.script.question.questionContent
+        question: this.waitingconsult.script.question.questionContent,
+        scriptId:this.waitingconsult.script.id
         }});
     },
     completeConsult(){
