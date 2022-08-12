@@ -33,7 +33,12 @@ export default {
   methods: {
     ...mapActions(['fetchWaitingConsultMap','fetchConsultId']),
     feedBack() {
-      this.$router.push({name : "webrtcstudent", params: {room: this.roomId}});
+      this.$router.push({name : "webrtcstudent", params: {
+        room: this.roomId,
+        script: this.script.scriptContent,
+        topic: this.script.question.topic,
+        question: this.script.question.questionContent
+        }});
     },
     createConsult() {
       axios.post(API_URL + '/consult', {
