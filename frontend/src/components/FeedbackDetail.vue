@@ -50,15 +50,13 @@ export default {
           axios.get(API_URL + `/feedback/${this.username}/${this.feedbackId}`)
           .then(res => {
             this.feedback = res.data.feedback
+	    const d = new Date(this.feedback.created_at)
+	    this.createdAt = d.toLocaleString()
           })
         },
     },
     created() {
       this.getFeedback()
-    },
-    mounted() {
-      const d = new Date(this.feedback.created_at)
-      this.createdAt = d.toLocaleString()
     },
     components: { LogoutModal }
 }
