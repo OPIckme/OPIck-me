@@ -93,7 +93,7 @@
         </div>
     </div>
 </div>
-<ConsultCloseModal :modify="modify" @change="change"></ConsultCloseModal>
+<ConsultCloseModal :modify="modify" :scriptId="scriptId" @change="change"></ConsultCloseModal>
 </template>
 <script>
 import ConsultCloseModal from '@/components/Modal/ConsultCloseModal.vue';
@@ -152,6 +152,10 @@ export default {
             default: ""
         },
         question : {
+            type: String,
+            default: ""
+        },
+        scriptId:{
             type: String,
             default: ""
         },

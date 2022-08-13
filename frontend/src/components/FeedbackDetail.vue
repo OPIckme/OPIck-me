@@ -20,7 +20,7 @@
     <p>{{ createdAt.slice(0,-3) }}</p>
     <hr>
     <p>[Script]</p>
-    <div class="script" id="content"></div>
+    <div class="script" id="content"> {{ feedback.content }}</div>
   </div>
 </div>
 </template>
@@ -56,9 +56,6 @@ export default {
       this.getFeedback()
     },
     mounted() {
-      var div = document.querySelector('#content');
-      var content = this.feedback.content;
-      div.innerHTML = content;
       const d = new Date(this.feedback.created_at)
       this.createdAt = d.toLocaleString()
     },

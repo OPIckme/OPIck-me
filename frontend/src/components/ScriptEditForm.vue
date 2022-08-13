@@ -8,7 +8,9 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions } from 'vuex';
+import axios from 'axios';
+import {API_URL} from '@/api/http.js';
 
 export default {
     name: "ScriptEditForm",
@@ -22,7 +24,14 @@ export default {
         }
     },
     methods: {
-        ...mapActions(['modifyScript', 'fetchScript']),
+        ...mapActions(['modifyScript']),
+        getScript(){
+          axios.get(API_URL + `/script/${this.username}/${this.script.id}`)
+          .then(res => {
+            console.log(res.data)
+            }
+          )
+        },
         onSubmit() {
             const payload = {
             scriptId: this.script.id,
@@ -30,7 +39,7 @@ export default {
             }
             this.modifyScript(payload)
             console.log(this.username, this.script.scriptContent)
-            this.fetchScript(this.username, this.script.id)
+            this.getScript()
             this.$router.push({
             name:'scriptdetail',
             params:{scriptId:this.script.id}

@@ -100,12 +100,15 @@ public class ScriptServiceImpl implements ScriptService {
             s3is.close();
             fos.close();
         } catch (AmazonServiceException e) {
+            System.out.println("1");
             System.err.println(e.getErrorMessage());
             System.exit(1);
         } catch (FileNotFoundException e) {
+            System.out.println("2");
             System.err.println(e.getMessage());
             System.exit(1);
         } catch (IOException e) {
+            System.out.println("3");
             System.err.println(e.getMessage());
             System.exit(1);
         }
