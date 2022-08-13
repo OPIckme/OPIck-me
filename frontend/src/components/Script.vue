@@ -1,14 +1,16 @@
 <template>
-<!-- Script 생성 버튼 -->
-<button style="margin-top:2.5rem; margin-bottom: 1rem; margin-left: 0.5rem; width: 200px; height: 45px;" class="btn btn-primary scriptbutton" data-bs-toggle="modal" href="#SurveyModal" role="button">Script 생성</button>
-<!-- script card -->
-<div  class="row">
-    <ScriptCard 
-    class="col-lg-3 col-md-4 col-sm-6" 
-    v-for="script in scriptList" 
-    :key="script.id" 
-    :script="script">
-    </ScriptCard>
+<div class="container">
+    <!-- Script 생성 버튼 -->
+    <button style="margin-top:2.5rem; margin-bottom: 1rem; margin-left: 0.5rem; width: 200px; height: 45px;" class="btn scriptbutton" data-bs-toggle="modal" href="#SurveyModal" role="button">Script 생성</button>
+    <!-- script card -->
+    <div  class="row">
+        <ScriptCard 
+        class="col-lg-3 col-md-4 col-sm-6" 
+        v-for="script in scriptList" 
+        :key="script.id" 
+        :script="script">
+        </ScriptCard>
+    </div>
 </div>
 
 <SurveyModal></SurveyModal>
@@ -58,7 +60,7 @@ export default {
     color: #fff;
     text-align: center;
     line-height: normal;
-    background: #0742F2;
+    background: #052A99;
     border-radius: 50px;
     transition: 200ms;
     user-select: none;
@@ -68,7 +70,7 @@ export default {
 .scriptbutton:not(:disabled):hover,
 .scriptbutton:not(:disabled):focus{
     outline: 0;
-    background: #0742F2;
+    background: #052A99;
     box-shadow: 0 0 0 2px rgba(0,0,0,.2), 0 3px 8px 0 rgba(0,0,0,.15);
 }
                 

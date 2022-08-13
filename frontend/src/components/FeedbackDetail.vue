@@ -1,19 +1,21 @@
 <template>
-<nav class="navbar sticky-top" style="background-color:#0742F2; height: 80px;">
-  <router-link class="position-absolute top-50 start-50 translate-middle  " to="/mainpage">
-    <img src="../assets/logo.png" alt="" style="width:120px">
-  </router-link>
-  <button class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Logout" >Logout</button>
+<nav class="navbar sticky-top" style="background-color:#052A99; height: 80px;">
+  <div class="container">
+    <router-link class="position-absolute top-50 start-50 translate-middle  " to="/mainpage">
+      <img src="../assets/logo.png" alt="" style="width:120px">
+    </router-link>
+    <button class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Logout" >Logout</button>
+  </div>
 </nav>
 <LogoutModal></LogoutModal>
-<div class="scriptdetail">
+<div class="scriptdetail container">
   <!-- 나가기 -->
   <div @click="back" class="close-container">
     <div class="leftright"></div>
     <div class="rightleft"></div>
     <label class="close">back</label>
   </div>
-  <div class="container">
+  <div class="scriptcontainer">
     <hr>
     <h5>{{ feedback.script.question.topic }}</h5>
     <h2>Q. {{ feedback.script.question.questionContent }}</h2>
@@ -146,7 +148,7 @@ h2{
   letter-spacing: 1px;
   line-height: 1.5rem;
 }
-.container{
+.scriptcontainer{
   margin-top: 3rem;
   padding: 4rem;
 }

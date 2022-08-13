@@ -1,7 +1,7 @@
 <template>
 <MainPageNavbar></MainPageNavbar>
 <!-- feedback card -->
-<div style="margin-top:4rem">
+<div class="container" style="margin-top:4rem">
     <div class="row">
         <FeedbackCard 
         style="margin-top:40px;"

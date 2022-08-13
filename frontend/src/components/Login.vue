@@ -1,11 +1,9 @@
 <template>
 <!-- Navbar -->
-<nav class="navbar" style="background-color:#0742F2;">
-  <div class="container-fluid">
-    <a href="/" class="navbar-brand">
-      <img src="../assets/logo.png" alt="" style="width:150px">
-    </a>
-  </div>
+<nav class="navbar sticky-top" style="background-color:#052A99; height: 80px;">
+  <router-link class="position-absolute top-50 start-50 translate-middle  " to="/">
+    <img src="../assets/logo.png" alt="" style="width:120px">
+  </router-link>
 </nav>
 
 
@@ -281,6 +279,7 @@ input {
   width: 1296px;
   max-width: 100%;
   min-height: 600px;
+  margin-top: 2rem;
 }
 
 .form-container {

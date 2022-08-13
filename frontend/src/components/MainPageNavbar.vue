@@ -1,9 +1,11 @@
 <template>
-<nav class="navbar sticky-top" style="background-color:#0742F2; height: 80px;">
-  <router-link class="position-absolute top-50 start-50 translate-middle  " to="/mainpage" @click.native="fetchHere1" :id="here1">
-    <img src="../assets/logo.png" alt="" style="width:120px">
-  </router-link>
-  <button  @click.native="fetchHere1" :id="here1" class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Logout" >Logout</button>
+<nav class="navbar sticky-top" style="background-color:#052A99; height: 80px;">
+  <div class="container">
+    <router-link class="position-absolute top-50 start-50 translate-middle  " to="/mainpage" @click.native="fetchHere1" :id="here1">
+      <img src="../assets/logo.png" alt="" style="width:120px">
+    </router-link>
+    <button  @click.native="fetchHere1" :id="here1" class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Logout" >Logout</button>
+  </div>
 </nav>
 <div v-if="role==='student'" class="menu d-flex justify-content-evenly" style="background-color:white;">
   <router-link to="/mainpage" @click.native="fetchHere1" class="script" :id="here1">Script</router-link>
