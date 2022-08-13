@@ -22,18 +22,12 @@
       <div class="modal-body">
         <div class="leisure-activities">
           <h1>여가활동</h1>
-          <div class="form-check form-check-inline">
-            <input v-model="topic" class="form-check-input" type="radio" name="inlineRadioOptions" id="leisure1" value="영화보기">
-            <label class="form-check-label" for="영화보기">영화보기</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input v-model="topic" class="form-check-input" type="radio" name="inlineRadioOptions" id="leisure2" value="나이트클럽 가기">
-            <label class="form-check-label" for="나이트클럽 가기">나이트클럽 가기</label>
-          </div>
+          <input-topic v-for="item in category" :key="item" :item="item" @topic="changeTopic"></input-topic>
         </div>
       </div>
       <div class="modal-footer">
-        <button @click="getQuestion(topic,level)" class="btn btn-primary" :data-bs-target="surveyCheck()" data-bs-toggle="modal">START</button>
+        <button class="custom-btn btn-3"><span>Read More</span></button>
+        <button @click="getQuestion(topic,level)" class="custom-btn btn-3" :data-bs-target="surveyCheck()" data-bs-toggle="modal"><span>START</span></button>
       </div>
     </div>
   </div>
@@ -145,8 +139,11 @@
       <div class="modal-header">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit()"></button>
       </div>
+       <div v-if="isStatusOn">Hello Webisfree.com</div>
+      <button @click="toggleOnOff" v-if="!isStatusOn">문제 보기</button>
+      <button @click="toggleOnOff" v-if="isStatusOn">문제 숨기기</button>
       <div class="modal-body">
-        <h5 class="modal-title" id="exampleModalToggleLabel3">
+        <h5 class="modal-title" id="exampleModalToggleLabel3" v-if="isStatusOn">
          Q. {{ questionInfo.questionContent }}
         </h5>
         <!-- soundwave -->
@@ -189,11 +186,11 @@
           </svg>
           <p>Re-Start</p>
           <!-- save -->
-          <svg @click="uploadFile(blob)" data-bs-dismiss="modal" aria-label="Close" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+          <svg @click="s3Upload()" data-bs-dismiss="modal" aria-label="Close" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
             <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
             <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
           </svg>
-          <p>Script save</p>
+          <p>Script savse</p>
         </div>
       </div>
     </div>
@@ -203,14 +200,16 @@
 
 <script>
 import axios from 'axios';
-// import InputTopic from "../InputTopic.vue";
+
 import {uploadFile} from '@/plugins/s3upload';
 import { mapActions } from 'vuex';
 import { v4 } from 'uuid';
 import {API_URL} from '@/api/http.js';
+import InputTopic from '../InputTopic.vue';
 
 
 export default {
+  components: { InputTopic },
   data(){
     return{
       topic : '',
@@ -218,21 +217,35 @@ export default {
       questionInfo : {},
       audio: {},
       audioUrl : '',
+      isStatusOn: false,
       userId:this.$store.state.auth.user.id,
-      category: ["해외 여행", "국내 여행"],
+      category: ["영화보기", "나이트클럽 가기", "공연보기", "콘서트보기", "박물관가기", "공원가기", "캠핑하기", "해변가기", "스포츠 관람", "주거 개선", "아이에게 책 읽어주기", "음악 감상하기", "악기 연주하기", "혼자 노래부르거나 합창하기", "춤추기", "글쓰기", "그림 그리기", "요리하기", "애완동물 기르기", "농구", "야구", "축구", "미식축구", "하키", "크리켓", "골프", "배구", "테니스", "배드민턴", "탁구", "수영", "자전거", "스노우보드", "아이스 스케이트", "조깅", "걷기", "요가", "하이킹", "낚시", "헬스", "국내출장", "해외출장", "집에서 보내는 휴가", "국내 여행", "해외 여행"],
       //---audio 녹음 data 시작--
       mediaRecorder:null,
       audioArray : [],
       blob: {},
-      blobURL:""
+      blobURL:"",
+      uploadParams:{},
+      uuid:""
+
+
       //---audio 녹음 data 끝
     }
   },
   methods : {
     ...mapActions(['fetchScriptList']),
+    s3Upload(){
+      uploadFile(this.uploadParams,this.saveScript,this.uuid)
+    },
 
+    toggleOnOff() {
+    this.isStatusOn = !this.isStatusOn;
+  },
 
     getQuestion(topic,level) {
+      if (this.topic == "" && this.level == "") { // topic과 level이 선택되지 않았을 때
+        alert("Topic과 Level을 선택해주세요.");
+      }
       if (this.topic == "" && this.level !== "") { // topic이 선택되지 않았을 때
         alert("Topic을 선택해주세요.");
       }
@@ -255,26 +268,38 @@ export default {
       });
     },
 
+     surveyCheck() {
+        // survey에서 topic이나 level이 선택 안되면 넘어가지 않는다.
+         if (this.topic == "" || this.level == "") { // topic이나 level이 선택되지 않으면
+          return 1;
+          }
+
+        if (this.topic !== "" && this.level !== "") { // topic과 level이 선택되어야만
+          return "#SurveyModal2";
+          }
+      },
 
     saveScript(fileName) {
+      // setTimeout(
+      //   axios.post(API_URL + '/script', {
+      //     userId: this.userId,
+      //     questionId: this.questionInfo.id,
+      //     audioURL: `https://jaeyeong-s3.s3.ap-northeast-2.amazonaws.com/${fileName}.webm`,
+      //     keyName: fileName,
+      //   }).then(res=>{
+      //     console.log(res)
+      //     this.fetchScriptList(this.$store.state.auth.user.username)
+      //   }),500)
       axios.post(API_URL + '/script', {
-        userId: this.userId,
-        questionId: this.questionInfo.id,
-        audioURL: `https://jaeyeong-s3.s3.ap-northeast-2.amazonaws.com/${fileName}.webm`,
-        keyName: fileName,
-      }).then(res=>{
-        console.log(res)
-        this.fetchScriptList(this.$store.state.auth.user.username)
-      })
+          userId: this.userId,
+          questionId: this.questionInfo.id,
+          audioURL: `https://jaeyeong-s3.s3.ap-northeast-2.amazonaws.com/${fileName}.webm`,
+          keyName: fileName,
+        }).then(res=>{
+          console.log(res)
+          this.fetchScriptList(this.$store.state.auth.user.username)
+        })
     },
-
-    surveyCheck() {
-      // survey에서 topic이나 level이 선택 안되면 넘어가지 않는다.
-      if (this.topic !== "" && this.level !== "") { // topic과 level이 선택되어야만
-        return "#SurveyModal2";
-      }
-    },
-
 
     surveyinit() { // survey 선택 창에서 x버튼 클릭하면 survey 선택 초기화
       this.topic = ""; // topic 초기화
@@ -356,9 +381,13 @@ export default {
         problem_nolisten.style.display = "none";
       }
     },
+    
+     changeTopic(topic) {
+      this.topic = topic;
+     },
 
     async start(){
-      const uuid =v4()
+      this.uuid =v4()
       this.stopSound(); // 문제를 듣다가 녹음 버튼 누르면 문제 듣기 종료
       // 마이크 mediaStream 생성: Promise를 반환하므로 async/await 사용
       const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
@@ -374,7 +403,7 @@ export default {
       // 이벤트핸들러: 녹음 종료 처리 & 재생하기
       this.mediaRecorder.onstop = ()=>{
         const audioType="webm"
-        const fileName=uuid
+        const fileName=this.uuid
         // 녹음이 종료되면, 배열에 담긴 오디오 데이터(Blob)들을 합친다: 코덱도 설정해준다.
         this.blob = new Blob(this.audioArray, {"type":`audio/${audioType}`});
         console.log(this.blob);
@@ -385,26 +414,12 @@ export default {
         
 
         // s3에 업로드하기 위한 파라미터
-        const uploadParams = {
+        this.uploadParams = {
           Bucket: "jaeyeong-s3",
           Key: `${fileName}.${audioType}`, // File name you want to save as in S3            
           Body: this.blob,
           ContentType: `audio/${audioType}`
-        };
-        
-        // s3 stt 파라미터
-        const sttParams = {
-          TranscriptionJobName: fileName,
-          LanguageCode: "en-US", // For example, 'en-US'
-          MediaFormat: audioType, // For example, 'wav'
-          Media: {
-            MediaFileUri: `s3://jaeyeong-s3/${fileName}.${audioType}`,
-          },
-          OutputBucketName: "jaeyeong-s3"
-        };
-        uploadFile(uploadParams,sttParams)
-        // run(sttParams)
-        this.saveScript(uuid)
+        };     
             
       }
 
@@ -445,35 +460,93 @@ export default {
   transform: scale( 1.3 )
   }
 
-/* 박스 위아래로 움직이는 애니메이션 코드 */
-/* .box{
-  width: 100%;
-  height: 120px;
-  text-align: center;
-  color: #E62200;
-  max-width: 300px;
-  border: solid 10px #ffa23c;
-  background: #fff;
-  border-radius: 15px;
-  padding-top: 30px;
-  animation: up-down 1.4s infinite ease-in-out alternate;
-} */
+  .custom-btn {
+  width: 130px;
+  height: 40px;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 25px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+   7px 7px 20px 0px rgba(0,0,0,.1),
+   4px 4px 5px 0px rgba(0,0,0,.1);
+  outline: none;
+}
 
-/* 박스 확대 코드 */
-/* * {
-  box-sizing: border-box;
-  }
+/* 3 */
+.btn-3 {
+  background: rgb(0,172,238);
+background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
+  width: 130px;
+  height: 40px;
+  line-height: 42px;
+  padding: 0;
+  border: none;
   
-.jb-box {
-  width: 100px;
-  height: 100px;
-  margin: 50px auto;
-  padding: 20px;
-  background-color: orange;
-  transition: all 0.5s linear;
-  }
-  
-  .jb-box:hover {
-    transform: scaleX( 1.5 )
-    } */
+}
+.btn-3 span {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.btn-3:before,
+.btn-3:after {
+  position: absolute;
+  content: "";
+  right: 0;
+  top: 0;
+   background: rgba(2,126,251,1);
+  transition: all 0.3s ease;
+}
+.btn-3:before {
+  height: 0%;
+  width: 2px;
+}
+.btn-3:after {
+  width: 0%;
+  height: 2px;
+}
+.btn-3:hover{
+   background: transparent;
+  box-shadow: none;
+}
+.btn-3:hover:before {
+  height: 100%;
+}
+.btn-3:hover:after {
+  width: 100%;
+}
+.btn-3 span:hover{
+   color: rgba(2,126,251,1);
+}
+.btn-3 span:before,
+.btn-3 span:after {
+  position: absolute;
+  content: "";
+  left: 0;
+  bottom: 0;
+   background: rgba(2,126,251,1);
+  transition: all 0.3s ease;
+}
+.btn-3 span:before {
+  width: 2px;
+  height: 0%;
+}
+.btn-3 span:after {
+  width: 0%;
+  height: 2px;
+}
+.btn-3 span:hover:before {
+  height: 100%;
+}
+.btn-3 span:hover:after {
+  width: 100%;
+}
 </style>

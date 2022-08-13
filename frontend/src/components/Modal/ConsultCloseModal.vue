@@ -15,26 +15,40 @@
 <script>
 import {API_URL} from '@/api/http.js';
 import axios from 'axios';
-import { mapGetters } from 'vuex';
+import { mapGetters,mapActions } from 'vuex';
 export default {
   data(){
     return{
       role:this.$store.state.auth.user.role
     }
   },
+  props : {
+    modify:String,
+    scriptId:String,
+  },
   computed:{
     ...mapGetters(['consultId']),
   },
   methods: {
+    ...mapActions(['fetchHere2']),
     consultCloseStudent() {
       this.$emit("change",1)
+      this.fetchHere2()
       this.$router.push("/feedback");
     },
-    consultCloseConsult() {
+    async consultCloseConsult() {
+      axios.post(API_URL+ `/feedback`,{
+        content: this.modify,
+        scriptId: this.scriptId
+      })
+      .then(res => {
+        console.log(res)
+      })
       this.$emit("change",1)
       this.$router.push("/mainpage");
     },
     completeConsult(){
+      console.log(this.modify)
       axios.delete(API_URL+ `/consult/complete/${this.consultId}`)
       .then(res => {
         console.log(res)

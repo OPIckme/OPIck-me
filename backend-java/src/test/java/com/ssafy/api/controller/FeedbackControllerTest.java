@@ -1,7 +1,6 @@
 package com.ssafy.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.api.service.ConsultService;
 import com.ssafy.api.service.FeedbackService;
 import com.ssafy.api.service.ScriptService;
 import com.ssafy.api.service.UserService;
@@ -20,9 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.HashMap;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 

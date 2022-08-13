@@ -50,7 +50,7 @@ export default {
         this.fetchConsultId(consultId)
         this.fetchWaitingConsultMap()
       })
-      var socket = new SockJS('https://3.34.51.116:8443/ws');
+      var socket = new SockJS('https://i7b202.p.ssafy.io/ws');
       var stompClient = Stomp.over(socket);
       stompClient.connect({}, () => {
         stompClient.send("/topic/public/",
