@@ -11,11 +11,11 @@
         <div class="row">
             <div class="col-8">
                 <div class="row justify-content-center mx-3">
-                    <div class="outer col-8 my-3" ref="outputOuter">
+                    <div class="outer col-8 my-3 mx-1" ref="outputOuter">
                         <video id="videoOutput" autoplay style="display : inline;"
                         ref="videoOutput"></video>
                     </div>
-                    <div class="outer col-8 my-3" ref="inputOuter">
+                    <div class="outer col-8 my-3 mx-1" ref="inputOuter">
                         <video id="videoInput" autoplay style="display : inline;" muted="true"
                         ref="videoInput"></video>
                     </div>
@@ -69,7 +69,7 @@
                 </div>
                 <div class="row justify-content-center">
                     <button class="col-3 mx-2 button" @click.prevent="muteControl" ref="sound">
-                    <img src="https://img.icons8.com/fluency-systems-regular/48/000000/microphone--v1.png"/>
+
                     음소거
                     </button>
                     <button class="col-3 mx-2 button" @click.prevent="screenControl" ref="screen">비디오 중지</button>
@@ -77,8 +77,8 @@
             </div>
 
             <div ref="chat-page" class="col-4">
-                <div class="chat-container" style="height : 92%; background-color : white; overflow: auto;">
-                    <div ref="messageArea">
+                <div class="chat-container" style="height : 600px; background-color : #E3F2FD; overflow: auto;">
+                    <div ref="messageArea" class="mx-2">
                     </div>
                 </div>
                 <form @submit.prevent="sendMessage" ref="messageForm" name="messageForm">
@@ -310,11 +310,7 @@ export default {
                     sdp : message.content.sdp,
                     type : message.content.type
                     }));
-            } else {
-                if (username != message.sender){
-                    script.innerHTML = message.content
-                }
-            }
+            } 
             if (message.type === 'JOIN'|| message.type === 'LEAVE'){
                 messageArea.appendChild(messageElement);
                 messageArea.scrollTop = messageArea.scrollHeight;
@@ -338,24 +334,34 @@ export default {
                 } else if (event.data === '스크립트 시작'){
                     bigScript.setAttribute("style","background-color : white; height: 300px; margin-bottom : 10px")
                     inputOuter.classList.remove("col-8")
-                    inputOuter.classList.add("col-6")
+                    inputOuter.classList.add("col-5")
                     outputOuter.classList.remove("col-8")
-                    outputOuter.classList.add("col-6")
+                    outputOuter.classList.add("col-5")
                 } else if (event.data === '스크립트 중지'){
                     bigScript.setAttribute("style", "display : none")
-                    inputOuter.classList.remove("col-6")
+                    inputOuter.classList.remove("col-5")
                     inputOuter.classList.add("col-8")
-                    outputOuter.classList.remove("col-6")
+                    outputOuter.classList.remove("col-5")
                     outputOuter.classList.add("col-8")
                 } else {
                     videoOutput.setAttribute("style","display:none")
                 } 
             }else {
                 var data = JSON.parse(event.data)
-                var messageElement = document.createElement('div');
-                messageElement.setAttribute("style","border-radius : 10px;")
-                messageElement.innerText = data.message
-                messageArea.appendChild(messageElement)            
+                console.log(data)
+                if (data.content != null && username != data.sender){
+                    script.innerHTML = data.content
+                }else{
+                    var messageElement = document.createElement('div');
+                    messageElement.classList.add("chat-message")
+                    messageElement.classList.add("other")
+                    var messageText = document.createElement('div')
+                    messageText.innerText = data.message
+        
+                    messageElement.appendChild(messageText)
+                    messageArea.appendChild(messageElement)  
+                    messageArea.scrollTop = messageArea.scrollHeight;
+                }          
             }
         };
 
@@ -379,12 +385,12 @@ export default {
                 scriptButton.setAttribute("style", "display : inline")
                 script.setAttribute("contenteditable", "true")
                 editorMenu.removeAttribute("style")
-                bigScript.setAttribute("style","background-color : white; height: 40vh; margin-bottom : 10px; overflow : auto")
+                bigScript.setAttribute("style","background-color : #E3F2FD; height: 40vh; margin-bottom : 10px; overflow : auto")
                 console.log(inputOuter)
                 inputOuter.classList.remove("col-8")
-                inputOuter.classList.add("col-6")
+                inputOuter.classList.add("col-5")
                 outputOuter.classList.remove("col-8")
-                outputOuter.classList.add("col-6")
+                outputOuter.classList.add("col-5")
             }
             if(username) {
                 var socket = new SockJS('https://i7b202.p.ssafy.io/ws');
@@ -442,17 +448,12 @@ export default {
                 clearInterval(interval)
             }
             var post = script.innerHTML
-            this.modify = post 
-                  
-            if (pre != post && this.$store.state.auth.user.role === 'consultant'){
-                stompClient.send('/topic/public/' + room,
-                        JSON.stringify({
-                            content : post,
-                            sender : username
-                        }),
-                        {}
-                );
-                focusEditor();
+            this.modify = post          
+            if (pre != post && this.$store.state.auth.user.role === 'consultant'){    
+                dataChannel.send(JSON.stringify({
+                    "sender" : this.$store.state.auth.user.username,
+                    "content" : post
+                }))
                 pre = post
             }
         }, 100)
@@ -465,10 +466,10 @@ export default {
     methods: {
         scriptControl(){
             if (this.$refs.scriptButton.innerText === 'Script ON'){
-                //dataChannel.send("스크립트 시작")
+                dataChannel.send("스크립트 시작")
                 this.$refs.scriptButton.innerText = "Script OFF"
             }else {
-                //dataChannel.send("스크립트 중지")
+                dataChannel.send("스크립트 중지")
                 this.$refs.scriptButton.innerText = "Script ON"
             }
         },
@@ -502,13 +503,19 @@ export default {
                     "message" : messageContent
                 }))
 
-                var messageElement = document.createElement('p');
-                messageElement.setAttribute("style","border-radius : 10px; float: right")
-                messageElement.innerText = this.$store.state.auth.user.username + ': ' + messageContent
-                this.$refs.messageArea.appendChild(messageElement) 
-                this.$refs.messageArea.scrollTop = this.$refs.messageArea.scrollHeight;
+                var messageElement = document.createElement('div');
+                messageElement.classList.add("chat-message")
+                messageElement.classList.add("mine")
+                var messageText = document.createElement('div')
+                messageText.innerText = messageContent
+    
+                messageElement.appendChild(messageText)
+                this.$refs.messageArea.appendChild(messageElement)  
                 this.$refs.messageInput.value = '';
-            }
+                this.$refs.messageArea.scrollTop = 10;
+                console.log(this.$refs.messageArea.scrollTop)
+                console.log(this.$refs.messageArea.scrollHeight)
+            } 
         },
         change(value) {
             this.trigger = value
@@ -521,6 +528,7 @@ export default {
 
 <style>
     @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
+    @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 
     *:focus {
         outline: none;
@@ -563,7 +571,7 @@ export default {
     }
 
     .outer {
-        border-radius: 15px;
+        border-radius: 20px;
         overflow: hidden;
         padding : 0px !important;
         margin : 0px !important;
@@ -574,4 +582,31 @@ export default {
         height : 100%
     }
 
+    .chat-message {
+        position:relative;
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+
+    .chat-message::after {
+        content:"";
+        display:block;
+        clear:both;
+    }
+
+    .chat-message > div {
+        background-color:white;
+        float:left;
+        padding:0.4rem;
+        border-radius:0.6rem;
+        clear:both;
+        font-size:1rem;
+        box-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+    }
+
+    .chat-message.mine > div {
+        background-color: #FDF01B;
+        float:right;
+        box-shadow: -1px 1px 0 rgba(0,0,0,0.3);
+    }
 </style>
