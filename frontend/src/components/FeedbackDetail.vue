@@ -20,7 +20,7 @@
     <p>{{ createdAt.slice(0,-3) }}</p>
     <hr>
     <p>[Script]</p>
-    <div class="script" id="content"> {{ feedback.content }}</div>
+    <div class="script" id="content" v-html="feedback.content"></div>
   </div>
 </div>
 </template>
@@ -38,7 +38,8 @@ export default {
       feedback: {},
       feedbackId: parseInt(this.$route.params.feedbackId),
       username: this.$store.state.auth.user.username,
-      createdAt: ''
+      createdAt: '',
+      content:'',
       };
     },
     methods: {
