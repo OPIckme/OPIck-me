@@ -8,7 +8,7 @@
 </nav>
 <div>
     <div style="margin-left : 3px;">
-        <div class="row">
+        <div class="row ps-2">
             <div class="col-8">
                 <div class="row justify-content-center mx-3">
                     <div class="outer col-8 my-3 mx-1" ref="outputOuter">
@@ -20,8 +20,8 @@
                         ref="videoInput"></video>
                     </div>
                 </div>
-                <div class="row justify-content-between my-2 mx-3">
-                    <button class="col-3 button" @click.prevent="scriptControl" ref="scriptButton" style="display:none">Script ON</button>
+                <div ref="sideBar" class="row justify-content-between my-2 mx-3" style="display : none">
+                    <button class="col-3 button" @click.prevent="scriptControl" ref="scriptButton" style="display:inline">Script ON</button>
                     <div class="col-7">
                         <div class="row justify-content-end" ref="editorMenu" style="display : none">
                             <select class="col-2 mx-1" ref="fontSize">
@@ -63,11 +63,11 @@
                     <p class="col-11" ref="topic" style="margin-bottom: 0px; margin-top: 10px">{{ this.topic }}</p>
                     <h3 class="col-11" ref="question" style="margin-top : 10px; margin-left : 20px; margin-right : 20px">Q. {{ this.question }}</h3>
                     <h5 class="col-11" style="margin-top : 10px; margin-left : 10px; margin-right : 10px">[Script]</h5>
-                    <div class="col-11" style="margin-top : 10px; margin-left : 10px; margin-right : 10px">
+                    <div class="col-11" style="margin: 10px">
                         <div ref="script" style="display : inline; outline : none;"></div>
                     </div>
                 </div>
-                <div class="row justify-content-center">
+                <div class="row justify-content-center mb-2">
                     <button class="col-3 mx-2 button" @click.prevent="muteControl" ref="sound">
 
                     음소거
@@ -77,9 +77,7 @@
             </div>
 
             <div ref="chat-page" class="col-4">
-                <div class="chat-container" style="height : 600px; background-color : #E3F2FD; overflow: auto;">
-                    <div ref="messageArea" class="mx-2">
-                    </div>
+                <div ref="messageArea" style="height : 600px; background-color : #E3F2FD;overflow-y:auto">
                 </div>
                 <form @submit.prevent="sendMessage" ref="messageForm" name="messageForm">
                     <div class="form-group">
@@ -174,11 +172,11 @@ export default {
         let btnBold = this.$refs.btnBold
         let role = this.$store.state.auth.user.role
         let inboundStream = null;
-        let scriptButton = this.$refs.scriptButton
         let editorMenu = this.$refs.editorMenu
         let bigScript = this.$refs.bigScript
         let inputOuter = this.$refs.inputOuter
         let outputOuter = this.$refs.outputOuter
+        let sideBar = this.$refs.sideBar
 
         script.innerText = this.$route.params.script
         dataChannel.onerror = function(error) {
@@ -332,7 +330,7 @@ export default {
                 } else if (event.data === '비디오 시작'){
                     videoOutput.setAttribute('style','border-radius: 10px; display: inline')
                 } else if (event.data === '스크립트 시작'){
-                    bigScript.setAttribute("style","background-color : white; height: 300px; margin-bottom : 10px")
+                    bigScript.setAttribute("style","background-color : #E3F2FD; height: 347px; margin-bottom : 10px;")
                     inputOuter.classList.remove("col-8")
                     inputOuter.classList.add("col-5")
                     outputOuter.classList.remove("col-8")
@@ -382,10 +380,10 @@ export default {
             }
 
             if (role === 'consultant') {
-                scriptButton.setAttribute("style", "display : inline")
+                sideBar.removeAttribute("style")
                 script.setAttribute("contenteditable", "true")
                 editorMenu.removeAttribute("style")
-                bigScript.setAttribute("style","background-color : #E3F2FD; height: 40vh; margin-bottom : 10px; overflow : auto")
+                bigScript.setAttribute("style","background-color : #E3F2FD; height: 347px; margin-bottom : 10px; overflow : auto")
                 console.log(inputOuter)
                 inputOuter.classList.remove("col-8")
                 inputOuter.classList.add("col-5")
@@ -512,9 +510,7 @@ export default {
                 messageElement.appendChild(messageText)
                 this.$refs.messageArea.appendChild(messageElement)  
                 this.$refs.messageInput.value = '';
-                this.$refs.messageArea.scrollTop = 10;
-                console.log(this.$refs.messageArea.scrollTop)
-                console.log(this.$refs.messageArea.scrollHeight)
+                this.$refs.messageArea.scrollTop = this.$refs.messageArea.scrollHeight;
             } 
         },
         change(value) {
@@ -528,7 +524,6 @@ export default {
 
 <style>
     @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
-    @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 
     *:focus {
         outline: none;
@@ -537,7 +532,7 @@ export default {
         padding: 0px !important;
     }
     .button {
-        margin-top: 1.2rem;
+        margin-top: 20px;
         background-color: #0742F2;
         border-radius: 12px;
         color: white;
@@ -545,7 +540,6 @@ export default {
         font-weight: bold;
         text-align: center;
         transition: 200ms;
-        width: 100%;
         box-sizing: border-box;
         border: 0;
         user-select: none;
@@ -571,7 +565,7 @@ export default {
     }
 
     .outer {
-        border-radius: 20px;
+        border-radius: 30px;
         overflow: hidden;
         padding : 0px !important;
         margin : 0px !important;
@@ -584,8 +578,7 @@ export default {
 
     .chat-message {
         position:relative;
-        margin-bottom: 10px;
-        margin-top: 10px;
+        margin: 10px
     }
 
     .chat-message::after {
