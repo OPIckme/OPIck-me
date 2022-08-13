@@ -30,22 +30,19 @@ public class ConsultServiceImpl implements ConsultService {
     @Transactional(readOnly = true)
     @Override
     public Map<Long, Consult> waitingConsultMap() {
-        return consultRepository.findAll().stream().filter(state -> !state.isState()).collect(Collectors.toMap(Consult::getId, v -> v ));
+        return consultRepository.findAll().stream().collect(Collectors.toMap(Consult::getId, v -> v ));
     }
 
-    @Override
-    public Consult modifyState(Long consultId) {
-        Consult findConsult = consultRepository.findById(consultId).get();
-        if (findConsult.isState()) {
-            throw new IllegalArgumentException("이미 진행 완료된 상담입니다!");
-        }
-        findConsult.setState(true);
-        return consultRepository.save(findConsult);
-    }
+
 
     @Override
     public boolean exist(Long consultId) {
         return consultRepository.findById(consultId).isPresent();
+    }
+
+    @Override
+    public void delete(Long consultId) {
+        consultRepository.deleteById(consultId);
     }
 
 

@@ -31,30 +31,36 @@ export default {
     script: Object,
   },
   methods: {
-    ...mapActions(['fetchWaitingConsultMap']),
-        feedBack() {
-            this.$router.push({name : "webrtcstudent", params: {room: this.roomId}});
-        },
-        createConsult() {
-          axios.post(API_URL + '/consult', {
-            room: this.roomId,
-            scriptId: this.scriptId
-          }).then(res => {
-            console.log(res)
-            this.fetchWaitingConsultMap()
+    ...mapActions(['fetchWaitingConsultMap','fetchConsultId']),
+    feedBack() {
+      this.$router.push({name : "webrtcstudent", params: {
+        room: this.roomId,
+        script: this.script.scriptContent,
+        topic: this.script.question.topic,
+        question: this.script.question.questionContent
+        }});
+    },
+    createConsult() {
+      axios.post(API_URL + '/consult', {
+        room: this.roomId,
+        scriptId: this.scriptId
+      }).then(res => {
+        console.log(res)
+        const consultId=res.data.consult.id
+        this.fetchConsultId(consultId)
+        this.fetchWaitingConsultMap()
+      })
+      var socket = new SockJS('https://i7b202.p.ssafy.io/ws');
+      var stompClient = Stomp.over(socket);
+      stompClient.connect({}, () => {
+        stompClient.send("/topic/public/",
+          JSON.stringify({
+            topic : this.script.question.topic,
+            questionContent : this.script.question.questionContent,
           })
-          var socket = new SockJS('https://3.34.51.116:8443/ws');
-          var stompClient = Stomp.over(socket);
-          stompClient.connect({}, () => {
-            stompClient.send("/topic/public/",
-                JSON.stringify({
-                  topic : this.script.question.topic,
-                  questionContent : this.script.question.questionContent,
-                })
-            )
-            }, () => {});
-        }
+        )}, () => {});
     }
+  }
 }
 </script>
 

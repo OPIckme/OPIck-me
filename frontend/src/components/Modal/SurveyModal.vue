@@ -189,11 +189,11 @@
           </svg>
           <p>Re-Start</p>
           <!-- save -->
-          <svg @click="uploadFile(blob)" data-bs-dismiss="modal" aria-label="Close" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+          <svg @click="s3Upload()" data-bs-dismiss="modal" aria-label="Close" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
             <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
             <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
           </svg>
-          <p>Script save</p>
+          <p>Script savse</p>
         </div>
       </div>
     </div>
@@ -224,13 +224,19 @@ export default {
       mediaRecorder:null,
       audioArray : [],
       blob: {},
-      blobURL:""
+      blobURL:"",
+      uploadParams:{},
+      uuid:""
+
+
       //---audio 녹음 data 끝
     }
   },
   methods : {
     ...mapActions(['fetchScriptList']),
-
+    s3Upload(){
+      uploadFile(this.uploadParams,this.saveScript,this.uuid)
+    },
 
     getQuestion(topic,level) {
       if (this.topic == "" && this.level !== "") { // topic이 선택되지 않았을 때
@@ -257,15 +263,25 @@ export default {
 
 
     saveScript(fileName) {
+      // setTimeout(
+      //   axios.post(API_URL + '/script', {
+      //     userId: this.userId,
+      //     questionId: this.questionInfo.id,
+      //     audioURL: `https://jaeyeong-s3.s3.ap-northeast-2.amazonaws.com/${fileName}.webm`,
+      //     keyName: fileName,
+      //   }).then(res=>{
+      //     console.log(res)
+      //     this.fetchScriptList(this.$store.state.auth.user.username)
+      //   }),500)
       axios.post(API_URL + '/script', {
-        userId: this.userId,
-        questionId: this.questionInfo.id,
-        audioURL: `https://jaeyeong-s3.s3.ap-northeast-2.amazonaws.com/${fileName}.webm`,
-        keyName: fileName,
-      }).then(res=>{
-        console.log(res)
-        this.fetchScriptList(this.$store.state.auth.user.username)
-      })
+          userId: this.userId,
+          questionId: this.questionInfo.id,
+          audioURL: `https://jaeyeong-s3.s3.ap-northeast-2.amazonaws.com/${fileName}.webm`,
+          keyName: fileName,
+        }).then(res=>{
+          console.log(res)
+          this.fetchScriptList(this.$store.state.auth.user.username)
+        })
     },
 
     surveyCheck() {
@@ -358,7 +374,7 @@ export default {
     },
 
     async start(){
-      const uuid =v4()
+      this.uuid =v4()
       this.stopSound(); // 문제를 듣다가 녹음 버튼 누르면 문제 듣기 종료
       // 마이크 mediaStream 생성: Promise를 반환하므로 async/await 사용
       const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
@@ -374,7 +390,7 @@ export default {
       // 이벤트핸들러: 녹음 종료 처리 & 재생하기
       this.mediaRecorder.onstop = ()=>{
         const audioType="webm"
-        const fileName=uuid
+        const fileName=this.uuid
         // 녹음이 종료되면, 배열에 담긴 오디오 데이터(Blob)들을 합친다: 코덱도 설정해준다.
         this.blob = new Blob(this.audioArray, {"type":`audio/${audioType}`});
         console.log(this.blob);
@@ -385,26 +401,12 @@ export default {
         
 
         // s3에 업로드하기 위한 파라미터
-        const uploadParams = {
+        this.uploadParams = {
           Bucket: "jaeyeong-s3",
           Key: `${fileName}.${audioType}`, // File name you want to save as in S3            
           Body: this.blob,
           ContentType: `audio/${audioType}`
-        };
-        
-        // s3 stt 파라미터
-        const sttParams = {
-          TranscriptionJobName: fileName,
-          LanguageCode: "en-US", // For example, 'en-US'
-          MediaFormat: audioType, // For example, 'wav'
-          Media: {
-            MediaFileUri: `s3://jaeyeong-s3/${fileName}.${audioType}`,
-          },
-          OutputBucketName: "jaeyeong-s3"
-        };
-        uploadFile(uploadParams,sttParams)
-        // run(sttParams)
-        this.saveScript(uuid)
+        };     
             
       }
 
