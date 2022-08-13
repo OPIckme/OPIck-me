@@ -6,89 +6,85 @@
         <button class="btn" style="color:white; background-color:#F2CB05;" data-bs-toggle="modal" data-bs-target="#Consultclose">상담종료</button>
     </div>
 </nav>
-<div>
-    <div style="margin-left : 3px;">
-        <div class="row ps-2">
-            <div class="col-8">
-                <div class="row justify-content-center mx-3">
-                    <div class="outer col-8 my-3 mx-1" ref="outputOuter">
-                        <video id="videoOutput" autoplay style="display : inline;"
-                        ref="videoOutput"></video>
-                    </div>
-                    <div class="outer col-8 my-3 mx-1" ref="inputOuter">
-                        <video id="videoInput" autoplay style="display : inline;" muted="true"
-                        ref="videoInput"></video>
-                    </div>
-                </div>
-                <div ref="sideBar" class="row justify-content-between my-2 mx-3" style="display : none">
-                    <button class="col-3 button" @click.prevent="scriptControl" ref="scriptButton" style="display:inline">Script ON</button>
-                    <div class="col-7">
-                        <div class="row justify-content-end" ref="editorMenu" style="display : none">
-                            <select class="col-2 mx-1" ref="fontSize">
-                                <option value="">크기</option>
-                                <option value="1">10px</option>
-                                <option value="2">13px</option>
-                                <option value="3">16px</option>
-                                <option value="4">18px</option>
-                                <option value="5">24px</option>
-                                <option value="6">32px</option>
-                                <option value="7">48px</option>
-                            </select>
-                            <select class="col-2 mx-1" ref="fontColor">
-                                <option value="">색상</option>
-                                <option value="#000000">검정</option>
-                                <option value="#FFFFFF">흰색</option>
-                                <option value="#CCCCCC">회색</option>
-                                <option value="#F03E3E">빨강</option>
-                                <option value="#1971C2">파랑</option>
-                                <option value="#37B24D">녹색</option>
-                            </select>
-                            <select class="col-2 mx-1" ref="fontBackground">
-                                <option value="rgba(0, 0, 0, 0)">배경</option>
-                                <option value="#000000">검정</option>
-                                <option value="#FFFFFF">흰색</option>
-                                <option value="#CCCCCC">회색</option>
-                                <option value="#F03E3E">빨강</option>
-                                <option value="#1971C2">파랑</option>
-                                <option value="#37B24D">녹색</option>
-                            </select>
-                            <button class="col-2 ms-1" ref="btnBold" style="border-radius : 10px">
-                                <b>굵게</b>
-                            </button>
-                        </div>
-                    </div>
-    
-                </div>
-                <div class="row justify-content-center" ref="bigScript" style="display:none">
-                    <p class="col-11" ref="topic" style="margin-bottom: 0px; margin-top: 10px">{{ this.topic }}</p>
-                    <h3 class="col-11" ref="question" style="margin-top : 10px; margin-left : 20px; margin-right : 20px">Q. {{ this.question }}</h3>
-                    <h5 class="col-11" style="margin-top : 10px; margin-left : 10px; margin-right : 10px">[Script]</h5>
-                    <div class="col-11" style="margin: 10px">
-                        <div ref="script" style="display : inline; outline : none;"></div>
-                    </div>
-                </div>
-                <div class="row justify-content-center mb-2">
-                    <button class="col-3 mx-2 button" @click.prevent="muteControl" ref="sound">
-
-                    음소거
-                    </button>
-                    <button class="col-3 mx-2 button" @click.prevent="screenControl" ref="screen">비디오 중지</button>
-                </div>
+<div class="row" style="width : 100vw; margin : 0px">
+    <div class="col-8">
+        <div class="row justify-content-evenly">
+            <div class="outer col-8 my-3 mx-1" ref="outputOuter" style="height:28vh;">
+                <video id="videoOutput" autoplay style="display : inline;"
+                ref="videoOutput"></video>
             </div>
-
-            <div ref="chat-page" class="col-4">
-                <div ref="messageArea" style="height : 600px; background-color : #E3F2FD;overflow-y:auto">
-                </div>
-                <form @submit.prevent="sendMessage" ref="messageForm" name="messageForm">
-                    <div class="form-group">
-                        <div class="input-group clearfix">
-                            <input type="text" ref="messageInput" placeholder="Type a message..." autocomplete="off" class="form-control"/>
-                            <button type="submit" class="primary">보내기</button>
-                        </div>
-                    </div>
-                </form>
+            <div class="outer col-8 my-3 mx-1" ref="inputOuter" style="height:28vh;">
+                <video id="videoInput" autoplay style="display : inline;" muted="true" 
+                ref="videoInput"></video>
             </div>
         </div>
+        <div ref="sideBar" class="row justify-content-between my-2 mx-3" style="display : none">
+            <button class="col-3 button" @click.prevent="scriptControl" ref="scriptButton" style="display:inline">Script ON</button>
+            <div class="col-7">
+                <div class="row justify-content-end" ref="editorMenu" style="display : none">
+                    <select class="col-2 mx-1" ref="fontSize">
+                        <option value="">크기</option>
+                        <option value="1">10px</option>
+                        <option value="2">13px</option>
+                        <option value="3">16px</option>
+                        <option value="4">18px</option>
+                        <option value="5">24px</option>
+                        <option value="6">32px</option>
+                        <option value="7">48px</option>
+                    </select>
+                    <select class="col-2 mx-1" ref="fontColor">
+                        <option value="">색상</option>
+                        <option value="#000000">검정</option>
+                        <option value="#FFFFFF">흰색</option>
+                        <option value="#CCCCCC">회색</option>
+                        <option value="#F03E3E">빨강</option>
+                        <option value="#1971C2">파랑</option>
+                        <option value="#37B24D">녹색</option>
+                    </select>
+                    <select class="col-2 mx-1" ref="fontBackground">
+                        <option value="rgba(0, 0, 0, 0)">배경</option>
+                        <option value="#000000">검정</option>
+                        <option value="#FFFFFF">흰색</option>
+                        <option value="#CCCCCC">회색</option>
+                        <option value="#F03E3E">빨강</option>
+                        <option value="#1971C2">파랑</option>
+                        <option value="#37B24D">녹색</option>
+                    </select>
+                    <button class="col-2 ms-1" ref="btnBold" style="border-radius : 10px">
+                        <b>굵게</b>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <div class="row justify-content-center" ref="bigScript" style="display:none">
+            <p class="col-11" ref="topic" style="margin-bottom: 0px; margin-top: 10px">{{ this.topic }}</p>
+            <h3 class="col-11" ref="question" style="margin-top : 10px; margin-left : 20px; margin-right : 20px">Q. {{ this.question }}</h3>
+            <h5 class="col-11" style="margin-top : 10px; margin-left : 10px; margin-right : 10px">[Script]</h5>
+            <div class="col-11" style="margin: 10px">
+                <div ref="script" style="display : inline; outline : none;"></div>
+            </div>
+        </div>
+        <div class="row justify-content-center mb-2">
+            <button class="col-3 mx-2 button" @click.prevent="muteControl" ref="sound">
+
+            음소거
+            </button>
+            <button class="col-3 mx-2 button" @click.prevent="screenControl" ref="screen">비디오 중지</button>
+        </div>
+    </div>
+
+    <div ref="chat-page" class="col-4" style="padding-right : 0px">
+        <div ref="messageArea" style="height : 80vh; background-color : #E3F2FD;overflow-y:auto">
+        </div>
+        <form @submit.prevent="sendMessage" ref="messageForm" name="messageForm">
+            <div class="form-group">
+                <div class="input-group clearfix">
+                    <input type="text" ref="messageInput" placeholder="Type a message..." autocomplete="off" class="form-control"/>
+                    <button type="submit" class="primary">보내기</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 <ConsultCloseModal :modify="modify" :scriptId="scriptId" @change="change"></ConsultCloseModal>
@@ -330,7 +326,7 @@ export default {
                 } else if (event.data === '비디오 시작'){
                     videoOutput.setAttribute('style','border-radius: 10px; display: inline')
                 } else if (event.data === '스크립트 시작'){
-                    bigScript.setAttribute("style","background-color : #E3F2FD; height: 347px; margin-bottom : 10px;")
+                    bigScript.setAttribute("style","background-color : #E3F2FD; height: 42vh; margin-bottom : 10px;")
                     inputOuter.classList.remove("col-8")
                     inputOuter.classList.add("col-5")
                     outputOuter.classList.remove("col-8")
@@ -383,7 +379,7 @@ export default {
                 sideBar.removeAttribute("style")
                 script.setAttribute("contenteditable", "true")
                 editorMenu.removeAttribute("style")
-                bigScript.setAttribute("style","background-color : #E3F2FD; height: 347px; margin-bottom : 10px; overflow : auto")
+                bigScript.setAttribute("style","background-color : #E3F2FD; height: 42vh; margin-bottom : 10px; overflow : auto")
                 console.log(inputOuter)
                 inputOuter.classList.remove("col-8")
                 inputOuter.classList.add("col-5")
