@@ -44,6 +44,7 @@ repositories {
     maven { url "https://repo.spring.io/libs-release" }
     maven { url "https://repo.maven.apache.org/maven2" }
     maven { url "https://build.shibboleth.net/nexus/content/repositories/releases" }
+    maven {url "https://azureai.azureedge.net/maven/"}
 }
 
 group 'com.ssafy'
@@ -195,6 +196,9 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.20")
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
+
+    //ms-stt
+    implementation group: 'com.microsoft.cognitiveservices.speech', name: 'client-sdk', version: "1.22.0", ext: "jar"
 }
 
 test {

@@ -62,7 +62,7 @@ public class ScriptController {
         // 오디오파일 변환
         converter.webm2mp3(fileName,targetName);
 
-        String content = stt.asyncRecognizeFile(targetName);
+        String content = stt.recognizeFromMicrophone(targetName);
         System.out.println("content = " + content);
         deleteAudioFile(fileName);
         deleteAudioFile(targetName);
