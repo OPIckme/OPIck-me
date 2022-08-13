@@ -1,41 +1,54 @@
 package com.ssafy.stt;
 
-import com.microsoft.cognitiveservices.speech.*;
-import com.microsoft.cognitiveservices.speech.audio.AudioConfig;
+import com.google.api.gax.longrunning.OperationFuture;
+import com.google.cloud.speech.v1.*;
+import com.google.protobuf.ByteString;
+import org.springframework.stereotype.Component;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
+
+@Component
 public class STT {
-    private static String YourSubscriptionKey = "21c4c1c4e5594f1f8aa7874796058b62";
-    private static String YourServiceRegion = "koreacentral";
+    public String asyncRecognizeFile(String fileName) throws Exception {
+        // Instantiates a client with GOOGLE_APPLICATION_CREDENTIALS
+        try (SpeechClient speech = SpeechClient.create()) {
 
-    public static String recognizeFromMicrophone(String fileName) throws InterruptedException, ExecutionException {
-        SpeechConfig speechConfig = SpeechConfig.fromSubscription(YourSubscriptionKey, YourServiceRegion);
-        speechConfig.setSpeechRecognitionLanguage("en-US");
+            Path path = Paths.get(fileName);
+            byte[] data = Files.readAllBytes(path);
+            ByteString audioBytes = ByteString.copyFrom(data);
 
-        AudioConfig audioConfig = AudioConfig.fromWavFileInput(fileName);
-        SpeechRecognizer speechRecognizer = new SpeechRecognizer(speechConfig, audioConfig);
+            // Configure request with local raw PCM audio
+            RecognitionConfig config =
+                    RecognitionConfig.newBuilder()
+                            .setEncoding(RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED)
+                            .setLanguageCode("en-US")
+                            .setSampleRateHertz(44100)
+                            .setAudioChannelCount(2)
+                            .build();
+            RecognitionAudio audio = RecognitionAudio.newBuilder().setContent(audioBytes).build();
 
-        Future<SpeechRecognitionResult> task = speechRecognizer.recognizeOnceAsync();
-        SpeechRecognitionResult speechRecognitionResult = task.get();
+            // Use non-blocking call for getting file transcription
+            OperationFuture<LongRunningRecognizeResponse, LongRunningRecognizeMetadata> response =
+                    speech.longRunningRecognizeAsync(config, audio);
 
-        if (speechRecognitionResult.getReason() == ResultReason.RecognizedSpeech) {
-            System.out.println("RECOGNIZED: Text=" + speechRecognitionResult.getText());
-        }
-        else if (speechRecognitionResult.getReason() == ResultReason.NoMatch) {
-            System.out.println("NOMATCH: Speech could not be recognized.");
-        }
-        else if (speechRecognitionResult.getReason() == ResultReason.Canceled) {
-            CancellationDetails cancellation = CancellationDetails.fromResult(speechRecognitionResult);
-            System.out.println("CANCELED: Reason=" + cancellation.getReason());
-
-            if (cancellation.getReason() == CancellationReason.Error) {
-                System.out.println("CANCELED: ErrorCode=" + cancellation.getErrorCode());
-                System.out.println("CANCELED: ErrorDetails=" + cancellation.getErrorDetails());
-                System.out.println("CANCELED: Did you set the speech resource key and region values?");
+            while (!response.isDone()) {
+                System.out.println("Waiting for response...");
+                Thread.sleep(10000);
             }
+
+            List<SpeechRecognitionResult> results = response.get().getResultsList();
+            String content="";
+            for (SpeechRecognitionResult result : results) {
+                // There can be several alternative transcripts for a given chunk of speech. Just use the
+                // first (most likely) one here.
+                SpeechRecognitionAlternative alternative = result.getAlternativesList().get(0);
+                content+=alternative.getTranscript();
+            }
+            return content;
         }
-        return speechRecognitionResult.getText();
     }
 }
