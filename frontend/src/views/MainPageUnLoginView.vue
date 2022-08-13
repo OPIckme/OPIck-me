@@ -1,13 +1,11 @@
 <template>
-<nav class="navbar" style="background-color:#0742F2;">
-  <div class="container-fluid">
-    <a href="/" class="navbar-brand">
-      <img src="../assets/logo.png" alt="" style="width:150px">
-    </a>
-    <!-- HTML !-->
+<nav class="navbar sticky-top" style="background-color:#052A99; height: 80px;">
+  <div class="container">
+    <router-link class="position-absolute top-50 start-50 translate-middle  " to="/">
+      <img src="../assets/logo.png" alt="" style="width:120px">
+    </router-link>
     <router-link to="/login" class="nav-link">
       <button class="Login" role="button">Login</button>
-      <!-- <button class="btn" style="color:white; background-color:#F2CB05;">Login</button> -->
     </router-link>
   </div>
 </nav>
@@ -46,15 +44,16 @@ export default {
 .Login {
   align-items: center;
   background-color: #F2CB05;
-  border: 1px solid #111;
+  border: 2px solid #111;
   border-radius: 50px;
   box-sizing: border-box;
   color: white;
   cursor: pointer;
   display: flex;
   font-family: Inter,sans-serif;
-  font-size: 16px;
-  height: 48px;
+  font-size: 14px;
+  font-weight: bold;
+  height: 36px;
   justify-content: center;
   line-height: 24px;
   max-width: 100%;
@@ -65,6 +64,8 @@ export default {
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  position: relative;
+  left: 85%;
 }
 
 .Login:after {
@@ -72,12 +73,12 @@ export default {
   border-radius: 50px;
   content: "";
   display: block;
-  height: 48px;
+  height: 36px;
   left: 0;
   width: 100%;
   position: absolute;
   top: -2px;
-  transform: translate(8px, 8px);
+  transform: translate(6px, 6px);
   transition: transform .2s ease-out;
   z-index: -1;
 }

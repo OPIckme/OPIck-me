@@ -1,7 +1,7 @@
 <template>
-  <div class="container" >
+  <!-- <div class="container" > -->
     <router-view />
-  </div>
+  <!-- </div> -->
 <!-- <MainPageUnLoginView v-if="!currentUser"></MainPageUnLoginView>
 <MainPageView  v-if="currentUser"></MainPageView> -->
 </template>

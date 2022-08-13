@@ -58,7 +58,7 @@ export default {
 }
 button {
   margin-top: 1.2rem;
-  background-color: #0742F2;
+  background-color: #052A99;
   border-radius: 12px;
   color: white;
   cursor: pointer;
@@ -76,7 +76,7 @@ button {
 button:not(:disabled):hover,
 button:not(:disabled):focus {
   outline: 0;
-  background: #0742F2;
+  background: #052A99;
   box-shadow: 0 0 0 2px rgba(0,0,0,.2), 0 3px 8px 0 rgba(0,0,0,.15);
 }
 
