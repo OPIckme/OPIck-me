@@ -73,13 +73,16 @@ export default {
     getScript(){
       axios.get(API_URL + `/script/${this.username}/${this.scriptId}`)
       .then(res => {
-        console.log(res.data.script)
+        console.log(res.data.script.createdAt)
         this.script = res.data.script
         this.feedbackModalId="#create" + this.script.id
         this.audio={
           file: new Audio(res.data.script.audioUrl),
           isPlaying: false
         }
+	const d = new Date(this.script.createdAt)
+      	this.createdAt = d.toLocaleString()
+      	console.log(this.createdAt)
       })
     },
     routingScriptEdit(){
@@ -101,10 +104,6 @@ export default {
   },
   computed(){
     this.getScript()
-  },
-  mounted() {
-    const d = new Date(this.script.createdAt)
-    this.createdAt = d.toLocaleString()
   },
   created() {
     this.getScript()
