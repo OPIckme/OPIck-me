@@ -47,8 +47,8 @@ import {API_URL} from '@/api/http.js';
 
 
 export default {
-    name: "ScriptDetail",
-    data() {
+  name: "ScriptDetail",
+  data() {
     return {
       click:true,
       isPlaying: false,
@@ -62,50 +62,53 @@ export default {
   },
     setup() {
     },
-    methods: {
-      ...mapActions(['fetchScript']),
-        back() {
-            this.$router.push("/mainpage");
-        },
-        clickCaret(){
-            this.click = !this.click;
-        },
-        getScript(){
-          axios.get(API_URL + `/script/${this.username}/${this.scriptId}`)
-          .then(res => {
-            console.log(res.data.script)
-            this.script = res.data.script
-            this.feedbackModalId="#create" + this.script.id
-            this.audio={
-              file: new Audio(res.data.script.audioUrl),
-              isPlaying: false
-            }
-          })
-        },
-        routingScriptEdit(){
-          this.$router.push({
-            name:'scriptedit',
-            params:{
-              scriptId:this.script.id}
-        })
-        },
-        play (audio) {
-          audio.isPlaying = true;
-          audio.file.play();
-        },
-        pause (audio) {
-          audio.isPlaying = false;
-          audio.file.pause();
+  methods: {
+    ...mapActions(['fetchScript']),
+    back() {
+        this.$router.push("/mainpage");
+    },
+    clickCaret(){
+        this.click = !this.click;
+    },
+    getScript(){
+      axios.get(API_URL + `/script/${this.username}/${this.scriptId}`)
+      .then(res => {
+        console.log(res.data.script.createdAt)
+        this.script = res.data.script
+        this.feedbackModalId="#create" + this.script.id
+        this.audio={
+          file: new Audio(res.data.script.audioUrl),
+          isPlaying: false
         }
+	const d = new Date(this.script.createdAt)
+      	this.createdAt = d.toLocaleString()
+      	console.log(this.createdAt)
+      })
     },
-    mounted() {
-      const d = new Date(this.script.createdAt)
-      this.createdAt = d.toLocaleString()
+    routingScriptEdit(){
+      this.$router.push({
+        name:'scriptedit',
+        params:{
+          scriptId:this.script.id
+        }
+    })
     },
-    created() {
-        this.getScript()
+    play (audio) {
+      audio.isPlaying = true;
+      audio.file.play();
     },
-    components: { FeedbackModal, LogoutModal }
+    pause (audio) {
+      audio.isPlaying = false;
+      audio.file.pause();
+    }
+  },
+  computed(){
+    this.getScript()
+  },
+  created() {
+    this.getScript()
+  },
+  components: { FeedbackModal, LogoutModal }
 }
 </script>
 

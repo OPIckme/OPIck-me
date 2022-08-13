@@ -20,7 +20,7 @@
     <p>{{ createdAt.slice(0,-3) }}</p>
     <hr>
     <p>[Script]</p>
-    <div class="script" id="content"></div>
+    <div class="script" id="content" v-html="feedback.content"></div>
   </div>
 </div>
 </template>
@@ -38,7 +38,8 @@ export default {
       feedback: {},
       feedbackId: parseInt(this.$route.params.feedbackId),
       username: this.$store.state.auth.user.username,
-      createdAt: ''
+      createdAt: '',
+      content:'',
       };
     },
     methods: {
@@ -49,18 +50,13 @@ export default {
           axios.get(API_URL + `/feedback/${this.username}/${this.feedbackId}`)
           .then(res => {
             this.feedback = res.data.feedback
+	    const d = new Date(this.feedback.created_at)
+	    this.createdAt = d.toLocaleString()
           })
         },
     },
     created() {
       this.getFeedback()
-    },
-    mounted() {
-      var div = document.querySelector('#content');
-      var content = this.feedback.content;
-      div.innerHTML = content;
-      const d = new Date(this.feedback.created_at)
-      this.createdAt = d.toLocaleString()
     },
     components: { LogoutModal }
 }
