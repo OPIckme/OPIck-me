@@ -39,7 +39,7 @@ export default {
         this.fetchScriptList(this.$store.state.auth.user.username)
       })
       .catch(e =>{
-        console.log(e.response.data.message)
+        console.log(e)
       })
       }
     },
