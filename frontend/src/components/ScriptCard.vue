@@ -4,6 +4,7 @@
     <i class="bi bi-trash3" style="margin-top:0.2rem; float: right; font-size: 17px;" data-bs-toggle="modal" :data-bs-target="modalId"></i>
     <p style="margin-top: 0.5rem; text-align: left; font-size:13px;">{{ createdAt.slice(0,-3) }}</p>
     <p class="topic">{{ script.question.topic }}</p>
+    <!-- <p class="level">{{ script.question.level }}</p> -->
     <button @click="routingDetail" class="btn">Go!</button>
   </div>
 </div>

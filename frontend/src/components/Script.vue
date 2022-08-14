@@ -85,7 +85,7 @@ export default {
   color: #fff;
   text-align: center;
   line-height: normal;
-  background: #004ACC;
+  background: #052A99;
   border-radius: 50px;
   transition: 200ms;
   user-select: none;
@@ -95,7 +95,7 @@ export default {
 .scriptbutton:not(:disabled):hover,
 .scriptbutton:not(:disabled):focus{
   outline: 0;
-  background: #004ACC;
+  background: #052A99;
   box-shadow: 0 0 0 2px rgba(0,0,0,.2), 0 3px 8px 0 rgba(0,0,0,.15);
 }
 .nav-item{
