@@ -2,7 +2,7 @@
 <MainPageNavbar></MainPageNavbar>
 <!-- feedback card -->
 <div class="container d-flex justify-content-between">
-  <Sidebar></Sidebar>
+  <Sidebar @selectCategory="categoryUpdate"></Sidebar>
   <div class="row" style="margin-top:4rem;">
       <FeedbackCard 
       class="col-lg-2 col-md-3 col-sm-4" 
@@ -23,7 +23,12 @@ import Sidebar from './Sidebar.vue';
 export default {
     name: "Feedback",
     methods: {
-        ...mapActions(['fetchFeedbackList']),
+        ...mapActions(['fetchFeedbackList','fetchCategory']),
+        categoryUpdate(category){
+            this.fetchCategory(category)
+            console.log(category)
+            this.fetchFeedbackList(this.$store.state.auth.user.username)
+        },
     },
     created() {
         this.fetchFeedbackList(this.$store.state.auth.user.username)
