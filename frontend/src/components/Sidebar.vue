@@ -1,7 +1,7 @@
 <template>
   <!-- sidebar -->
   <div class="flex-shrink-0 p-3 bg-white" style="width: 280px; margin-top: 1.3rem;">
-    <span class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom fs-5 fw-semibold">Topic</span>
+    <span class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom fs-5 fw-semibold" @click="selectTopic('')">Topic</span>
     <ul class="list-unstyled ps-0">
       <li class="mb-1">
         <button class="btn rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
