@@ -1,19 +1,16 @@
 <template>
 
 <div class="container d-flex justify-content-between">
-  <Sidebar></Sidebar>
+  <Sidebar @selectTopic="topicUpdate"></Sidebar>
   <div>
     <!-- script navbar -->
     <div class="container d-flex justify-content-between align-items-center pb-3 mb-3 link-dark text-decoration-none">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 list-group-horizontal">
           <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#">작성된 스크립트</a>
+            <a class="nav-link" href="#" @click="completUpdate(false)">피드백 미완료 스크립트</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">피드백 미완료 스크립트</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link">피트백 완료 스크립트</a>
+            <a class="nav-link" href="#" @click="completUpdate(true)">피트백 완료 스크립트</a>
           </li>
         </ul>
         <span class="nav-item" data-bs-toggle="modal" href="#SurveyModal">Script 생성</span>
@@ -25,7 +22,8 @@
       class="col-lg-3 col-md-4 col-sm-6" 
       v-for="script in scriptList" 
       :key="script.id" 
-      :script="script">
+      :script="script"
+      >
       </ScriptCard>
     </div>
   </div>
@@ -43,7 +41,15 @@ import Sidebar from './Sidebar.vue';
 export default {
     name: "Script",
     methods: {
-        ...mapActions(['fetchScriptList']),
+      ...mapActions(['fetchScriptList','fetchTopic','fetchComplet']),
+      topicUpdate(topic){
+        this.fetchTopic(topic)
+        this.fetchScriptList(this.$store.state.auth.user.username)
+      },
+      completUpdate(complet){
+        this.fetchComplet(complet)
+        this.fetchScriptList(this.$store.state.auth.user.username)
+      },
     },
     created() {
         this.fetchScriptList(this.$store.state.auth.user.username)
