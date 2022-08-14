@@ -1,6 +1,6 @@
 <template>
 <!-- Navbar -->
-<nav class="navbar sticky-top" style="background-color:#004ACC; height: 80px;">
+<nav class="navbar sticky-top" style="background-color:#052A99; height: 80px;">
   <router-link class="position-absolute top-50 start-50 translate-middle  " to="/">
     <img src="../assets/logo.png" alt="" style="width:120px">
   </router-link>
