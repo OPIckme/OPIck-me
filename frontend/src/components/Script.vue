@@ -1,16 +1,34 @@
 <template>
-<div class="container">
-    <!-- Script 생성 버튼 -->
-    <button style="margin-top:2.5rem; margin-bottom: 1rem; margin-left: 0.5rem; width: 200px; height: 45px;" class="btn scriptbutton" data-bs-toggle="modal" href="#SurveyModal" role="button">Script 생성</button>
+
+<div class="container d-flex justify-content-between">
+  <Sidebar></Sidebar>
+  <div>
+    <!-- script navbar -->
+    <div class="container d-flex justify-content-between align-items-center pb-3 mb-3 link-dark text-decoration-none">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 list-group-horizontal">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#">작성된 스크립트</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">피드백 미완료 스크립트</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">피트백 완료 스크립트</a>
+          </li>
+        </ul>
+        <span class="nav-item" data-bs-toggle="modal" href="#SurveyModal">Script 생성</span>
+        <!-- <button style="margin-top:2.5rem; margin-bottom: 1rem; margin-left: 0.5rem; width: 200px; height: 45px;" class="btn scriptbutton" data-bs-toggle="modal" href="#SurveyModal" role="button">Script 생성</button> -->
+      </div>
     <!-- script card -->
-    <div  class="row">
-        <ScriptCard 
-        class="col-lg-3 col-md-4 col-sm-6" 
-        v-for="script in scriptList" 
-        :key="script.id" 
-        :script="script">
-        </ScriptCard>
+    <div class="row">
+      <ScriptCard 
+      class="col-lg-3 col-md-4 col-sm-6" 
+      v-for="script in scriptList" 
+      :key="script.id" 
+      :script="script">
+      </ScriptCard>
     </div>
+  </div>
 </div>
 
 <SurveyModal></SurveyModal>
@@ -20,6 +38,7 @@
 import ScriptCard from './ScriptCard.vue';
 import SurveyModal from './Modal/SurveyModal.vue';
 import { mapActions,mapGetters } from 'vuex';
+import Sidebar from './Sidebar.vue';
 
 export default {
     name: "Script",
@@ -41,38 +60,40 @@ export default {
         }
     },
 
-    components: { ScriptCard, SurveyModal }
+    components: { ScriptCard, SurveyModal, Sidebar }
     }
 </script>
 
 <style scoped>
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
 .scriptbutton{
-    display: inline-block;
-    outline: 0;
-    border: none;
-    box-shadow: none;
-    cursor: pointer;
-    padding: 9px 22px;
-    font-size: 20px;
-    height: 50px;
-    font-weight: 400;
-    color: #fff;
-    text-align: center;
-    line-height: normal;
-    background: #052A99;
-    border-radius: 50px;
-    transition: 200ms;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
+  display: inline-block;
+  outline: 0;
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+  padding: 9px 22px;
+  font-size: 20px;
+  height: 50px;
+  font-weight: 400;
+  color: #fff;
+  text-align: center;
+  line-height: normal;
+  background: #004ACC;
+  border-radius: 50px;
+  transition: 200ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
 }
 .scriptbutton:not(:disabled):hover,
 .scriptbutton:not(:disabled):focus{
-    outline: 0;
-    background: #052A99;
-    box-shadow: 0 0 0 2px rgba(0,0,0,.2), 0 3px 8px 0 rgba(0,0,0,.15);
+  outline: 0;
+  background: #004ACC;
+  box-shadow: 0 0 0 2px rgba(0,0,0,.2), 0 3px 8px 0 rgba(0,0,0,.15);
 }
-                
-                
+.nav-item{
+  margin-top: 2rem;
+  margin-right: 2rem;
+}
 </style>
