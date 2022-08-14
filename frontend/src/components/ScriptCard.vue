@@ -22,7 +22,8 @@ export default {
       }
     },
     props : {
-      script : Object
+      script : Object,
+
     },
     setup() {
     },
