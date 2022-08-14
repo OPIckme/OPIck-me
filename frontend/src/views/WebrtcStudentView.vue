@@ -7,7 +7,7 @@
     <button class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Consultclose" >상담종료</button>
   </div>
 </nav>
-<div class="row" style="width : 100vw; margin : 0px">
+<div class="row" style="width : 100vw; margin:0px">
     <div class="col-8" style="padding: 0px">
         <div ref="videoContainer" style="width: 66.7vw; margin : 0px">
             <div class="outer" ref="outputOuter" style="width: 508px; height: 263.75px; margin : auto">
@@ -58,11 +58,11 @@
             </div>
 
         </div>
-        <div class="row justify-content-center" ref="bigScript" style="display:none">
-            <p class="col-11" ref="topic" style="margin-bottom: 0px; margin-top: 10px">{{ this.topic }}</p>
-            <h3 class="col-11" ref="question" style="margin-top : 10px; margin-left : 20px; margin-right : 20px">Q. {{ this.question }}</h3>
-            <h5 class="col-11" style="margin-top : 10px; margin-left : 10px; margin-right : 10px">[Script]</h5>
-            <div class="col-11" style="margin: 10px">
+        <div ref="bigScript" style="display:none">
+            <p ref="topic" style="margin-bottom: 0px; margin-top: 10px; margin-left : 50px">{{ this.topic }}</p>
+            <h3 ref="question" style="margin-top : 10px; margin-left : 50px; margin-right : 50px; font-weight: bold;">Q. {{ this.question }}</h3>
+            <h5 style="margin-top : 20px; margin-bottom : 10px; margin-left : 50px; margin-right : 10px">[Script]</h5>
+            <div style="margin-top: 20px; margin-left : 50px; margin-right: 50px;">
                 <div ref="script" style="display : inline; outline : none;"></div>
             </div>
         </div>
@@ -251,11 +251,11 @@ export default {
             var message = JSON.parse(payload.body);
             if(message.type === 'JOIN') {
                 var messageElement = document.createElement('p');
-                messageElement.classList.add('event-message');
+                messageElement.setAttribute("style","margin:10px auto; border: solid; border-width: 0px; border-radius: 15px; background-color: lightgray; text-align: center; width: 70%; height: 35px; line-height : 35px")
                 messageElement.innerText = message.sender + ' 님이 입장하셨습니다.';
             } else if (message.type === 'LEAVE') {
                 var messageElement = document.createElement('p');
-                messageElement.classList.add('event-message');
+                messageElement.setAttribute("style","margin:10px auto; text-align: center; width: 60%")
                 messageElement.innerText = message.sender + ' 님이 퇴장하셨습니다.';
             } else if (message.type === 'OFFER') {
                 if (message.sender != username){
@@ -326,7 +326,7 @@ export default {
                 } else if (event.data === '비디오 시작'){
                     videoOutput.setAttribute('style','display: inline')
                 } else if (event.data === '스크립트 시작'){
-                    bigScript.setAttribute("style","background-color : #E3F2FD; height: 42vh; margin-bottom : 10px; margin-left : 20px; margin-right : 10px; overflow: auto")
+                    bigScript.setAttribute("style","background-color : #E3F2FD; height: 48.5vh; margin-bottom : 10px; margin-left : 20px; margin-right : 10px; overflow: auto")
                     constraints.video.width = 420
                     constraints.video.height = 220
                     videoContainer.classList.add("row")
@@ -346,7 +346,7 @@ export default {
                     outputOuter.setAttribute("style",
                         "border-radius: 30px;overflow: hidden;padding : 0px !important; margin : auto;margin-top : 15px; margin-bottom : 15px; width: 508px; height: 263.75px;")
                 } else if (event.data === '상담종료'){
-                    this.$router.push("/mainpage")
+                    this.$router.push("/feedback")
                 } else {
                     videoOutput.setAttribute("style","display:none")
                 } 

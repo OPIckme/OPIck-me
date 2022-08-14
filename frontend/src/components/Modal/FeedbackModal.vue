@@ -51,13 +51,12 @@ export default {
         const consultId=res.data.consult.id
         this.fetchConsultId(consultId)
         this.fetchWaitingConsultMap()
-        console.log(consultId)
         stompClient.connect({}, () => {
           stompClient.send("/topic/public/",
             JSON.stringify({
               id : consultId,
-              topic : this.script.question.topic,
-              questionContent : this.script.question.questionContent,
+              script : this.script,
+              room : this.roomId
             })
           )}, () => {});
       })

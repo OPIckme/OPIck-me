@@ -14,6 +14,8 @@
 <script>
 import {API_URL} from '@/api/http.js';
 import axios from 'axios';
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
 
 export default {
   data() {
@@ -41,6 +43,15 @@ export default {
         console.log(res)
         this.fetchWaitingConsultMap()
       })
+      var socket = new SockJS('https://i7b202.p.ssafy.io/ws');
+      var stompClient = Stomp.over(socket);
+      stompClient.connect({}, () => {
+          stompClient.send("/topic/public/",
+            JSON.stringify({
+              id : this.waitingconsult.id,
+              method : 'delete'
+            })
+          )}, () => {});
     },
   }
 }
