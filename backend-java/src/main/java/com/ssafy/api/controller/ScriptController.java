@@ -56,18 +56,18 @@ public class ScriptController {
         String audioUrl = scriptRegisterPostReq.getAudioURL();
         String keyName = scriptRegisterPostReq.getKeyName();
         String fileName=keyName+".webm";
-        String targetName=keyName+".mp3";
+        String targetName=keyName+".wav";
 
         // aws에서 로컬에 오디오파일 다운
         scriptService.getAudio(fileName);
         // 오디오파일 변환
         converter.webm2mp3(fileName,targetName);
 
+//        String content = stt.asyncRecognizeFile(targetName);
         String content = stt.recognizeFromMicrophone(targetName);
-        //String content = stt.recognizeFromMicrophone(targetName);
         System.out.println("content = " + content);
-        deleteAudioFile(fileName);
-        deleteAudioFile(targetName);
+//        deleteAudioFile(fileName);
+//        deleteAudioFile(targetName);
         scriptService.createScript(user.get(), question.get(),content,audioUrl);
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201,"스크립트 추가 성공"));

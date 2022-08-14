@@ -9,12 +9,14 @@ import java.util.concurrent.Future;
 
 @Component
 public class STT2{
-    private static String YourSubscriptionKey = "21c4c1c4e5594f1f8aa7874796058b62";
+    private static String YourSubscriptionKey = "72fefc3811c74709a167d59486643f85";
     private static String YourServiceRegion = "koreacentral";
 
     public static String recognizeFromMicrophone(String fileName) throws InterruptedException, ExecutionException {
         SpeechConfig speechConfig = SpeechConfig.fromSubscription(YourSubscriptionKey, YourServiceRegion);
         speechConfig.setSpeechRecognitionLanguage("en-US");
+
+
 
         AudioConfig audioConfig = AudioConfig.fromWavFileInput(fileName);
         SpeechRecognizer speechRecognizer = new SpeechRecognizer(speechConfig, audioConfig);

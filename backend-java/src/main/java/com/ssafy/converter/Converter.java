@@ -17,7 +17,7 @@ public class Converter {
 
             //Audio Attributes
             AudioAttributes audio = new AudioAttributes();
-            audio.setCodec("mp3");
+            audio.setCodec("pcm_s16le");
             audio.setBitRate(128000);
             audio.setChannels(2);
             audio.setSamplingRate(44100);
@@ -25,6 +25,7 @@ public class Converter {
             //Encoding attributes
             EncodingAttributes attrs = new EncodingAttributes();
             attrs.setInputFormat("webm");
+            attrs.setOutputFormat("wav");
             attrs.setAudioAttributes(audio);
 
             //Encode
