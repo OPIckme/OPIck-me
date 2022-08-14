@@ -1,13 +1,7 @@
 <template>
-  <nav
-    class="navbar sticky-top"
-    style="background-color: #052a99; height: 80px"
-  >
+  <nav class="navbar" style="background-color: #ffffff; height: 80px">
     <div class="container">
-      <router-link
-        class="position-absolute top-50 start-50 translate-middle"
-        to="/"
-      >
+      <router-link class="position-absolute top-50 translate-middle" to="/">
         <img src="../assets/logo.png" alt="" style="width: 120px" />
       </router-link>
       <router-link to="/login" class="nav-link">
@@ -62,15 +56,15 @@ export default {
   justify-content: center;
   line-height: 24px;
   max-width: 100%;
-  padding: 0 25px;
-  position: relative;
+
+  position: absolute;
   text-align: center;
   text-decoration: none;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  position: relative;
   left: 85%;
+  top: 22px;
 }
 
 .Login:after {
