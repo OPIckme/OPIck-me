@@ -1,7 +1,7 @@
 <template>
 
 <div class="container d-flex justify-content-between">
-  <Sidebar @selectTopic="topicUpdate"></Sidebar>
+  <Sidebar @selectCategory="categoryUpdate"></Sidebar>
   <div>
     <!-- script navbar -->
     <div class="container d-flex justify-content-between align-items-center pb-3 mb-3 link-dark text-decoration-none">
@@ -41,9 +41,10 @@ import Sidebar from './Sidebar.vue';
 export default {
     name: "Script",
     methods: {
-      ...mapActions(['fetchScriptList','fetchTopic','fetchComplet']),
-      topicUpdate(topic){
-        this.fetchTopic(topic)
+      ...mapActions(['fetchScriptList','fetchCategory','fetchComplet']),
+      categoryUpdate(category){
+        this.fetchCategory(category)
+        console.log(category)
         this.fetchScriptList(this.$store.state.auth.user.username)
       },
       completUpdate(complet){
