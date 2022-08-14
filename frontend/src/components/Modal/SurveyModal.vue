@@ -26,7 +26,6 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="custom-btn btn-3"><span>Read More</span></button>
         <button @click="getQuestion(topic,level)" class="custom-btn btn-3" :data-bs-target="surveyCheck()" data-bs-toggle="modal"><span>START</span></button>
       </div>
     </div>
@@ -41,6 +40,7 @@
       </div>
       <div class="modal-body">
       <!-- 듣기 -->
+      <div style="text-align:center">
       <svg @click="playSound(audioUrl)" version="1.1" id="problem_listen" width="160" height="160" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
         viewBox="0 0 392.663 392.663" style="enable-background:new 0 0 392.663 392.663;" xml:space="preserve">
       <polyline style="fill:#FFFFFF;" points="93.091,248.377 230.853,337.524 230.853,55.019 93.091,144.166 "/>
@@ -67,33 +67,7 @@
           z"/>
       </g>
       </svg>
-        <!-- 듣기
-        <svg @click="playSound(audioUrl)" xmlns="http://www.w3.org/2000/svg" width="160" height="160" fill="currentColor" class="bi bi-volume-up-fill" viewBox="0 0 16 16" id="problem_listen">
-          <path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/>
-          <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/>
-          <path d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"/>
-        </svg> -->
-        <!-- 문제 듣기 안되는 스피커
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="160"
-            height="160"
-            fill="currentColor"
-            class="bi bi-volume-up-fill"
-            viewBox="0 0 16 16"
-            id="problem_nolisten"
-            display="none"
-          >
-            <path
-              d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"
-            />
-            <path
-              d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"
-            />
-            <path
-              d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"
-            />
-          </svg> -->
+      </div>
           <!-- 문제 듣기 안되는 스피커 -->
 <svg version="1.1" id="problem_nolisten"  width="160" height="160" display="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 392.663 392.663" style="enable-background:new 0 0 392.663 392.663;" xml:space="preserve">
@@ -122,12 +96,25 @@
 </g>
 </svg>
         <!-- 녹음 -->
-        <h1>
+        <!-- <h1>
           <svg class="bi bi-record-circle" @click="start" data-bs-target="#SurveyModal3" data-bs-toggle="modal" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 16 16" display="none" id="record_script">
             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
             <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
           </svg>
+        </h1> -->
+        <h1>
+        <svg @click="start" data-bs-target="#SurveyModal3" data-bs-toggle="modal" width="160" height="160" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" display="none" id="record_script">
+        <g id="color"/>
+        <g id="line">
+          <circle cx="36" cy="36" r="20" fill="none" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
+          <circle cx="36" cy="36" r="7" fill="#000000" stroke="none"/>
+          </g>
+          <g id="color-foreground">
+            <circle cx="36" cy="36" r="7" fill="#D22F27" stroke="none"/>
+            </g>
+        </svg>
         </h1>
+
         <h2> Start recording</h2>
       </div>
     </div>
@@ -139,9 +126,8 @@
       <div class="modal-header">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit()"></button>
       </div>
-       <div v-if="isStatusOn">Hello Webisfree.com</div>
-      <button @click="toggleOnOff" v-if="!isStatusOn">문제 보기</button>
-      <button @click="toggleOnOff" v-if="isStatusOn">문제 숨기기</button>
+      <button class="custom-btn btn-3" @click="toggleOnOff" v-if="!isStatusOn"><span>문제 보기</span></button>
+      <button class="custom-btn btn-3" @click="toggleOnOff" v-if="isStatusOn"><span>문제 숨기기</span></button>
       <div class="modal-body">
         <h5 class="modal-title" id="exampleModalToggleLabel3" v-if="isStatusOn">
          Q. {{ questionInfo.questionContent }}
@@ -151,10 +137,14 @@
           <path fill-rule="evenodd" d="M8.5 2a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-1 0v-11a.5.5 0 0 1 .5-.5zm-2 2a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zm-6 1.5A.5.5 0 0 1 5 6v4a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm8 0a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm-10 1A.5.5 0 0 1 3 7v2a.5.5 0 0 1-1 0V7a.5.5 0 0 1 .5-.5zm12 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0V7a.5.5 0 0 1 .5-.5z"/>
         </svg>
         <!-- 일시정지 -->
-        <p>
-          <svg @click="stop" data-bs-target="#SurveyModal4" data-bs-toggle="modal" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-pause-circle" viewBox="0 0 16 16">
+        <p style="text-align:center">
+          <!-- <svg @click="stop" data-bs-target="#SurveyModal4" data-bs-toggle="modal" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-pause-circle" viewBox="0 0 16 16">
             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
             <path d="M5 6.25a1.25 1.25 0 1 1 2.5 0v3.5a1.25 1.25 0 1 1-2.5 0v-3.5zm3.5 0a1.25 1.25 0 1 1 2.5 0v3.5a1.25 1.25 0 1 1-2.5 0v-3.5z"/>
+          </svg> -->
+          <svg @click="stop" data-bs-target="#SurveyModal4" data-bs-toggle="modal" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 473.931 473.931" style="enable-background:new 0 0 473.931 473.931;" xml:space="preserve" width="160" height="160">
+            <circle style="fill:#E84849;" cx="236.966" cy="236.966" r="236.966"/>
+            <path style="fill:#FFFFFF;" d="M338.771,324.568c0,7.846-6.361,14.207-14.215,14.207H149.345c-7.85,0-14.211-6.361-14.211-14.207 V149.349c0-7.854,6.361-14.215,14.211-14.215H324.56c7.854,0,14.215,6.361,14.215,14.215v175.219H338.771z"/>
           </svg>
         </p>
       </div>
@@ -178,18 +168,33 @@
         <!--오디오 시작-->
         <audio controls :src="blobURL">녹음된 소리를 재생할 audio 엘리먼트</audio>
         <!--오디오 끝-->
-        <div>
+        <div style="text-align:center">
           <!-- 녹음 -->
-          <svg class="bi bi-record-circle" data-bs-target="#SurveyModal2" data-bs-toggle="modal" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 16 16">
+          <!-- <svg class="bi bi-record-circle" data-bs-target="#SurveyModal2" data-bs-toggle="modal" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 16 16">
             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
             <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+          </svg> -->
+          <svg data-bs-target="#SurveyModal2" data-bs-toggle="modal" width="160" height="160" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
+            <g id="color"/>
+            <g id="line">
+              <circle cx="36" cy="36" r="20" fill="none" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
+              <circle cx="36" cy="36" r="7" fill="#000000" stroke="none"/>
+            </g>
+            <g id="color-foreground">
+              <circle cx="36" cy="36" r="7" fill="#D22F27" stroke="none"/>
+            </g>
           </svg>
-          <p>Re-Start</p>
           <!-- save -->
           <svg @click="s3Upload()" data-bs-dismiss="modal" aria-label="Close" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
             <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
             <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
           </svg>
+          <p>다시 녹음하기    스크립트 저장</p>
+          <!-- save -->
+          <!-- <svg @click="s3Upload()" data-bs-dismiss="modal" aria-label="Close" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+          </svg> -->
           <p>Script savse</p>
         </div>
       </div>
@@ -457,6 +462,14 @@ export default {
   }
   
 #problem_listen:hover {
+  transform: scale( 1.3 )
+  }
+
+#record_script {
+  transition: all 0.5s linear;
+  }
+  
+#record_script:hover {
   transform: scale( 1.3 )
   }
 
