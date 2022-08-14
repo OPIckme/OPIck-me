@@ -42,12 +42,14 @@ export default {
                         topic : message.topic,
                         questionContent : message.questionContent
                         }}})
-                this.waitingConsultMap.push({script : {
+                console.log(this.waitingConsultMap)
+                this.waitingConsultMap.message.id = {
+                    script : {
                     id : message.id,
                     question : {
                         topic : message.topic,
                         questionContent : message.questionContent
-                    }}})
+                    }}}
             })}, () =>{});
     },
     components: { ConsultCard }
