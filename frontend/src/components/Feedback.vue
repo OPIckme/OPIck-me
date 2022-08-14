@@ -1,15 +1,15 @@
 <template>
 <MainPageNavbar></MainPageNavbar>
 <!-- feedback card -->
-<div class="container" style="margin-top:4rem">
-    <div class="row">
-        <FeedbackCard 
-        style="margin-top:40px;"
-        class="col-lg-2 col-md-3 col-sm-4" 
-        v-for="feedback in feedbackList" 
-        :key="feedback.id" 
-        :feedback="feedback">
-        </FeedbackCard>
+<div class="container d-flex justify-content-between">
+  <Sidebar></Sidebar>
+  <div class="row" style="margin-top:4rem;">
+      <FeedbackCard 
+      class="col-lg-2 col-md-3 col-sm-4" 
+      v-for="feedback in feedbackList" 
+      :key="feedback.id" 
+      :feedback="feedback">
+      </FeedbackCard>
     </div>
 </div>
 </template>
@@ -18,6 +18,7 @@
 import FeedbackCard from './FeedbackCard.vue';
 import MainPageNavbar from './MainPageNavbar.vue';
 import { mapActions,mapGetters } from 'vuex';
+import Sidebar from './Sidebar.vue';
 
 export default {
     name: "Feedback",
@@ -38,6 +39,6 @@ export default {
             this.$router.push("/");
         }
     },
-    components: { FeedbackCard, MainPageNavbar }
+    components: { FeedbackCard, MainPageNavbar, Sidebar }
 };
 </script>
