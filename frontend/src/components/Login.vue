@@ -11,7 +11,8 @@
   <!-- 회원가입 -->
 	<div class="form-container sign-up-container">
     <Form @submit="handleRegister" :validation-schema="schemaSignup">
-      <h1>Sign Up</h1>
+      <h1 v-if="successful">Sign Up Completed!</h1>
+      <h1 v-else>Sign Up</h1>
       <div v-if="!successful">
       <div class="form-group">
         <Field name="username" type="text" placeholder="ID" class="form-control" maxlength="16"/>
@@ -184,6 +185,7 @@ export default {
           this.messageSignup = data.message;
           this.successful = true;
           this.loading = false;
+          setTimeout(() => this.signInButton(), 1000)
         },
         (error) => {
           this.messageSignup =
