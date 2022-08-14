@@ -45,6 +45,7 @@ export default {
         console.log(res)
       })
       this.$emit("change",1)
+      this.$emit("closeControl","상담종료")
       this.$router.push("/mainpage");
     },
     completeConsult(){
