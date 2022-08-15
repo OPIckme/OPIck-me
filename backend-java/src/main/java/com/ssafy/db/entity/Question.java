@@ -17,4 +17,5 @@ public class Question {
     private String questionContent;
     private String level;
     private String audioUrl;
+    private String category;
 }

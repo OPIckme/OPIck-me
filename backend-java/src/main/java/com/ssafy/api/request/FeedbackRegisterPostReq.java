@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 @Setter
 @ApiModel("FeedbackRegisterPostRequest")
 public class FeedbackRegisterPostReq {
-    @NotBlank
     @ApiModelProperty(name="피드백 내용", example="abcd")
     String content;
 
