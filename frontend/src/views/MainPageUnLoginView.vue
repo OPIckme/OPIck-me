@@ -1,14 +1,4 @@
 <template>
-  <nav class="navbar" style="background-color: #ffffff; height: 80px">
-    <div class="container">
-      <router-link class="position-absolute top-50 translate-middle" to="/">
-        <img src="../assets/logo.png" alt="" style="width: 120px" />
-      </router-link>
-      <router-link to="/login" class="nav-link">
-        <button class="Login" role="button">Login</button>
-      </router-link>
-    </div>
-  </nav>
   <SiteIntroduce></SiteIntroduce>
 </template>
 <script>

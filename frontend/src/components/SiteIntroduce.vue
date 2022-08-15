@@ -1,27 +1,40 @@
 <template>
   <div class="page-background">
-    <section class="top-section" style="--bs-bg-opacity: 0.5">
-      <div class="container text-center d-flex flex-column mt-5 mb-5">
-        <h1 class="ml11 p-2 mt-5">
-          <span class="text-wrapper">
-            <span class="line line1"></span>
-            <span class="letters">OF THE OPIC</span>
-          </span>
-        </h1>
-        <h1 class="ml12 p-2">
-          <span class="text-wrapper2">
-            <span class="line_2 line2"></span>
-            <span class="letters2">BY THE OPIC</span>
-          </span>
-        </h1>
-        <h1 class="ml13 p-2">
-          <span class="text-wrapper3">
-            <span class="line_3 line3"></span>
-            <span class="letters3">FOR THE OPIC</span>
-          </span>
-        </h1>
-      </div>
-    </section>
+    <div class="top-section">
+      <nav class="navbar" style="background-color: transparent; height: 80px">
+        <div class="container">
+          <router-link class="position-absolute top-50 translate-middle" to="/">
+            <img src="../assets/logo.png" alt="" style="width: 200px" />
+          </router-link>
+          <router-link to="/login" class="nav-link">
+            <button class="Login" role="button">Login</button>
+          </router-link>
+        </div>
+      </nav>
+
+      <section>
+        <div class="container text-center d-flex flex-column mt-5 mb-5">
+          <h1 class="ml11 p-2 mt-5">
+            <span class="text-wrapper">
+              <span class="line line1"></span>
+              <span class="letters">OF THE OPIC</span>
+            </span>
+          </h1>
+          <h1 class="ml12 p-2">
+            <span class="text-wrapper2">
+              <span class="line_2 line2"></span>
+              <span class="letters2">BY THE OPIC</span>
+            </span>
+          </h1>
+          <h1 class="ml13 p-2">
+            <span class="text-wrapper3">
+              <span class="line_3 line3"></span>
+              <span class="letters3">FOR THE OPIC</span>
+            </span>
+          </h1>
+        </div>
+      </section>
+    </div>
     <div>
       <section class="info mt-5" data-aos="fade-up">
         <div class="container d-flex">
@@ -228,13 +241,13 @@ export default {
 }
 .top-section {
   width: 100%;
-  height: 600px;
+  height: 40%;
   background-image: url("../assets/books.jpg");
   background-size: cover;
 }
 
 .page-background {
-  background-color: #d2d4dd;
+  background-color: #ffffff;
 }
 section {
   height: 100vh;
