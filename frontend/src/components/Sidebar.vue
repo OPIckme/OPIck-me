@@ -5,15 +5,16 @@
     <ul class="list-unstyled ps-0">
       <li class="mb-1" v-for="category in categorys" :key="category">
         <button class="btn rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true" @click="selectCategory(category)">
-          <i class="bi bi-chevron-right"></i>{{category}}
+          <p :class="isSelectCategory(category)">{{category}}</p>
         </button>
       </li>
-      
     </ul>
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 export default {
+  
   name: "Sidebar",
   data() {
     return {
@@ -23,8 +24,14 @@ export default {
   methods: {
     selectCategory(category){
       this.$emit("selectCategory",category)
-    }
+    },
+    isSelectCategory(category){
+      return category===this.category?"select":""
+    },
   },
+  computed:{
+    ...mapGetters(['category']),
+  }
   
 }
 </script>
@@ -32,5 +39,8 @@ export default {
 <style scoped>
 .topic_li{
   margin: 1rem;
+}
+.select{
+  color: #052A99;
 }
 </style>

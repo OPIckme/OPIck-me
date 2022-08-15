@@ -100,21 +100,21 @@ class ConsultControllerTest {
     }
 
     @Test
-    void 상담상태변경성공() throws Exception {
+    void 상담완료성공() throws Exception {
         HashMap<String, String> output = new HashMap<>();
         output.put("message", "Consult completed!");
         given(consultService.exist(1L)).willReturn(true);
-        mockMvc.perform(put("/api/v1/consult/complete/1"))
+        mockMvc.perform(delete("/api/v1/consult/complete/1"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(output)));
     }
 
     @Test
-    void 상담상태변경실패() throws Exception {
+    void 상담완료실패() throws Exception {
         HashMap<String, String> output = new HashMap<>();
         output.put("message", "존재하지 않는 상담입니다.");
         given(consultService.exist(1L)).willReturn(false);
-        mockMvc.perform(put("/api/v1/consult/complete/1"))
+        mockMvc.perform(delete("/api/v1/consult/complete/1"))
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().json(objectMapper.writeValueAsString(output)));
     }

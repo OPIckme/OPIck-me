@@ -57,7 +57,7 @@ class FeedbackServiceTest {
         Script script = createScript(user, question);
         Feedback feedback = feedbackService.create("feedbackContent", script);
         //When
-        Optional<Feedback> feedbackDetail = feedbackService.getDetail(feedback.getId());
+        Optional<Feedback> feedbackDetail = feedbackService.getDetail(feedback.getId(),1L);
         //Then
         assertThat(feedback.getId()).isEqualTo(feedbackDetail.get().getId());
     }

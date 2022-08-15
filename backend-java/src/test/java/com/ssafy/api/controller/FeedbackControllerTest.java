@@ -8,6 +8,7 @@ import com.ssafy.common.auth.SsafyUserDetailService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Feedback;
 import com.ssafy.db.entity.Script;
+import com.ssafy.db.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -25,25 +26,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(FeedbackController.class)
 class FeedbackControllerTest {
-
     @MockBean
     UserService userService;
-
     @MockBean
     SsafyUserDetailService ssafyUserDetailService;
-
     @MockBean
     PasswordEncoder passwordEncoder;
-
     @MockBean
     FeedbackService feedbackService;
-
     @MockBean
     ScriptService scriptService;
-
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -81,21 +75,27 @@ class FeedbackControllerTest {
 
     @Test
     void 전체피드백조회() throws Exception {
-        mockMvc.perform(get("/api/v1/feedback"))
+        given(userService.getUserByUsername("test")).willReturn(Optional.of(new User()));
+        mockMvc.perform(get("/api/v1/feedback/test"))
                 .andExpect(status().isOk());
     }
 
     @Test
     void 피드백디테일조회() throws Exception {
-        given(feedbackService.getDetail(1L)).willReturn(Optional.of(new Feedback()));
-        mockMvc.perform(get("/api/v1/feedback/1"))
+        User user = new User();
+        user.setId(1L);
+
+        given(userService.getUserByUsername("test")).willReturn(Optional.of(user));
+        given(feedbackService.getDetail(1L,1L)).willReturn(Optional.of(new Feedback()));
+        mockMvc.perform(get("/api/v1/feedback/test/1"))
                 .andExpect(status().isOk());
     }
 
     @Test
     void 피드백디테일조회실패() throws Exception {
-        given(feedbackService.getDetail(1L)).willReturn(Optional.ofNullable(null));
-        mockMvc.perform(get("/api/v1/feedback/1"))
+        given(userService.getUserByUsername("test")).willReturn(Optional.of(new User()));
+        given(feedbackService.getDetail(1L,1L)).willReturn(Optional.ofNullable(null));
+        mockMvc.perform(get("/api/v1/feedback/test/1"))
                 .andExpect(status().is4xxClientError());
     }
 

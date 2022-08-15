@@ -6,9 +6,11 @@ import com.ssafy.api.service.QuestionService;
 import com.ssafy.api.service.ScriptService;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.SsafyUserDetailService;
+import com.ssafy.converter.Converter;
 import com.ssafy.db.entity.Question;
 import com.ssafy.db.entity.Script;
 import com.ssafy.db.entity.User;
+import com.ssafy.stt.STT;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -43,6 +45,11 @@ class ScriptControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @MockBean
+    Converter converter;
+
+    @MockBean
+    STT stt;
     @Test
     void 스크립트_등록_성공() throws Exception {
         Map<String, String> input = new HashMap<>();
@@ -72,7 +79,7 @@ class ScriptControllerTest {
     void 스크립트_디테일_조회_성공() throws Exception {
         Long scriptId =1L;
 
-        given(scriptService.getDetail(scriptId)).willReturn(Optional.ofNullable(new Script()));
+        given(scriptService.getDetail(scriptId,1L)).willReturn(Optional.ofNullable(new Script()));
         mockMvc.perform(get("/api/v1/script/"+scriptId))
                 .andExpect(status().isOk());
     }

@@ -54,7 +54,7 @@ class ScriptServiceTest {
         //when
         Script script1 = scriptService.createScript(user, question,scriptContent , scriptAudioUrl);
         Script script2 = scriptService.createScript(user, question,scriptContent , scriptAudioUrl);
-        List<Script> scriptList = scriptService.getScriptList();
+        List<Script> scriptList = scriptService.getScriptList(user.getId());
 
         //then
         assertThat(scriptList.size()).isEqualTo(scriptList.size());
@@ -73,7 +73,7 @@ class ScriptServiceTest {
         Script script = scriptService.createScript(user, question,scriptContent , scriptAudioUrl);
         Long scriptId=script.getId();
 
-        Script findScript = scriptService.getDetail(scriptId).get();
+        Script findScript = scriptService.getDetail(scriptId,user.getId()).get();
         //then
         assertThat(script).isEqualTo(findScript);
     }
