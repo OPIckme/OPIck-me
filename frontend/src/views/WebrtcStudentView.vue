@@ -346,6 +346,7 @@ export default {
                     outputOuter.setAttribute("style",
                         "border-radius: 30px;overflow: hidden;padding : 0px !important; margin : auto;margin-top : 15px; margin-bottom : 15px; width: 508px; height: 263.75px;")
                 } else if (event.data === '상담종료'){
+                    peerConnection.close()
                     this.$router.push("/feedback")
                 } else {
                     videoOutput.setAttribute("style","display:none")
@@ -372,7 +373,8 @@ export default {
 
         peerConnection.addEventListener('connectionstatechange', event => {
             if (peerConnection.connectionState === 'connected') {
-                console.log("Peers connected!") 
+                console.log("Peers connected!")
+                stompClient.disconnect() 
             }
         });
         
@@ -540,6 +542,7 @@ export default {
         },
         closeControl(value) {
             dataChannel.send(value)
+            peerConnection.close()
         }
     },
     components: { ConsultCloseModal }
