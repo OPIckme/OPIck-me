@@ -45,10 +45,11 @@ export default {
       })
       var socket = new SockJS('https://i7b202.p.ssafy.io/ws');
       var stompClient = Stomp.over(socket);
+      let id = this.waitingconsult.id
       stompClient.connect({}, () => {
           stompClient.send("/topic/public/",
             JSON.stringify({
-              id : this.waitingconsult.id,
+              id : id,
               method : 'delete'
             })
           )}, () => {});
