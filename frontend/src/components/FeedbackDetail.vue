@@ -181,7 +181,7 @@ p{
   height: 36px;
   justify-content: center;
   line-height: 24px;
-  max-width: 100%;
+  /* max-width: 100%; */
   padding: 0 25px;
   position: relative;
   text-align: center;
@@ -193,7 +193,7 @@ p{
   left: 85%;
 }
 
-.Logout:after {
+/* .Logout:after {
   background-color: #111;
   border-radius: 50px;
   content: "";
@@ -225,5 +225,5 @@ p{
   .Logout {
     padding: 0 20px;
   }
-}
+} */
 </style>

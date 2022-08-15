@@ -241,9 +241,9 @@ p{
   -webkit-user-select: none;
   touch-action: manipulation;
   position: relative;
-  left: 85%;
+  /* left: 85%; */
 }
-
+/* 
 .Logout:after {
   background-color: #111;
   border-radius: 50px;
@@ -276,5 +276,5 @@ p{
   .Logout {
     padding: 0 20px;
   }
-}
+} */
 </style>

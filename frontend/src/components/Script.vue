@@ -1,8 +1,8 @@
 <template>
 
-<div class="container d-flex justify-content-between">
-  <Sidebar @selectCategory="categoryUpdate"></Sidebar>
-  <div>
+<div class="container d-flex flex-row">
+  <Sidebar style="width:20%" @selectCategory="categoryUpdate"></Sidebar>
+  <div style="width:80%">
     <!-- script navbar -->
     <div class="container d-flex justify-content-between align-items-center pb-3 mb-3 link-dark text-decoration-none">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 list-group-horizontal">
