@@ -7,14 +7,15 @@
     <div class="d-flex justify-content-around">
       <router-link to="/mainpage" @click.native="fetchHere1" class="script" :id="here1">Script</router-link>
       <router-link to="/feedback" @click.native="fetchHere2" class="feedback" :id="here2">Feedback</router-link>
-      <button  @clsick.native="fetchHere1" :id="here1" class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Logout" >Logout</button>
+      <!-- <button @click.native="fetchHere1" :id="here1" class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Logout" >Logout</button> -->
+      <button @click.native="fetchHere1"  class="logout" style="text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Logout" >Logout</button>
     </div>
   </div>
 </nav>
 <div v-else>
   <nav class="navbar sticky-top" style="background-color:#052A99; height: 80px;">
     <div class="container">
-      <router-link class="position-absolute top-50 start-50 translate-middle  " to="/mainpage" @click.native="fetchHere1" :id="here1">
+      <router-link class="position-absolute top-50 start-50 translate-middle" to="/mainpage" @click.native="fetchHere1" :id="here1">
         <img src="../assets/logo.png" alt="" style="width:120px">
       </router-link>
       <button  @click.native="fetchHere1" :id="here1" class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Logout" >Logout</button>
@@ -62,71 +63,26 @@ p{
 .navbar{
   z-index: 1;
 }
-.Logout {
-  align-items: center;
+.logout{
   background-color: #F2CB05;
   /* border: 2px solid #111; */
   border-radius: 50px;
-  box-sizing: border-box;
-  color: white;
-  cursor: pointer;
-  display: flex;
+  padding: 0 20px;
+  line-height: 24px;
+  height: 36px;
   font-family: Inter,sans-serif;
   font-size: 14px;
   font-weight: bold;
-  height: 36px;
-  justify-content: center;
-  line-height: 24px;
-  padding: 0 25px;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  position: relative;
 }
-
-/* .Logout:after {
-  background-color: #111;
-  border-radius: 50px;
-  content: "";
-  display: block;
-  height: 36px;
-  left: 0;
-  width: 100%;
-  position: absolute;
-  top: -2px;
-  transform: translate(6px, 6px);
-  transition: transform .2s ease-out;
-  z-index: -1;
-} */
-
-/* .Logout:hover:after {
-  transform: translate(0, 0);
+.logout:hover{
+  color:white;
 }
-
-.Logout:active {
-  background-color: #F2CB05;
-  outline: 0;
-}
-
-.LogLogoutin:hover {
-  outline: 0;
-}
-
-@media (min-width: 768px) {
-  .Logout {
-    padding: 0 20px;
-  }
-} */
 
 /* Script/Feedback */
 a{
   text-decoration: none;
 }
 #on{
-  /* position:relative; */
   color:#fff;
   text-decoration: underline;
   text-underline-position:under;

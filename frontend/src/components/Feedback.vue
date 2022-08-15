@@ -2,8 +2,8 @@
 <MainPageNavbar></MainPageNavbar>
 <!-- feedback card -->
 <div class="container d-flex justify-content-between">
-  <Sidebar @selectCategory="categoryUpdate"></Sidebar>
-  <div class="row" style="margin-top:4rem;">
+  <Sidebar style="width:20%" @selectCategory="categoryUpdate"></Sidebar>
+  <div  class="row" style="margin-top:4rem; width:80%;">
       <FeedbackCard 
       class="col-lg-2 col-md-3 col-sm-4" 
       v-for="feedback in feedbackList" 
