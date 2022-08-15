@@ -36,18 +36,17 @@ export default {
         stompClient.connect({}, () => {
             stompClient.subscribe('/topic/public/', (payload) => {
                 var message = JSON.parse(payload.body);
-                console.log({script : {
-                    id : message.id,
-                    question : {
-                        topic : message.topic,
-                        questionContent : message.questionContent
-                        }}})
-                this.waitingConsultMap.push({script : {
-                    id : message.id,
-                    question : {
-                        topic : message.topic,
-                        questionContent : message.questionContent
-                    }}})
+                const id = message.id
+                if (message.method === 'delete'){
+                    delete this.waitingConsultMap[id]
+                    console.log(this.waitingConsultMap)
+                } else {
+                    this.waitingConsultMap[id] = {
+                        id : id,
+                        script : message.script,
+                        room : message.room
+                    }
+                }
             })}, () =>{});
     },
     components: { ConsultCard }
