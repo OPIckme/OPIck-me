@@ -3,7 +3,7 @@
     <div class="top-section">
       <nav class="navbar" style="background-color: transparent; height: 80px">
         <div class="container">
-          <router-link class="position-absolute top-50 translate-middle" to="/">
+          <router-link class="logo" to="/">
             <img src="../assets/logo.png" alt="" style="width: 200px" />
           </router-link>
           <router-link to="/login" class="nav-link">
@@ -230,6 +230,12 @@ export default {
 };
 </script>
 <style scoped>
+.logo {
+  position: absolute;
+  translation: 0.05em;
+  left: 8%;
+  top: 17px;
+}
 .info {
   width: 90%;
   height: 500px;
@@ -283,7 +289,7 @@ section {
   left: 0;
   height: 100%;
   width: 3px;
-  background-color: #fff;
+  background-color: #ffffff;
   transform-origin: 0 50%;
 }
 
@@ -318,6 +324,7 @@ section {
   left: 0;
   height: 100%;
   width: 3px;
+  background-color: #ffffff;
   transform-origin: 0 50%;
 }
 
@@ -352,6 +359,7 @@ section {
   left: 0;
   height: 100%;
   width: 3px;
+  background-color: #ffffff;
   transform-origin: 0 50%;
 }
 
