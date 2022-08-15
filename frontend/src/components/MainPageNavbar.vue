@@ -1,5 +1,5 @@
 <template>
-<nav v-if="role==='student'" class="navbar sticky-top" style="background-color:#004ACC; height: 80px;">
+<nav v-if="role==='student'" class="navbar sticky-top" style="background-color:#052A99; height: 80px;">
   <div class="container">
     <router-link to="/mainpage" @click.native="fetchHere1" :id="here1">
       <img src="../assets/logo.png" alt="" style="width:120px">
@@ -12,7 +12,7 @@
   </div>
 </nav>
 <div v-else>
-  <nav class="navbar sticky-top" style="background-color:#004ACC; height: 80px;">
+  <nav class="navbar sticky-top" style="background-color:#052A99; height: 80px;">
     <div class="container">
       <router-link class="position-absolute top-50 start-50 translate-middle  " to="/mainpage" @click.native="fetchHere1" :id="here1">
         <img src="../assets/logo.png" alt="" style="width:120px">

@@ -37,6 +37,7 @@ export default {
       this.$router.push("/feedback");
     },
     async consultCloseConsult() {
+      console.log(123)
       axios.post(API_URL+ `/feedback`,{
         content: this.modify,
         scriptId: this.scriptId
@@ -45,6 +46,7 @@ export default {
         console.log(res)
       })
       this.$emit("change",1)
+      this.$emit("closeControl","상담종료")
       this.$router.push("/mainpage");
     },
     completeConsult(){
