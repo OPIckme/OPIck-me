@@ -64,7 +64,7 @@
       <!-- 다시 녹음 버튼-->
       <i data-bs-target="#SurveyModal2" data-bs-toggle="modal" class="bi bi-arrow-counterclockwise position-absolute bottom-0 start-0" style="margin-left:3rem"></i>
       <!-- 저장 버튼 -->
-      <i @click="s3Upload()" aria-label="Close" class="bi bi-download position-absolute bottom-0 end-0" style="margin-right:3rem"></i>
+      <i @click="s3Upload()" data-bs-dismiss="modal" aria-label="Close" class="bi bi-download position-absolute bottom-0 end-0" style="margin-right:3rem"></i>
     </div>
   </div>
 </div>
