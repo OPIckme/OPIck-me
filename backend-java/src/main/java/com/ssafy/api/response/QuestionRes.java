@@ -24,4 +24,7 @@ public class QuestionRes extends BaseResponseBody {
 
     @ApiModelProperty(name="오디오 url", example="url")
     private String audioUrl;
+
+    @ApiModelProperty(name="카테고리", example="여가활동")
+    private String category;
 }

@@ -1,198 +1,70 @@
 <template>
   <!-- Survey 모달 -->
 <div class="modal" id="SurveyModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-  <div class="modal-dialog modal-xl modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalToggleLabel">Survey(Topic과 Level을 선택해주세요.)</h5>
-        <!-- select level -->
-        <div class="d-flex flex-column">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit()"></button>
-          <span></span>
-          <select v-model="level" class="form-select" aria-label="Default select example" style="width:200px">
-            <option disabled value="">Open this select Level</option>
-            <option value="AL">AL</option>
-            <option value="IH">IH</option>
-            <option value="IM">IM</option>
-            <option value="IL">IL</option>
-          </select>
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content text-center">
+      <div class="modal-top d-flex justify-content-around">
+        <h6><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit(),fetchSelectTopicIdx('')"></button>
+      </div>
+      <div class="container">
+        <h5>TOPIC : {{ topic }}</h5>
+        <div class="modal-body topics text-center">
+          <input-topic v-for="(item,idx) in category" :key="item" :idx="idx" :item="item" @topic="changeTopic"></input-topic>
+        </div>
+        <h5>LEVEL : {{ level }}</h5>
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+          <input v-model="level" type="radio" class="btn-check" name="btnradio" id="AL" value="AL">
+          <label class="btn btn-outline-primary" for="AL">AL</label>
+          <input v-model="level" type="radio" class="btn-check" name="btnradio" id="IH" value="IH">
+          <label class="btn btn-outline-primary" for="IH">IH</label>
+          <input v-model="level" type="radio" class="btn-check" name="btnradio" id="IM" value="IM">
+          <label class="btn btn-outline-primary" for="IM">IM</label>
+          <input v-model="level" type="radio" class="btn-check" name="btnradio" id="IL" value="IL">
+          <label class="btn btn-outline-primary" for="IL">IL</label>
         </div>
       </div>
-      <p>Topic : {{ topic }} / Level : {{ level }}</p>
-      <div class="modal-body">
-        <div class="leisure-activities">
-          <h1>여가활동</h1>
-          <input-topic v-for="item in category" :key="item" :item="item" @topic="changeTopic"></input-topic>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="custom-btn btn-3"><span>Read More</span></button>
-        <button @click="getQuestion(topic,level)" class="custom-btn btn-3" :data-bs-target="surveyCheck()" data-bs-toggle="modal"><span>START</span></button>
+      <div>
+        <button @click="getQuestion(topic,level),fetchSelectTopicIdx('')" class="start_btn btn position-absolute bottom-0 start-50 translate-middle-x" :data-bs-target="surveyCheck()" data-bs-toggle="modal"><span>START</span></button>
       </div>
     </div>
   </div>
 </div>
+
 <div class="modal" id="SurveyModal2" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalToggleLabel2">문제듣기</h5>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center">
+      <div class="modal-top d-flex justify-content-around" style="z-index:1">
+        <h6><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="stopSound(), surveyinit()"></button>
       </div>
-      <div class="modal-body">
       <!-- 듣기 -->
-      <svg @click="playSound(audioUrl)" version="1.1" id="problem_listen" width="160" height="160" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-        viewBox="0 0 392.663 392.663" style="enable-background:new 0 0 392.663 392.663;" xml:space="preserve">
-      <polyline style="fill:#FFFFFF;" points="93.091,248.377 230.853,337.524 230.853,55.019 93.091,144.166 "/>
-      <polygon style="fill:#56ACE0;" points="114.877,236.546 114.877,155.997 209.067,95.1 209.067,297.443 "/>
-      <g>
-        <path style="fill:#FFC10D;" d="M252.638,160.781v70.917c15.127-4.655,26.182-18.747,26.182-35.491S267.83,165.5,252.638,160.781z"
-          />
-        <rect x="21.851" y="149.144" style="fill:#FFC10D;" width="49.39" height="94.255"/>
-      </g>
-      <g>
-        <path style="fill:#194F82;" d="M252.768,138.413V34.979c0-8.663-9.568-13.834-16.873-9.115L78.933,127.358H10.925
-          C4.913,127.358,0,132.207,0,138.284v116.04c0,6.012,4.848,10.925,10.925,10.925h68.008l156.962,101.56
-          c7.24,4.719,16.873-0.517,16.873-9.115V254.13c27.216-5.172,47.968-29.156,47.968-57.859S280.048,143.585,252.768,138.413z
-          M71.24,243.399h-49.39v-94.255h49.39V243.399z M230.853,337.524L93.091,248.377v-19.394h21.786
-          c6.012,0,10.925-4.848,10.925-10.925c0-6.012-4.848-10.925-10.925-10.925H93.091v-21.786h43.636
-          c6.012,0,10.925-4.848,10.925-10.925c0-6.012-4.848-10.925-10.925-10.925H93.091v-19.394l137.762-89.147L230.853,337.524
-          L230.853,337.524z M252.638,231.762v-70.982c15.127,4.655,26.182,18.747,26.182,35.491S267.83,227.043,252.638,231.762z"/>
-        <path style="fill:#194F82;" d="M348.509,89.54c-4.267-4.267-11.184-4.267-15.451,0s-4.202,11.119,0.065,15.386
-          c23.337,23.402,37.689,55.725,37.689,91.281s-14.481,67.814-37.689,91.216c-4.267,4.267-4.331,11.119-0.065,15.386
-          c4.267,4.267,11.184,4.331,15.451,0c27.216-27.281,44.154-64.97,44.154-106.537S375.661,117.015,348.509,89.54z"/>
-        <path style="fill:#194F82;" d="M315.475,121.54c-4.008-3.943-10.925-3.426-14.933,0.517c-4.073,4.073-4.331,11.119-0.129,15.192
-          c15.063,15.127,24.501,35.943,24.501,58.958s-9.374,43.83-24.501,58.958c-4.073,4.073-3.943,11.119,0.129,15.192
-          c4.008,4.008,10.925,4.59,14.933,0.517c19.265-19.071,31.224-45.576,31.224-74.731C346.634,167.051,334.739,140.611,315.475,121.54
-          z"/>
-      </g>
-      </svg>
-        <!-- 듣기
-        <svg @click="playSound(audioUrl)" xmlns="http://www.w3.org/2000/svg" width="160" height="160" fill="currentColor" class="bi bi-volume-up-fill" viewBox="0 0 16 16" id="problem_listen">
-          <path d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"/>
-          <path d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"/>
-          <path d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"/>
-        </svg> -->
-        <!-- 문제 듣기 안되는 스피커
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="160"
-            height="160"
-            fill="currentColor"
-            class="bi bi-volume-up-fill"
-            viewBox="0 0 16 16"
-            id="problem_nolisten"
-            display="none"
-          >
-            <path
-              d="M11.536 14.01A8.473 8.473 0 0 0 14.026 8a8.473 8.473 0 0 0-2.49-6.01l-.708.707A7.476 7.476 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303l.708.707z"
-            />
-            <path
-              d="M10.121 12.596A6.48 6.48 0 0 0 12.025 8a6.48 6.48 0 0 0-1.904-4.596l-.707.707A5.483 5.483 0 0 1 11.025 8a5.483 5.483 0 0 1-1.61 3.89l.706.706z"
-            />
-            <path
-              d="M8.707 11.182A4.486 4.486 0 0 0 10.025 8a4.486 4.486 0 0 0-1.318-3.182L8 5.525A3.489 3.489 0 0 1 9.025 8 3.49 3.49 0 0 1 8 10.475l.707.707zM6.717 3.55A.5.5 0 0 1 7 4v8a.5.5 0 0 1-.812.39L3.825 10.5H1.5A.5.5 0 0 1 1 10V6a.5.5 0 0 1 .5-.5h2.325l2.363-1.89a.5.5 0 0 1 .529-.06z"
-            />
-          </svg> -->
-          <!-- 문제 듣기 안되는 스피커 -->
-<svg version="1.1" id="problem_nolisten"  width="160" height="160" display="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 392.663 392.663" style="enable-background:new 0 0 392.663 392.663;" xml:space="preserve">
-<polyline style="fill:#FFFFFF;" points="93.091,248.377 230.853,337.524 230.853,55.019 93.091,144.166 "/>
-<polygon style="fill:#56ACE0;" points="114.877,236.546 114.877,155.997 209.067,95.1 209.067,297.443 "/>
-<g>
-	<path style="fill:#FFC10D;" d="M252.638,160.781v70.917c15.127-4.655,26.182-18.747,26.182-35.491S267.83,165.5,252.638,160.781z"
-		/>
-	<rect x="21.851" y="149.144" style="fill:#FFC10D;" width="49.39" height="94.255"/>
-</g>
-<g>
-	<path style="fill:#194F82;" d="M252.768,138.413V34.979c0-8.663-9.568-13.834-16.873-9.115L78.933,127.358H10.925
-		C4.913,127.358,0,132.207,0,138.284v116.04c0,6.012,4.848,10.925,10.925,10.925h68.008l156.962,101.56
-		c7.24,4.719,16.873-0.517,16.873-9.115V254.13c27.216-5.172,47.968-29.156,47.968-57.859S280.048,143.585,252.768,138.413z
-		 M71.24,243.399h-49.39v-94.255h49.39V243.399z M230.853,337.524L93.091,248.377v-19.394h21.786
-		c6.012,0,10.925-4.848,10.925-10.925c0-6.012-4.848-10.925-10.925-10.925H93.091v-21.786h43.636
-		c6.012,0,10.925-4.848,10.925-10.925c0-6.012-4.848-10.925-10.925-10.925H93.091v-19.394l137.762-89.147L230.853,337.524
-		L230.853,337.524z M252.638,231.762v-70.982c15.127,4.655,26.182,18.747,26.182,35.491S267.83,227.043,252.638,231.762z"/>
-	<path style="fill:#194F82;" d="M348.509,89.54c-4.267-4.267-11.184-4.267-15.451,0s-4.202,11.119,0.065,15.386
-		c23.337,23.402,37.689,55.725,37.689,91.281s-14.481,67.814-37.689,91.216c-4.267,4.267-4.331,11.119-0.065,15.386
-		c4.267,4.267,11.184,4.331,15.451,0c27.216-27.281,44.154-64.97,44.154-106.537S375.661,117.015,348.509,89.54z"/>
-	<path style="fill:#194F82;" d="M315.475,121.54c-4.008-3.943-10.925-3.426-14.933,0.517c-4.073,4.073-4.331,11.119-0.129,15.192
-		c15.063,15.127,24.501,35.943,24.501,58.958s-9.374,43.83-24.501,58.958c-4.073,4.073-3.943,11.119,0.129,15.192
-		c4.008,4.008,10.925,4.59,14.933,0.517c19.265-19.071,31.224-45.576,31.224-74.731C346.634,167.051,334.739,140.611,315.475,121.54
-		z"/>
-</g>
-</svg>
-        <!-- 녹음 -->
-        <h1>
-          <svg class="bi bi-record-circle" @click="start" data-bs-target="#SurveyModal3" data-bs-toggle="modal" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 16 16" display="none" id="record_script">
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-            <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-          </svg>
-        </h1>
-        <h2> Start recording</h2>
-      </div>
+      <i @click="playSound(audioUrl)" :class="soundIconClass" class="position-absolute top-0 start-50 translate-middle-x"></i>
+      <!-- 녹음 시작 버튼 -->
+      <i v-show="record" @click="start" class="bi bi-record-circle position-absolute bottom-0 start-50 translate-middle-x"></i>
+      <!-- 녹음 중지 버튼 -->
+      <i v-show="!record" @click="stop" data-bs-target="#SurveyModal3" data-bs-toggle="modal" class="bi bi-stop-circle position-absolute bottom-0 start-50 translate-middle-x"></i>
     </div>
   </div>
 </div>
-<div class="modal" id="SurveyModal3" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3" tabindex="-1">
-  <div class="modal-dialog modal-xl">
+
+
+<div class="modal" id="SurveyModal3" data-bs-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel4" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit()"></button>
+      <div class="modal-top d-flex justify-content-around" style="z-index:1">
+        <h6><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit(), fetchSelectTopicIdx('')"></button>
       </div>
-       <div v-if="isStatusOn">Hello Webisfree.com</div>
-      <button @click="toggleOnOff" v-if="!isStatusOn">문제 보기</button>
-      <button @click="toggleOnOff" v-if="isStatusOn">문제 숨기기</button>
-      <div class="modal-body">
-        <h5 class="modal-title" id="exampleModalToggleLabel3" v-if="isStatusOn">
-         Q. {{ questionInfo.questionContent }}
-        </h5>
-        <!-- soundwave -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" fill="currentColor" class="bi bi-soundwave" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M8.5 2a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-1 0v-11a.5.5 0 0 1 .5-.5zm-2 2a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zm-6 1.5A.5.5 0 0 1 5 6v4a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm8 0a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm-10 1A.5.5 0 0 1 3 7v2a.5.5 0 0 1-1 0V7a.5.5 0 0 1 .5-.5zm12 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0V7a.5.5 0 0 1 .5-.5z"/>
-        </svg>
-        <!-- 일시정지 -->
-        <p>
-          <svg @click="stop" data-bs-target="#SurveyModal4" data-bs-toggle="modal" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-pause-circle" viewBox="0 0 16 16">
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-            <path d="M5 6.25a1.25 1.25 0 1 1 2.5 0v3.5a1.25 1.25 0 1 1-2.5 0v-3.5zm3.5 0a1.25 1.25 0 1 1 2.5 0v3.5a1.25 1.25 0 1 1-2.5 0v-3.5z"/>
-          </svg>
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal" id="SurveyModal4" data-bs-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel4" tabindex="-1">
-  <div class="modal-dialog modal-xl">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit()"></button>
-      </div>
-      <div class="modal-body">
-        <h5 class="modal-title" id="exampleModalToggleLabel4">
-          Q. {{ questionInfo.questionContent }}
-        </h5>
-        <!-- soundwave -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" fill="currentColor" class="bi bi-soundwave" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M8.5 2a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-1 0v-11a.5.5 0 0 1 .5-.5zm-2 2a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zm-6 1.5A.5.5 0 0 1 5 6v4a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm8 0a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm-10 1A.5.5 0 0 1 3 7v2a.5.5 0 0 1-1 0V7a.5.5 0 0 1 .5-.5zm12 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0V7a.5.5 0 0 1 .5-.5z"/>
-        </svg>
-        <!--오디오 시작-->
-        <audio controls :src="blobURL">녹음된 소리를 재생할 audio 엘리먼트</audio>
-        <!--오디오 끝-->
-        <div>
-          <!-- 녹음 -->
-          <svg class="bi bi-record-circle" data-bs-target="#SurveyModal2" data-bs-toggle="modal" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-            <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-          </svg>
-          <p>Re-Start</p>
-          <!-- save -->
-          <svg @click="s3Upload()" data-bs-dismiss="modal" aria-label="Close" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
-            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-          </svg>
-          <p>Script savse</p>
-        </div>
-      </div>
+      <p style="margin-left:3.5rem;">[ {{topic}} ]</p>
+      <p class="modal-title" id="exampleModalToggleLabel4">
+        Q. {{ questionInfo.questionContent }}
+      </p>
+      <audio controls :src="blobURL"></audio>
+      <!-- 다시 녹음 버튼-->
+      <i data-bs-target="#SurveyModal2" data-bs-toggle="modal" class="bi bi-arrow-counterclockwise position-absolute bottom-0 start-0" style="margin-left:3rem"></i>
+      <!-- 저장 버튼 -->
+      <i @click="s3Upload()" aria-label="Close" class="bi bi-download position-absolute bottom-0 end-0" style="margin-right:3rem"></i>
     </div>
   </div>
 </div>
@@ -215,7 +87,7 @@ export default {
       topic : '',
       level : '',
       questionInfo : {},
-      audio: {},
+      audio: null,
       audioUrl : '',
       isStatusOn: false,
       userId:this.$store.state.auth.user.id,
@@ -226,14 +98,14 @@ export default {
       blob: {},
       blobURL:"",
       uploadParams:{},
-      uuid:""
-
-
+      uuid:"",
+      record:true,
       //---audio 녹음 data 끝
+      soundIconClass:'bi bi-volume-off'
     }
   },
   methods : {
-    ...mapActions(['fetchScriptList']),
+    ...mapActions(['fetchScriptList','fetchSelectTopicIdx']),
     s3Upload(){
       uploadFile(this.uploadParams,this.saveScript,this.uuid)
     },
@@ -280,16 +152,7 @@ export default {
       },
 
     saveScript(fileName) {
-      // setTimeout(
-      //   axios.post(API_URL + '/script', {
-      //     userId: this.userId,
-      //     questionId: this.questionInfo.id,
-      //     audioURL: `https://jaeyeong-s3.s3.ap-northeast-2.amazonaws.com/${fileName}.webm`,
-      //     keyName: fileName,
-      //   }).then(res=>{
-      //     console.log(res)
-      //     this.fetchScriptList(this.$store.state.auth.user.username)
-      //   }),500)
+
       axios.post(API_URL + '/script', {
           userId: this.userId,
           questionId: this.questionInfo.id,
@@ -308,48 +171,12 @@ export default {
 
     playSound(sound) {
       // 문제 듣기
-      if (sound) {
+      console.log(this.audio)
+      if (sound && !this.audio) {
         this.audio = new Audio(sound); // data에 audio 객체 있음.
         this.audio.play();
-
-        const problem_listen = document.getElementById("problem_listen"); // 문제 듣기 가져오기
-        const problem_nolisten = document.getElementById("problem_nolisten"); // 문제 듣지 않기 가져오기
-
-        // problem_listen 숨기기 (display: none)
-        if (problem_listen.style.display !== "none") {
-          // none이 아니면 none으로 바꿔서 숨기기
-          problem_listen.style.display = "none";
-        }
-
-        // problem_nolisten 보이기 (display: block)
-        if (problem_nolisten.style.display !== "block") {
-          // block 아니면 block 바꿔서 보이기
-          problem_nolisten.style.display = "block";
-        }
-
-        this.audio.onended = function () {
-          // 문제 듣기가 종료되었을 때
-
-          // problem_listen 보이기 (display: block)
-          if (problem_listen.style.display !== "block") {
-            // block 아니면 block 바꿔서 보이기
-            problem_listen.style.display = "block";
-          }
-
-          // problem_nolisten 숨기기 (display: none)
-          if (problem_nolisten.style.display !== "none") {
-            // none이 아니면 none으로 바꿔서 숨기기
-            problem_nolisten.style.display = "none";
-          }
-
-          const record = document.getElementById("record_script"); // 녹음 아이디 가져오기 v-if로 고치기
-
-          // record 녹음 버튼 보이기 (display: none)
-          if (record.style.display !== "block") {
-            // 원래 안보였으면
-            record.style.display = "block"; // 보이게 하기
-          }
-        };
+        console.log(this.audio)
+        this.soundIconClass='bi bi-volume-up'
       }
     },
 
@@ -357,6 +184,7 @@ export default {
       // 문제 듣기를 중지한다.
       this.audio.pause(); // 데이터에서 가져와서 사용한다. 오디오를 정지한다.
       this.audio.currentTime = 0; // 오디오 시간 초기화
+      this.soundIconClass='bi bi-volume-off'
 
       const record = document.getElementById("record_script"); // 녹음 아이디 가져오기
 
@@ -385,10 +213,13 @@ export default {
      changeTopic(topic) {
       this.topic = topic;
      },
-
+     changeLevel(level) {
+      this.level = level;
+     },
     async start(){
+      this.record=!this.record
       this.uuid =v4()
-      this.stopSound(); // 문제를 듣다가 녹음 버튼 누르면 문제 듣기 종료
+      // this.stopSound(); // 문제를 듣다가 녹음 버튼 누르면 문제 듣기 종료
       // 마이크 mediaStream 생성: Promise를 반환하므로 async/await 사용
       const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
 
@@ -427,6 +258,7 @@ export default {
       this.mediaRecorder.start();
      },
      async stop(){
+      this.record=!this.record
       this.mediaRecorder.stop();
      },     
   },
@@ -435,10 +267,11 @@ export default {
 </script>
 
 <style scoped>
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
 .modal-content {
-  background-color: #E3F2FD;
+  height: 40rem;
+  border-radius: 50px;
 }
-
 #problem_nolisten{
   animation: up-down 1.4s infinite ease-in-out alternate;
 }
@@ -460,93 +293,113 @@ export default {
   transform: scale( 1.3 )
   }
 
-  .custom-btn {
-  width: 130px;
-  height: 40px;
-  color: #fff;
-  border-radius: 5px;
-  padding: 10px 25px;
-  font-family: 'Lato', sans-serif;
-  font-weight: 500;
-  background: transparent;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  display: inline-block;
-   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
-   7px 7px 20px 0px rgba(0,0,0,.1),
-   4px 4px 5px 0px rgba(0,0,0,.1);
-  outline: none;
+#record_script {
+  transition: all 0.5s linear;
+  }
+  
+#record_script:hover {
+  transform: scale( 1.3 )
+  }
+
+.modal-top{
+  margin-bottom: 2rem;
+}
+.modal-title{
+  margin-left: 3.5rem;
+  margin-right: 3.5rem;
+  letter-spacing: 1.5px;
+  font-weight: bold;
+}
+audio{
+  margin-left: 3.5rem;
+  margin-top: 1rem;
+}
+h5{
+  margin-bottom: 1.5rem;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+h6{
+  margin: 3rem;
+  margin-bottom: 0;
+  letter-spacing: 2px;
+}
+.btn-close{
+  margin: 3rem;
+  margin-bottom: 0;
+}
+.topics{
+  height: 15rem;
+  overflow-y: scroll;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  width: 80%;
+  left:10%;
+  border-radius: 50px;
+  margin-bottom: 1.5rem;
+}
+/* 아래의 모든 코드는 영역::코드로 사용 */
+.topics::-webkit-scrollbar {
+    width: 10px;  /* 스크롤바의 너비 */
+    display: none;
 }
 
-/* 3 */
-.btn-3 {
-  background: rgb(0,172,238);
-background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
-  width: 130px;
-  height: 40px;
-  line-height: 42px;
-  padding: 0;
-  border: none;
-  
+.btn-outline-primary{
+   --bs-btn-hover-bg:#004ACC;
+   --bs-btn-hover-color:white;
+   --bs-btn-active-bg: #004ACC;
+   --bs-btn-active-color: white;
+   border-radius: 50px;
 }
-.btn-3 span {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: 100%;
+.btn-group{
+  width: 80%;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 50px;
 }
-.btn-3:before,
-.btn-3:after {
-  position: absolute;
-  content: "";
-  right: 0;
-  top: 0;
-   background: rgba(2,126,251,1);
-  transition: all 0.3s ease;
+.start_btn{
+  margin-bottom: 3rem;
+  background-color: #F2CB05;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+  transition: 200ms;
+  width: 60%;
+  box-sizing: border-box;
+  border: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
 }
-.btn-3:before {
-  height: 0%;
-  width: 2px;
+.start_btn:not(:disabled):hover,
+.start_btn:not(:disabled):focus {
+  outline: 0;
+  background: #F2CB05;
+  box-shadow: 0 0 0 2px rgba(0,0,0,.2), 0 3px 8px 0 rgba(0,0,0,.15);
 }
-.btn-3:after {
-  width: 0%;
-  height: 2px;
+
+.start_btn:disabled {
+  filter: saturate(0.2) opacity(0.5);
+  -webkit-filter: saturate(0.2) opacity(0.5);
+  cursor: not-allowed;
 }
-.btn-3:hover{
-   background: transparent;
-  box-shadow: none;
+.bi-record-circle{
+  font-size: 110px;
+  color: red;
+  margin-bottom: 5rem;
 }
-.btn-3:hover:before {
-  height: 100%;
+.bi-stop-circle{
+  font-size: 110px;
+  color: red;
+  margin-bottom: 5rem;
 }
-.btn-3:hover:after {
-  width: 100%;
+.bi-volume-off,.bi-volume-up{
+  font-size: 330px;
+  width: 330px;
+  height: 330px;
 }
-.btn-3 span:hover{
-   color: rgba(2,126,251,1);
-}
-.btn-3 span:before,
-.btn-3 span:after {
-  position: absolute;
-  content: "";
-  left: 0;
-  bottom: 0;
-   background: rgba(2,126,251,1);
-  transition: all 0.3s ease;
-}
-.btn-3 span:before {
-  width: 2px;
-  height: 0%;
-}
-.btn-3 span:after {
-  width: 0%;
-  height: 2px;
-}
-.btn-3 span:hover:before {
-  height: 100%;
-}
-.btn-3 span:hover:after {
-  width: 100%;
+.bi-arrow-counterclockwise,.bi-download{
+  font-size: 90px;
+  margin-bottom: 4rem;
 }
 </style>

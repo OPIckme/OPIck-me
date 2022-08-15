@@ -1,23 +1,35 @@
 <template>
-<nav class="navbar sticky-top" style="background-color:#052A99; height: 80px;">
+<nav v-if="role==='student'" class="navbar sticky-top" style="background-color:#052A99; height: 80px;">
   <div class="container">
-    <router-link class="position-absolute top-50 start-50 translate-middle  " to="/mainpage" @click.native="fetchHere1" :id="here1">
+    <router-link to="/mainpage" @click.native="fetchHere1" :id="here1">
       <img src="../assets/logo.png" alt="" style="width:120px">
     </router-link>
-    <button  @click.native="fetchHere1" :id="here1" class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Logout" >Logout</button>
+    <div class="d-flex justify-content-around">
+      <router-link to="/mainpage" @click.native="fetchHere1" class="script" :id="here1">Script</router-link>
+      <router-link to="/feedback" @click.native="fetchHere2" class="feedback" :id="here2">Feedback</router-link>
+      <button  @clsick.native="fetchHere1" :id="here1" class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Logout" >Logout</button>
+    </div>
   </div>
 </nav>
-<div v-if="role==='student'" class="menu d-flex justify-content-evenly" style="background-color:white;">
-  <router-link to="/mainpage" @click.native="fetchHere1" class="script" :id="here1">Script</router-link>
-  <router-link to="/feedback" @click.native="fetchHere2" class="feedback" :id="here2">Feedback</router-link>
-</div>
-<div v-else class="container text-center" style="background-color:white;">
-  <div class="row">
-    <p class="col">Topic</p>
-    <p class="col-6">Question</p>
-    <p class="col">State</p>
+<div v-else>
+  <nav class="navbar sticky-top" style="background-color:#052A99; height: 80px;">
+    <div class="container">
+      <router-link class="position-absolute top-50 start-50 translate-middle  " to="/mainpage" @click.native="fetchHere1" :id="here1">
+        <img src="../assets/logo.png" alt="" style="width:120px">
+      </router-link>
+      <button  @click.native="fetchHere1" :id="here1" class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Logout" >Logout</button>
+    </div>
+  </nav>
+  <div class="container text-center" style="background-color:white;">
+    <div class="row">
+      <p class="col">Topic</p>
+      <p class="col-6">Question</p>
+      <p class="col">State</p>
+    </div>
   </div>
 </div>
+
+
 <LogoutModal></LogoutModal>
 </template>
 <script scope>
@@ -53,7 +65,7 @@ p{
 .Logout {
   align-items: center;
   background-color: #F2CB05;
-  border: 2px solid #111;
+  /* border: 2px solid #111; */
   border-radius: 50px;
   box-sizing: border-box;
   color: white;
@@ -65,7 +77,6 @@ p{
   height: 36px;
   justify-content: center;
   line-height: 24px;
-  max-width: 100%;
   padding: 0 25px;
   position: relative;
   text-align: center;
@@ -74,10 +85,9 @@ p{
   -webkit-user-select: none;
   touch-action: manipulation;
   position: relative;
-  left: 85%;
 }
 
-.Logout:after {
+/* .Logout:after {
   background-color: #111;
   border-radius: 50px;
   content: "";
@@ -90,9 +100,9 @@ p{
   transform: translate(6px, 6px);
   transition: transform .2s ease-out;
   z-index: -1;
-}
+} */
 
-.Logout:hover:after {
+/* .Logout:hover:after {
   transform: translate(0, 0);
 }
 
@@ -109,40 +119,32 @@ p{
   .Logout {
     padding: 0 20px;
   }
-}
+} */
 
 /* Script/Feedback */
-.menu{
-  margin:0;
-  display:flex;
-  align-items:center;
-  justify-content: center;
-  height: 120px;
-}
-
 a{
   text-decoration: none;
 }
 #on{
   /* position:relative; */
-  color:#020E33;
+  color:#fff;
   text-decoration: underline;
   text-underline-position:under;
 }
 .script{
-  margin:0;
-  padding:0;
-  font-size:45px;
-  font-weight: bold;
+  margin-right:3rem;
+  /* padding:0; */
+  font-size:20px;
+  /* font-weight: bold; */
   font-family: Inter,sans-serif;
   text-transform:uppercase;
   position:relative;
-  color:#ccc;
+  color:#A0A0A0;
 }
 .script:before{
   content:"script";
   position:absolute;
-  color:#020E33;
+  color:#fff;
   top:0;
   left:0;
   width:0%;
@@ -155,22 +157,20 @@ a{
   width:100%;
 }
 
-
-
 .feedback{
-  margin:0;
+  margin-right:3rem;
   padding:0;
-  font-size:45px;
-  font-weight: bold;
+  font-size:20px;
+  /* font-weight: bold; */
   font-family: Inter,sans-serif;
   text-transform:uppercase;
   position:relative;
-  color:#ccc;
+  color:#A0A0A0;
 }
 .feedback:before{
   content:"feedback";
   position:absolute;
-  color:#020E33;
+  color:#fff;
   top:0;
   left:0;
   width:0%;
