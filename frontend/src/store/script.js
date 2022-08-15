@@ -5,6 +5,7 @@ export const script = {
     state: {
         scriptList: [],
         script: {},
+        selectTopicIdx:'',
         category:"",
         complet:false
     },
@@ -12,6 +13,7 @@ export const script = {
     getters: {
         scriptList: state => state.scriptList.slice().reverse(),
         script: state => state.script,
+        selectTopicIdx: state => state.selectTopicIdx,
         category: state => state.category,
         complet: state => state.complet,
     },
@@ -19,6 +21,7 @@ export const script = {
     mutations: {
         SET_SCRIPTLIST: (state, scriptList) => state.scriptList = scriptList,
         SET_SCRIPT: (state, script) => state.script = script,
+        SET_SECECTTOPICIDX: (state, selectTopicIdx) => state.selectTopicIdx = selectTopicIdx,
         SET_CATEGORY: (state, category) => state.category = category,
         SET_COMPLET: (state, complet) => state.complet = complet,
     },
@@ -47,6 +50,10 @@ export const script = {
                 commit('SET_SCRIPT', res.data.script)
                 console.log(res.data.script)
             })
+        },
+
+        fetchSelectTopicIdx( { commit },selectTopicIdx) {
+            commit('SET_SECECTTOPICIDX',selectTopicIdx)
         },
 
         modifyScript( {commit}, {scriptId, scriptContent} ){

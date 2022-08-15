@@ -1,106 +1,70 @@
 <template>
   <!-- Survey 모달 -->
 <div class="modal" id="SurveyModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalToggleLabel">Survey(Topic과 Level을 선택해주세요.)</h5>
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content text-center">
+      <div class="modal-top d-flex justify-content-around">
+        <h6><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit(),fetchSelectTopicIdx('')"></button>
       </div>
-      <p>Topic : {{ topic }} / Level : {{ level }}</p>
-      <h1>TOPIC</h1>
-      <div class="modal-body">
-        <input-topic v-for="item in category" :key="item" :item="item" @topic="changeTopic"></input-topic>
-      </div>
-      <h1>LEVEL</h1>
-      <div class="d-flex flex-column">
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit()"></button>
-        <select v-model="level" class="form-select" aria-label="Default select example" style="width:200px">
-          <option disabled value="">Open this select Level</option>
-          <option value="AL">AL</option>
-          <option value="IH">IH</option>
-          <option value="IM">IM</option>
-          <option value="IL">IL</option>
-        </select>
-      </div>
-      <div>
-        <button @click="getQuestion(topic,level)" class="custom-btn btn-3" :data-bs-target="surveyCheck()" data-bs-toggle="modal"><span>START</span></button>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="modal" id="SurveyModal2" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
-    <div class="modal-content">
-        <h5 class="modal-title" id="exampleModalToggleLabel2">문제듣기</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="stopSound(), surveyinit()"></button>
-      <div class="modal-body">
-      <!-- 듣기 -->
-      <div style="text-align:center">
-      <button @click="playSound(audioUrl)"></button>
-      </div>
-
-
-        <!-- 녹음 시작 버튼 -->
-        <svg v-show="record" @click="start" width="160" height="160" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" id="record_script">
-        <g id="color"/>
-        <g id="line">
-          <circle cx="36" cy="36" r="20" fill="none" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
-          <circle cx="36" cy="36" r="7" fill="#000000" stroke="none"/>
-          </g>
-          <g id="color-foreground">
-            <circle cx="36" cy="36" r="7" fill="#D22F27" stroke="none"/>
-            </g>
-        </svg>
-
-        <!-- 녹음 중지 버튼 -->
-        <svg v-show="!record" @click="stop" data-bs-target="#SurveyModal3" data-bs-toggle="modal" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 473.931 473.931" style="enable-background:new 0 0 473.931 473.931;" xml:space="preserve" width="160" height="160">
-            <circle style="fill:#E84849;" cx="236.966" cy="236.966" r="236.966"/>
-            <path style="fill:#FFFFFF;" d="M338.771,324.568c0,7.846-6.361,14.207-14.215,14.207H149.345c-7.85,0-14.211-6.361-14.211-14.207 V149.349c0-7.854,6.361-14.215,14.211-14.215H324.56c7.854,0,14.215,6.361,14.215,14.215v175.219H338.771z"/>
-        </svg>
-
-
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="SurveyModal3" data-bs-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel4" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div >
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit()"></button>
-      </div>
-      <div >
-        <h5 class="modal-title" id="exampleModalToggleLabel4">
-          Q. {{ questionInfo.questionContent }}
-        </h5>
-        
-
-        <audio controls :src="blobURL">녹음된 소리를 재생할 audio 엘리먼트</audio>
-
-        <div style="text-align:center">
-
-
-          <!-- 다시 녹음 버튼-->
-          <svg data-bs-target="#SurveyModal2" data-bs-toggle="modal" width="160" height="160" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg">
-            <g id="color"/>
-            <g id="line">
-              <circle cx="36" cy="36" r="20" fill="none" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"/>
-              <circle cx="36" cy="36" r="7" fill="#000000" stroke="none"/>
-            </g>
-            <g id="color-foreground">
-              <circle cx="36" cy="36" r="7" fill="#D22F27" stroke="none"/>
-            </g>
-          </svg>
-
-
-          <!-- 저장 버튼 -->
-          <svg @click="s3Upload()" data-bs-dismiss="modal" aria-label="Close" xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
-            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-          </svg>
+      <div class="container">
+        <h5>TOPIC : {{ topic }}</h5>
+        <div class="modal-body topics text-center">
+          <input-topic v-for="(item,idx) in category" :key="item" :idx="idx" :item="item" @topic="changeTopic"></input-topic>
+        </div>
+        <h5>LEVEL : {{ level }}</h5>
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+          <input v-model="level" type="radio" class="btn-check" name="btnradio" id="AL" value="AL">
+          <label class="btn btn-outline-primary" for="AL">AL</label>
+          <input v-model="level" type="radio" class="btn-check" name="btnradio" id="IH" value="IH">
+          <label class="btn btn-outline-primary" for="IH">IH</label>
+          <input v-model="level" type="radio" class="btn-check" name="btnradio" id="IM" value="IM">
+          <label class="btn btn-outline-primary" for="IM">IM</label>
+          <input v-model="level" type="radio" class="btn-check" name="btnradio" id="IL" value="IL">
+          <label class="btn btn-outline-primary" for="IL">IL</label>
         </div>
       </div>
+      <div>
+        <button @click="getQuestion(topic,level),fetchSelectTopicIdx('')" class="start_btn btn position-absolute bottom-0 start-50 translate-middle-x" :data-bs-target="surveyCheck()" data-bs-toggle="modal"><span>START</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="SurveyModal2" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-center">
+      <div class="modal-top d-flex justify-content-around" style="z-index:1">
+        <h6><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="stopSound(), surveyinit()"></button>
+      </div>
+      <!-- 듣기 -->
+      <i @click="playSound(audioUrl)" :class="soundIconClass" class="position-absolute top-0 start-50 translate-middle-x"></i>
+      <!-- 녹음 시작 버튼 -->
+      <i v-show="record" @click="start" class="bi bi-record-circle position-absolute bottom-0 start-50 translate-middle-x"></i>
+      <!-- 녹음 중지 버튼 -->
+      <i v-show="!record" @click="stop" data-bs-target="#SurveyModal3" data-bs-toggle="modal" class="bi bi-stop-circle position-absolute bottom-0 start-50 translate-middle-x"></i>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="SurveyModal3" data-bs-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel4" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-top d-flex justify-content-around" style="z-index:1">
+        <h6><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit(), fetchSelectTopicIdx('')"></button>
+      </div>
+      <p style="margin-left:3.5rem;">[ {{topic}} ]</p>
+      <p class="modal-title" id="exampleModalToggleLabel4">
+        Q. {{ questionInfo.questionContent }}
+      </p>
+      <audio controls :src="blobURL"></audio>
+      <!-- 다시 녹음 버튼-->
+      <i data-bs-target="#SurveyModal2" data-bs-toggle="modal" class="bi bi-arrow-counterclockwise position-absolute bottom-0 start-0" style="margin-left:3rem"></i>
+      <!-- 저장 버튼 -->
+      <i @click="s3Upload()" aria-label="Close" class="bi bi-download position-absolute bottom-0 end-0" style="margin-right:3rem"></i>
     </div>
   </div>
 </div>
@@ -135,14 +99,13 @@ export default {
       blobURL:"",
       uploadParams:{},
       uuid:"",
-      record:true
-
-
+      record:true,
       //---audio 녹음 data 끝
+      soundIconClass:'bi bi-volume-off'
     }
   },
   methods : {
-    ...mapActions(['fetchScriptList']),
+    ...mapActions(['fetchScriptList','fetchSelectTopicIdx']),
     s3Upload(){
       uploadFile(this.uploadParams,this.saveScript,this.uuid)
     },
@@ -213,6 +176,7 @@ export default {
         this.audio = new Audio(sound); // data에 audio 객체 있음.
         this.audio.play();
         console.log(this.audio)
+        this.soundIconClass='bi bi-volume-up'
       }
     },
 
@@ -220,6 +184,7 @@ export default {
       // 문제 듣기를 중지한다.
       this.audio.pause(); // 데이터에서 가져와서 사용한다. 오디오를 정지한다.
       this.audio.currentTime = 0; // 오디오 시간 초기화
+      this.soundIconClass='bi bi-volume-off'
 
       const record = document.getElementById("record_script"); // 녹음 아이디 가져오기
 
@@ -248,7 +213,9 @@ export default {
      changeTopic(topic) {
       this.topic = topic;
      },
-
+     changeLevel(level) {
+      this.level = level;
+     },
     async start(){
       this.record=!this.record
       this.uuid =v4()
@@ -300,11 +267,11 @@ export default {
 </script>
 
 <style scoped>
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
 .modal-content {
-  background-color: #E3F2FD;
-  height: 50rem;
+  height: 40rem;
+  border-radius: 50px;
 }
-
 #problem_nolisten{
   animation: up-down 1.4s infinite ease-in-out alternate;
 }
@@ -334,93 +301,105 @@ export default {
   transform: scale( 1.3 )
   }
 
-  .custom-btn {
-  width: 130px;
-  height: 40px;
-  color: #fff;
-  border-radius: 5px;
-  padding: 10px 25px;
-  font-family: 'Lato', sans-serif;
-  font-weight: 500;
-  background: transparent;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  display: inline-block;
-   box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
-   7px 7px 20px 0px rgba(0,0,0,.1),
-   4px 4px 5px 0px rgba(0,0,0,.1);
-  outline: none;
+.modal-top{
+  margin-bottom: 2rem;
+}
+.modal-title{
+  margin-left: 3.5rem;
+  margin-right: 3.5rem;
+  letter-spacing: 1.5px;
+  font-weight: bold;
+}
+audio{
+  margin-left: 3.5rem;
+  margin-top: 1rem;
+}
+h5{
+  margin-bottom: 1.5rem;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+h6{
+  margin: 3rem;
+  margin-bottom: 0;
+  letter-spacing: 2px;
+}
+.btn-close{
+  margin: 3rem;
+  margin-bottom: 0;
+}
+.topics{
+  height: 15rem;
+  overflow-y: scroll;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  width: 80%;
+  left:10%;
+  border-radius: 50px;
+  margin-bottom: 1.5rem;
+}
+/* 아래의 모든 코드는 영역::코드로 사용 */
+.topics::-webkit-scrollbar {
+    width: 10px;  /* 스크롤바의 너비 */
+    display: none;
 }
 
-/* 3 */
-.btn-3 {
-  background: rgb(0,172,238);
-background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
-  width: 130px;
-  height: 40px;
-  line-height: 42px;
-  padding: 0;
-  border: none;
-  
+.btn-outline-primary{
+   --bs-btn-hover-bg:#004ACC;
+   --bs-btn-hover-color:white;
+   --bs-btn-active-bg: #004ACC;
+   --bs-btn-active-color: white;
+   border-radius: 50px;
 }
-.btn-3 span {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: 100%;
+.btn-group{
+  width: 80%;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 50px;
 }
-.btn-3:before,
-.btn-3:after {
-  position: absolute;
-  content: "";
-  right: 0;
-  top: 0;
-   background: rgba(2,126,251,1);
-  transition: all 0.3s ease;
+.start_btn{
+  margin-bottom: 3rem;
+  background-color: #F2CB05;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+  transition: 200ms;
+  width: 60%;
+  box-sizing: border-box;
+  border: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
 }
-.btn-3:before {
-  height: 0%;
-  width: 2px;
+.start_btn:not(:disabled):hover,
+.start_btn:not(:disabled):focus {
+  outline: 0;
+  background: #F2CB05;
+  box-shadow: 0 0 0 2px rgba(0,0,0,.2), 0 3px 8px 0 rgba(0,0,0,.15);
 }
-.btn-3:after {
-  width: 0%;
-  height: 2px;
+
+.start_btn:disabled {
+  filter: saturate(0.2) opacity(0.5);
+  -webkit-filter: saturate(0.2) opacity(0.5);
+  cursor: not-allowed;
 }
-.btn-3:hover{
-   background: transparent;
-  box-shadow: none;
+.bi-record-circle{
+  font-size: 110px;
+  color: red;
+  margin-bottom: 5rem;
 }
-.btn-3:hover:before {
-  height: 100%;
+.bi-stop-circle{
+  font-size: 110px;
+  color: red;
+  margin-bottom: 5rem;
 }
-.btn-3:hover:after {
-  width: 100%;
+.bi-volume-off,.bi-volume-up{
+  font-size: 330px;
+  width: 330px;
+  height: 330px;
 }
-.btn-3 span:hover{
-   color: rgba(2,126,251,1);
-}
-.btn-3 span:before,
-.btn-3 span:after {
-  position: absolute;
-  content: "";
-  left: 0;
-  bottom: 0;
-   background: rgba(2,126,251,1);
-  transition: all 0.3s ease;
-}
-.btn-3 span:before {
-  width: 2px;
-  height: 0%;
-}
-.btn-3 span:after {
-  width: 0%;
-  height: 2px;
-}
-.btn-3 span:hover:before {
-  height: 100%;
-}
-.btn-3 span:hover:after {
-  width: 100%;
+.bi-arrow-counterclockwise,.bi-download{
+  font-size: 90px;
+  margin-bottom: 4rem;
 }
 </style>
