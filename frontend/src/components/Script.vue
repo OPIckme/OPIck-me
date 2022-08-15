@@ -7,10 +7,10 @@
     <div class="container d-flex justify-content-between align-items-center pb-3 mb-3 link-dark text-decoration-none">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 list-group-horizontal">
           <li class="nav-item">
-            <a class="nav-link" href="#" @click="completUpdate(false)">피드백 미완료 스크립트</a>
+            <a class="nav-link" href="#" @click="completUpdate(false)">작성중인 스크립트</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" @click="completUpdate(true)">피트백 완료 스크립트</a>
+            <a class="nav-link" href="#" @click="completUpdate(true)">완료된 스크립트</a>
           </li>
         </ul>
         <span class="nav-item" data-bs-toggle="modal" href="#SurveyModal">Script 생성</span>
