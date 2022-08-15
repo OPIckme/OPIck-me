@@ -30,9 +30,14 @@ export default {
     scriptId: String,
     script: Object,
   },
+
   methods: {
-    ...mapActions(['fetchWaitingConsultMap','fetchConsultId']),
+    ...mapActions(['fetchWaitingConsultMap','fetchConsultId','fetchHere2']),
     feedBack() {
+
+      this.fetchHere2()
+
+
       this.$router.push({name : "webrtcstudent", params: {
         room: this.roomId,
         script: this.script.scriptContent,

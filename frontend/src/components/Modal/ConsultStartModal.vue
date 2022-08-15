@@ -5,7 +5,7 @@
     <div class="modal-content">
       <button type="button" class="btn-close position-absolute top-0 end-0" data-bs-dismiss="modal" aria-label="Close"></button>
       <p class="position-absolute top-50 start-50 translate-middle">상담을 시작하시겠습니까?</p>
-      <button type="button" class="btn position-absolute bottom-0 start-50 translate-middle-x" data-bs-dismiss="modal"  @click="[feedBack(), completeConsult()]">Yes</button>
+      <button type="button" class="btn position-absolute bottom-0 start-50 translate-middle-x" data-bs-dismiss="modal"  @click="feedBack(), completeConsult()">Yes</button>
     </div>
   </div>
 </div>
@@ -26,8 +26,16 @@ export default {
   props : {
     waitingconsult : Object
   },
+  computed:{
+
+  },
   methods : {
+
     feedBack() {
+      console.log(this.here1,this.here2)
+      this.fetchHere2()
+      console.log(this.here1,this.here2)
+
       console.log(this.waitingconsult)
       this.$router.push({name : "webrtcstudent", params: {
         room: this.waitingconsult.room,
