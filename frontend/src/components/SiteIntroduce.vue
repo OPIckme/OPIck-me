@@ -14,19 +14,19 @@
 
       <section>
         <div class="container text-center d-flex flex-column mt-5 mb-5">
-          <h1 class="ml11 p-2 mt-5">
+          <h1 class="ml11 mt-3 mb-3">
             <span class="text-wrapper">
               <span class="line line1"></span>
               <span class="letters">OF THE OPIC</span>
             </span>
           </h1>
-          <h1 class="ml12 p-2">
+          <h1 class="ml12 mt-3 mb-3">
             <span class="text-wrapper2">
               <span class="line_2 line2"></span>
               <span class="letters2">BY THE OPIC</span>
             </span>
           </h1>
-          <h1 class="ml13 p-2">
+          <h1 class="ml13 mt-3 mb-3">
             <span class="text-wrapper3">
               <span class="line_3 line3"></span>
               <span class="letters3">FOR THE OPIC</span>
@@ -36,80 +36,81 @@
       </section>
     </div>
     <div>
-      <section class="info mt-5" data-aos="fade-up">
-        <div class="container d-flex">
-          <div
-            class="text-container container col-5 p-5 mt-5"
-            data-aos="fade-up"
-          >
-            <h1 class="saction-text" data-aos="fade-up">스크립트 만들기</h1>
-            <br />
-            <br />
-            <h4>문제를 듣고 녹음을 진행해보세요.</h4>
-            <h4>Speech-To-Text를 통해 자동으로</h4>
-            <h4>문서로 변환됩니다.</h4>
+      <div class="info">
+        <section class="info-section" data-aos="fade-up">
+          <div class="container d-flex row" style="height: 30%">
+            <div class="container col-5" data-aos="fade-up">
+              <h1 data-aos="fade-up" style="text-align: center">
+                스크립트 만들기
+              </h1>
+            </div>
+            <div class="container col-5" data-aos="fade-up">
+              <h4>
+                문제를 듣고 녹음을 진행해보세요. Speech-To-Text를 통해 자동으로
+                문서로 변환됩니다.
+              </h4>
+            </div>
           </div>
-          <div
-            class="img-container container col-5 p-5 mt-5"
-            data-aos="fade-up"
-          >
-            <img
-              class="img-thumbnail"
-              src="../assets/스크립트.png"
-              alt=""
-              data-aos="fade-up"
-            />
+        </section>
+
+        <img
+          class="img img-thumbnail"
+          src="../assets/스크립트_수정.gif"
+          alt=""
+          data-aos="fade-up"
+        />
+      </div>
+      <div class="info" style="background-color: #f9f9f9">
+        <section
+          class="info-section"
+          data-aos="fade-up"
+          style="background-color: #f9f9f9"
+        >
+          <div class="container d-flex row" style="height: 30%">
+            <div class="container col-5" data-aos="fade-up">
+              <h1 data-aos="fade-up" style="text-align: center">
+                주제별 문제 제공
+              </h1>
+            </div>
+            <div class="container col-5" data-aos="fade-up">
+              <h4>
+                각 주제별로 다양한 문제가 준비되어 있습니다. 주제와 난이도를
+                선택해서 질문에 답변해 보세요.
+              </h4>
+            </div>
           </div>
+        </section>
+        <div>
+          <img
+            class="img img-thumbnail"
+            src="../assets/주제선택.gif"
+            alt=""
+            data-aos="fade-up"
+          />
         </div>
-      </section>
-      <section id="info2" class="info mt-5" style="" data-aos="fade-up">
-        <div class="container d-flex">
-          <div class="container col-4 p-5 mt-5" data-aos="fade-up">
-            <img
-              class="img-thumbnail"
-              src="../assets/what.png"
-              alt=""
-              data-aos="fade-up"
-            />
+      </div>
+      <div class="info">
+        <section class="info-section" data-aos="fade-up">
+          <div class="container d-flex row" style="height: 30%">
+            <div class="container col-5" data-aos="fade-up">
+              <h1 data-aos="fade-up" style="text-align: center">1대1 상담</h1>
+            </div>
+            <div class="container col-5" data-aos="fade-up">
+              <h4>
+                스크립트를 작성하면서 준비를 하다보면 궁금한 내용이 생길 수
+                있습니다. 그럴 때는 1대1 상담을 이용해보세요.
+              </h4>
+            </div>
           </div>
-          <div class="container col-5 p-5 mt-5" data-aos="fade-up">
-            <h1 class="saction-text" data-aos="fade-up">주제별 문제 제공</h1>
-            <br />
-            <br />
-            <h4>
-              각 주제별로 다양한 문제가 준비되어 있습니다. 주제와 난이도를
-              선택해서 질문에 답변해보세요.
-            </h4>
-          </div>
-        </div>
-      </section>
-      <section class="info mt-5" data-aos="fade-up">
-        <div class="container d-flex">
-          <div
-            class="text-container container col-5 p-5 mt-5"
-            data-aos="fade-up"
-          >
-            <h1 class="saction-text" data-aos="fade-up">1대1 상담</h1>
-            <br />
-            <br />
-            <h4>
-              스크립트를 작성하면서 준비를 하다보면 궁금한 내용이 생길 수
-              있습니다. 그럴 때는 1대1 상담을 이용해보세요.
-            </h4>
-          </div>
-          <div
-            class="img-container container col-4 p-2 mt-5"
-            data-aos="fade-up"
-          >
-            <img
-              class="img-thumbnail"
-              src="../assets/consult.png"
-              alt=""
-              data-aos="fade-up"
-            />
-          </div>
-        </div>
-      </section>
+        </section>
+
+        <img
+          class="img img-thumbnail"
+          src="../assets/주제선택.gif"
+          alt=""
+          data-aos="fade-up"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -230,6 +231,10 @@ export default {
 };
 </script>
 <style scoped>
+.img {
+  width: 60%;
+  margin-left: 20%;
+}
 .logo {
   position: absolute;
   translation: 0.05em;
@@ -237,14 +242,18 @@ export default {
   top: 17px;
 }
 .info {
+  padding-top: 10%;
+  padding-bottom: 10%;
+  height: 60%;
+}
+.info-section {
   width: 90%;
-  height: 500px;
+  height: 150px;
   background-color: white;
   float: none;
+  margin-left: 5%;
 }
-#info2 {
-  margin-left: 10%;
-}
+
 .top-section {
   width: 100%;
   height: 40%;
