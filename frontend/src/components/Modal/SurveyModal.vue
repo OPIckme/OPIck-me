@@ -36,7 +36,7 @@
     <div class="modal-content text-center">
       <div class="modal-top d-flex justify-content-around" style="z-index:1">
         <h6><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="stopSound(), surveyinit()"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit(), stopSound() "></button>
       </div>
       <!-- 듣기 -->
       <i @click="playSound(audioUrl)" :class="soundIconClass" class="position-absolute top-0 start-50 translate-middle-x"></i>
