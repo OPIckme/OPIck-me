@@ -42,6 +42,7 @@ export default {
                     console.log(this.waitingConsultMap)
                 } else {
                     this.waitingConsultMap[id] = {
+                        id : id,
                         script : message.script,
                         room : message.room
                     }
