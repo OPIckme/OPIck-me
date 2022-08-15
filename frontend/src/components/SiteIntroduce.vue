@@ -39,16 +39,24 @@
       <div class="info">
         <section class="info-section" data-aos="fade-up">
           <div class="container d-flex row" style="height: 30%">
-            <div class="container col-5" data-aos="fade-up">
-              <h1 data-aos="fade-up" style="text-align: center">
+            <div class="container col-4" data-aos="fade-up">
+              <p
+                class="info-title"
+                data-aos="fade-down"
+                style="text-align: center"
+              >
                 스크립트 만들기
-              </h1>
+              </p>
             </div>
-            <div class="container col-5" data-aos="fade-up">
-              <h4>
+            <div
+              class="container col-6"
+              data-aos="fade-left"
+              data-aos-delay="300"
+            >
+              <p class="info-content">
                 문제를 듣고 녹음을 진행해보세요. Speech-To-Text를 통해 자동으로
                 문서로 변환됩니다.
-              </h4>
+              </p>
             </div>
           </div>
         </section>
@@ -67,16 +75,24 @@
           style="background-color: #f9f9f9"
         >
           <div class="container d-flex row" style="height: 30%">
-            <div class="container col-5" data-aos="fade-up">
-              <h1 data-aos="fade-up" style="text-align: center">
+            <div class="container col-4" data-aos="fade-up">
+              <h1
+                class="info-title"
+                data-aos="fade-right"
+                style="text-align:center font-weight:bold"
+              >
                 주제별 문제 제공
               </h1>
             </div>
-            <div class="container col-5" data-aos="fade-up">
-              <h4>
+            <div
+              class="container col-6"
+              data-aos="fade-left"
+              data-aos-delay="300"
+            >
+              <p class="info-content">
                 각 주제별로 다양한 문제가 준비되어 있습니다. 주제와 난이도를
                 선택해서 질문에 답변해 보세요.
-              </h4>
+              </p>
             </div>
           </div>
         </section>
@@ -92,14 +108,24 @@
       <div class="info">
         <section class="info-section" data-aos="fade-up">
           <div class="container d-flex row" style="height: 30%">
-            <div class="container col-5" data-aos="fade-up">
-              <h1 data-aos="fade-up" style="text-align: center">1대1 상담</h1>
+            <div class="container col-4" data-aos="fade-up">
+              <h1
+                class="info-title"
+                data-aos="fade-up"
+                style="text-align: center"
+              >
+                1대1 상담
+              </h1>
             </div>
-            <div class="container col-5" data-aos="fade-up">
-              <h4>
+            <div
+              class="container col-6"
+              data-aos="fade-left"
+              data-aos-delay="300"
+            >
+              <p class="info-content">
                 스크립트를 작성하면서 준비를 하다보면 궁금한 내용이 생길 수
                 있습니다. 그럴 때는 1대1 상담을 이용해보세요.
-              </h4>
+              </p>
             </div>
           </div>
         </section>
@@ -245,6 +271,15 @@ export default {
   padding-top: 10%;
   padding-bottom: 10%;
   height: 60%;
+}
+.info-title {
+  font-size: 50px;
+  font-weight: bold;
+}
+.info-content {
+  font-size: 20px;
+  letter-spacing: 1px;
+  line-height: 2rem;
 }
 .info-section {
   width: 90%;
