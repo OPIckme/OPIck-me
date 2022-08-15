@@ -8,11 +8,12 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 list-group-horizontal">
           <li class="nav-item">
             <a class="nav-link" href="#" @click="completUpdate(false)">
-              <p :class="isSelectComplet(false)">피드백 미완료 스크립트</p></a>
+              <p :class="isSelectComplet(false)">작성중인 스크립트</p></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" @click="completUpdate(true)">
-              <p :class="isSelectComplet(true)">피트백 완료 스크립트</p></a>
+              <p :class="isSelectComplet(true)">완료된 스크립트</p></a>
+
           </li>
         </ul>
         <span class="nav-item" data-bs-toggle="modal" href="#SurveyModal">Script 생성</span>

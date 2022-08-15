@@ -1,14 +1,4 @@
 <template>
-  <nav class="navbar" style="background-color: #ffffff; height: 80px">
-    <div class="container">
-      <router-link class="position-absolute top-50 translate-middle" to="/">
-        <img src="../assets/logo.png" alt="" style="width: 120px" />
-      </router-link>
-      <router-link to="/login" class="nav-link">
-        <button class="Login" role="button">Login</button>
-      </router-link>
-    </div>
-  </nav>
   <SiteIntroduce></SiteIntroduce>
 </template>
 <script>
@@ -50,9 +40,10 @@ export default {
   cursor: pointer;
   display: flex;
   font-family: Inter, sans-serif;
-  font-size: 14px;
+  font-size: 20px;
   font-weight: bold;
-  height: 36px;
+  height: 50px;
+  width: 100px;
   justify-content: center;
   line-height: 24px;
   max-width: 100%;
@@ -64,7 +55,7 @@ export default {
   -webkit-user-select: none;
   touch-action: manipulation;
   left: 85%;
-  top: 22px;
+  top: 40px;
 }
 
 .Login:after {
@@ -72,7 +63,7 @@ export default {
   border-radius: 50px;
   content: "";
   display: block;
-  height: 36px;
+  height: 50px;
   left: 0;
   width: 100%;
   position: absolute;

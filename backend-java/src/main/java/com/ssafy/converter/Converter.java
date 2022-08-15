@@ -1,14 +1,16 @@
 package com.ssafy.converter;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ws.schild.jave.Encoder;
-import ws.schild.jave.EncoderException;
+
 import ws.schild.jave.MultimediaObject;
 import ws.schild.jave.encode.AudioAttributes;
 import ws.schild.jave.encode.EncodingAttributes;
 
 import java.io.File;
 @Component
+@RequiredArgsConstructor
 public class Converter {
     public void webm2mp3(String sourcePath,String targetPath) {
         try {
