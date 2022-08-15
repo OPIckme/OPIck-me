@@ -7,10 +7,12 @@
     <div class="container d-flex justify-content-between align-items-center pb-3 mb-3 link-dark text-decoration-none">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 list-group-horizontal">
           <li class="nav-item">
-            <a class="nav-link" href="#" @click="completUpdate(false)">피드백 미완료 스크립트</a>
+            <a class="nav-link" href="#" @click="completUpdate(false)">
+              <p :class="isSelectComplet(false)">피드백 미완료 스크립트</p></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" @click="completUpdate(true)">피트백 완료 스크립트</a>
+            <a class="nav-link" href="#" @click="completUpdate(true)">
+              <p :class="isSelectComplet(true)">피트백 완료 스크립트</p></a>
           </li>
         </ul>
         <span class="nav-item" data-bs-toggle="modal" href="#SurveyModal">Script 생성</span>
@@ -51,6 +53,12 @@ export default {
         this.fetchComplet(complet)
         this.fetchScriptList(this.$store.state.auth.user.username)
       },
+      isSelectCategory(category){
+          return category===this.category?"select":""
+        },
+      isSelectComplet(complet){
+        return complet===this.complet?"select":""
+      }
     },
     created() {
         this.fetchScriptList(this.$store.state.auth.user.username)
@@ -59,7 +67,8 @@ export default {
         currentUser() {
             return this.$store.state.auth.user;
         },
-        ...mapGetters(['scriptList'])
+        ...mapGetters(['scriptList','category','complet']),
+        
     },
     mounted() {
         if (!this.currentUser) {
@@ -102,5 +111,8 @@ export default {
 .nav-item{
   margin-top: 2rem;
   margin-right: 2rem;
+}
+.select{
+  color: #052A99;
 }
 </style>
