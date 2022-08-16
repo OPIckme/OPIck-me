@@ -3,9 +3,9 @@
 <div class="modal" id="SurveyModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content text-center">
-      <div class="modal-top d-flex justify-content-around">
-        <h6><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit(),fetchSelectTopicIdx('')"></button>
+      <div class="modal-top row justify-content-evenly">
+        <h6 class="col-6 text-start"><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
+        <button type="button" class="btn-close col-2" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit(),fetchSelectTopicIdx('')"></button>
       </div>
       <div class="container">
         <h5>TOPIC : {{ topic }}</h5>
@@ -34,9 +34,9 @@
 <div class="modal" id="SurveyModal2" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content text-center">
-      <div class="modal-top d-flex justify-content-around" style="z-index:1">
-        <h6><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit(), stopSound() "></button>
+      <div class="modal-top row justify-content-evenly" style="z-index:1">
+        <h6 class="col-6 text-start"><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
+        <button type="button" class="btn-close col-2" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit(), stopSound() "></button>
       </div>
       <!-- 듣기 -->
       <i @click="playSound(audioUrl)" :class="soundIconClass" class="position-absolute top-0 start-50 translate-middle-x"></i>
@@ -52,9 +52,9 @@
 <div class="modal" id="SurveyModal3" data-bs-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel4" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-top d-flex justify-content-around" style="z-index:1">
-        <h6><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit(), fetchSelectTopicIdx('')"></button>
+      <div class="modal-top row justify-content-evenly" style="z-index:1">
+        <h6 class="col-6 text-start"><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
+        <button type="button" class="btn-close col-2" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit(), fetchSelectTopicIdx('')"></button>
       </div>
       <p style="margin-left:3.5rem;">[ {{topic}} ]</p>
       <p class="modal-title" id="exampleModalToggleLabel4">

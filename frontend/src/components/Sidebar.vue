@@ -5,7 +5,7 @@
     <ul class="list-unstyled ps-0">
       <li class="mb-1" v-for="category in categorys" :key="category">
         <button class="btn rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true" @click="selectCategory(category)">
-          <p :class="isSelectCategory(category)">{{category}}</p>
+          <p :class="isSelectCategory(category)"><i :class="isSelectIcon(category)"></i>{{category}}</p>
         </button>
       </li>
     </ul>
@@ -28,6 +28,9 @@ export default {
     isSelectCategory(category){
       return category===this.category?"select":""
     },
+    isSelectIcon(category){
+      return category===this.category?"bi bi-chevron-right":""
+    },
   },
   computed:{
     ...mapGetters(['category']),
@@ -42,5 +45,9 @@ export default {
 }
 .select{
   color: #052A99;
+  font-weight: bold;
+}
+.bi-chevron-right{
+  margin-right: 0.5rem;
 }
 </style>
