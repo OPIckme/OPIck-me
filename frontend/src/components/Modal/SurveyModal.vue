@@ -39,12 +39,12 @@
         <button type="button" class="btn-close col-2" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit(), stopSound() "></button>
       </div>
       <!-- 듣기 -->
+      <p v-show="listen">[ Click to listen ]</p>
+      <p v-show="!listen">[ Listening... ]</p>
       <i @click="playSound(audioUrl)" :class="soundIconClass" class="position-absolute top-0 start-50 translate-middle-x"></i>
       <!-- 녹음 시작 버튼 -->
-      
       <i v-show="record" @click="start(),stopSound()" class="bi bi-record-circle position-absolute bottom-0 start-50 translate-middle-x"></i>
       <!-- 녹음 중지 버튼 -->
-
       <i v-show="!record" @click="stop" data-bs-target="#SurveyModal3" data-bs-toggle="modal" class="bi bi-stop-circle position-absolute bottom-0 start-50 translate-middle-x"></i>
       <p class="position-absolute bottom-0 start-50 translate-middle-x" style="margin-bottom:4rem; font-size:20px; font-weight:bold;">{{min<10?"0":""}}{{min}}:{{sec<10?"0":""}}{{sec}}:{{ms<10?"0":""}}{{ms}}</p>
     </div>
@@ -110,7 +110,7 @@ export default {
       sec:0,
       ms:0,
       timerId:"",
-
+      listen:true,
     }
   },
   methods : {
@@ -122,7 +122,6 @@ export default {
     toggleOnOff() {
     this.isStatusOn = !this.isStatusOn;
   },
-
     getQuestion(topic,level) {
       if (this.topic == "" && this.level == "") { // topic과 level이 선택되지 않았을 때
         alert("Topic과 Level을 선택해주세요.");
@@ -182,7 +181,7 @@ export default {
       this.sec=0
       this.ms=0
       this.record=true
-
+      this.listen=true
     },
 
     playSound(sound) {
@@ -195,8 +194,10 @@ export default {
           console.log('asdfxcv')
             this.audio=null
             this.soundIconClass='bi bi-volume-off'
+            this.listen=true
         });
         this.soundIconClass='bi bi-volume-up'
+        this.listen=false
       }
     },
 
@@ -205,6 +206,7 @@ export default {
       this.audio.pause(); // 데이터에서 가져와서 사용한다. 오디오를 정지한다.
       this.audio.currentTime = 0; // 오디오 시간 초기화
       this.soundIconClass='bi bi-volume-off'
+      this.listen=true
       this.audio=null
     },
     
@@ -217,7 +219,6 @@ export default {
     async start(){
       this.record=!this.record
       this.uuid =v4()
-
       this.timerId=setInterval(()=>{
         this.ms+=1
         if(this.ms==100){
