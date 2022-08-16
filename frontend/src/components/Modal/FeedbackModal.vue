@@ -59,7 +59,6 @@ export default {
               room : this.roomId
             })
           )
-          stompClient.disconnect()
           }, () => {});
       })
     }

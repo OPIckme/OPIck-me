@@ -43,7 +43,6 @@ export default {
         console.log(res)
         this.fetchWaitingConsultMap()
       })
-      this.$emit("consultStart",1)
       var socket = new SockJS('https://i7b202.p.ssafy.io/ws');
       var stompClient = Stomp.over(socket);
       let id = this.waitingconsult.id
@@ -54,7 +53,6 @@ export default {
               method : 'delete'
             })
           )
-          stompClient.disconnect()
           }, () => {});
     },
   }

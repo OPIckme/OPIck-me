@@ -7,9 +7,9 @@
     <button class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Consultclose" >상담종료</button>
   </div>
 </nav>
-<div class="row" style="width : 100vw; margin:0px">
-    <div class="col-8" style="padding: 0px">
-        <div ref="videoContainer" style="width: 66.7vw; margin : 0px">
+<div class="container" style="width : 100vw;">
+    <div style="width:66.7%; display: inline-block;">
+        <div ref="videoContainer">
             <div class="outer" ref="outputOuter" style="width: 508px; height: 263.75px; margin : auto">
                 <video id="videoOutput" autoplay style="display : inline;"
                 ref="videoOutput"></video>
@@ -66,16 +66,16 @@
                 <div ref="script" style="display : inline; outline : none;"></div>
             </div>
         </div>
-        <div class="row justify-content-center mb-2">
-            <button class="col-3 mx-2 button" @click.prevent="muteControl" ref="sound">
+        <div class="row" style="width: 100%; justify-content: center;">
+            <button class="col-3 mx-2 button" style="margin: auto" @click.prevent="muteControl" ref="sound">
 
             음소거
             </button>
-            <button class="col-3 mx-2 button" @click.prevent="screenControl" ref="screen">비디오 중지</button>
+            <button class="col-3 mx-2 button" style="margin: auto" @click.prevent="screenControl" ref="screen">비디오 중지</button>
         </div>
     </div>
 
-    <div ref="chat-page" class="col-4" style="padding-right : 0px">
+    <div ref="chat-page" style="width: 33.3%; display: inline-block; padding-left : 10px">
         <div ref="messageArea" style="height : 82vh; background-color : #E3F2FD;overflow-y:auto">
         </div>
         <form @submit.prevent="sendMessage" ref="messageForm" name="messageForm">
@@ -326,25 +326,21 @@ export default {
                 } else if (event.data === '비디오 시작'){
                     videoOutput.setAttribute('style','display: inline')
                 } else if (event.data === '스크립트 시작'){
-                    bigScript.setAttribute("style","background-color : #E3F2FD; height: 48.5vh; margin-bottom : 10px; margin-left : 20px; margin-right : 10px; overflow: auto")
-                    constraints.video.width = 420
-                    constraints.video.height = 220
-                    videoContainer.classList.add("row")
-                    videoContainer.classList.add("justify-content-center")
+                    bigScript.setAttribute("style","background-color : #E3F2FD; height: 48.5vh; margin-bottom : 10px; margin-right : 10px; overflow: auto")
+                    constraints.video.width = 400
+                    constraints.video.height = 210
                     inputOuter.setAttribute("style",
-                        "border-radius: 30px;overflow: hidden;padding : 0px !important; margin-left: 10px; margin-right: 20px; margin-top : 15px; margin-bottom : 15px; width: 420px; height: 220px;")
+                        "border-radius: 15px;overflow: hidden;padding : 0px !important; margin-left: 5px; margin-top : 15px; margin-bottom : 15px; width: 400px; height: 210px;")
                     outputOuter.setAttribute("style",
-                        "border-radius: 30px;overflow: hidden;padding : 0px !important; margin-left: 10px; margin-right: 20px; margin-top : 15px; margin-bottom : 15px; width: 420px; height: 220px;")
+                        "border-radius: 15px;overflow: hidden;padding : 0px !important; margin-right: 15px; margin-top : 15px; margin-bottom : 15px; width: 400px; height: 210px;")
                 } else if (event.data === '스크립트 중지'){
                     bigScript.setAttribute("style", "display : none")
                     constraints.video.width = 508
                     constraints.video.height = 263.75
-                    videoContainer.classList.remove("row")
-                    videoContainer.classList.remove("justify-content-center")
                     inputOuter.setAttribute("style",
-                        "border-radius: 30px;overflow: hidden;padding : 0px !important; margin : auto;margin-top : 15px; margin-bottom : 15px; width: 508px; height: 263.75px;")
+                        "border-radius: 15px;overflow: hidden;padding : 0px !important; margin : auto;margin-top : 15px; margin-bottom : 15px; width: 508px; height: 263.75px;")
                     outputOuter.setAttribute("style",
-                        "border-radius: 30px;overflow: hidden;padding : 0px !important; margin : auto;margin-top : 15px; margin-bottom : 15px; width: 508px; height: 263.75px;")
+                        "border-radius: 15px;overflow: hidden;padding : 0px !important; margin : auto;margin-top : 15px; margin-bottom : 15px; width: 508px; height: 263.75px;")
                 } else if (event.data === '상담종료'){
                     peerConnection.close()
                     this.$router.push("/feedback")
@@ -470,15 +466,13 @@ export default {
                 dataChannel.send("스크립트 시작")
                 this.$refs.script.setAttribute("contenteditable", "true")
                 this.$refs.editorMenu.removeAttribute("style")
-                this.$refs.bigScript.setAttribute("style","background-color : #E3F2FD; height: 42vh; margin-bottom : 10px; margin-left : 20px; margin-right : 10px; overflow : auto")
-                constraints.video.width = 420
-                constraints.video.height = 220
-                this.$refs.videoContainer.classList.add("row")
-                this.$refs.videoContainer.classList.add("justify-content-center")
+                this.$refs.bigScript.setAttribute("style","background-color : #E3F2FD; height: 42vh; margin-bottom : 10px; margin-right : 10px; overflow : auto")
+                constraints.video.width = 400
+                constraints.video.height = 210
                 this.$refs.inputOuter.setAttribute("style",
-                    "border-radius: 30px;overflow: hidden;padding : 0px !important; margin-left: 10px; margin-right: 20px; margin-top : 15px; margin-bottom : 15px; width: 420px; height: 220px;")
+                    "border-radius: 15px;overflow: hidden;padding : 0px !important; margin-left: 5px; margin-top : 15px; margin-bottom : 15px; width: 400px; height: 210px; display: inline-block")
                 this.$refs.outputOuter.setAttribute("style",
-                    "border-radius: 30px;overflow: hidden;padding : 0px !important; margin-left: 10px; margin-right: 20px; margin-top : 15px; margin-bottom : 15px; width: 420px; height: 220px;")
+                    "border-radius: 15px;overflow: hidden;padding : 0px !important; margin-right: 15px; margin-top : 15px; margin-bottom : 15px; width: 400px; height: 210px; display: inline-block")
                 this.$refs.scriptButton.innerText = "Script OFF"
             }else {
                 dataChannel.send("스크립트 중지")
@@ -486,12 +480,10 @@ export default {
                 this.$refs.bigScript.setAttribute("style","display : none")
                 constraints.video.width = 508
                 constraints.video.height = 263.75
-                this.$refs.videoContainer.classList.remove("row")
-                this.$refs.videoContainer.classList.remove("justify-content-center")
                 this.$refs.inputOuter.setAttribute("style",
-                    "border-radius: 30px;overflow: hidden;padding : 0px !important; margin : auto;margin-top : 15px; margin-bottom : 15px; width: 508px; height: 263.75px;")
+                    "border-radius: 15px;overflow: hidden;padding : 0px !important; margin : auto;margin-top : 15px; margin-bottom : 15px; width: 508px; height: 263.75px;")
                 this.$refs.outputOuter.setAttribute("style",
-                    "border-radius: 30px;overflow: hidden;padding : 0px !important; margin : auto;margin-top : 15px; margin-bottom : 15px; width: 508px; height: 263.75px;")
+                    "border-radius: 15px;overflow: hidden;padding : 0px !important; margin : auto;margin-top : 15px; margin-bottom : 15px; width: 508px; height: 263.75px;")
                 this.$refs.scriptButton.innerText = "Script ON"
             }
         },
@@ -593,7 +585,7 @@ export default {
     }
 
     .outer {
-        border-radius: 30px;
+        border-radius: 15px;
         overflow: hidden;
         padding : 0px !important;
         margin-top : 15px !important;
