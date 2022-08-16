@@ -12,24 +12,48 @@
         </div>
       </nav>
 
-      <section>
-        <div class="container text-center d-flex flex-column mt-5 mb-5">
+      <section class="mt-3 pt-3">
+        <div class="container text-center d-flex flex-column mt-5 mb-5 pt-5">
           <h1 class="ml11 mt-3 mb-3">
             <span class="text-wrapper">
               <span class="line line1"></span>
-              <span class="letters">OF THE OPIC</span>
+              <span
+                class="letters"
+                style="
+                  font-size: 80px;
+                  color: #ffffff;
+                  text-shadow: #fc0 1px 0 10px;
+                "
+                >OF THE OPIC</span
+              >
             </span>
           </h1>
           <h1 class="ml12 mt-3 mb-3">
             <span class="text-wrapper2">
               <span class="line_2 line2"></span>
-              <span class="letters2">BY THE OPIC</span>
+              <span
+                class="letters2"
+                style="
+                  font-size: 80px;
+                  color: #ffffff;
+                  text-shadow: #fc0 1px 0 10px;
+                "
+                >BY THE OPIC</span
+              >
             </span>
           </h1>
           <h1 class="ml13 mt-3 mb-3">
             <span class="text-wrapper3">
               <span class="line_3 line3"></span>
-              <span class="letters3">FOR THE OPIC</span>
+              <span
+                class="letters3"
+                style="
+                  font-size: 80px;
+                  color: #ffffff;
+                  text-shadow: #fc0 1px 0 10px;
+                "
+                >FOR THE OPIC</span
+              >
             </span>
           </h1>
         </div>
@@ -164,7 +188,7 @@ export default {
     );
 
     anime
-      .timeline({ loop: true })
+      .timeline({ loop: 1 })
       .add({
         targets: ".ml11 .line",
         scaleY: [0, 1],
@@ -185,7 +209,7 @@ export default {
         opacity: [0, 1],
         easing: "easeOutExpo",
         offset: "-=775",
-        delay: (el, i) => 34 * (i + 1),
+        delay: (el, i) => 10 * (i + 1),
       })
       .add({
         targets: ".ml11",
@@ -212,7 +236,7 @@ export default {
         opacity: [0, 1],
         easing: "easeOutExpo",
         offset: "-=775",
-        delay: (el, i) => 34 * (i + 1),
+        delay: (el, i) => 10 * (i + 1),
       })
       .add({
         targets: ".ml12",
@@ -239,7 +263,7 @@ export default {
         opacity: [0, 1],
         easing: "easeOutExpo",
         offset: "-=775",
-        delay: (el, i) => 34 * (i + 1),
+        delay: (el, i) => 10 * (i + 1),
       })
       .add({
         targets: ".ml13",
@@ -251,7 +275,7 @@ export default {
         opacity: [0, 1],
         easing: "easeOutExpo",
         offset: "-=775",
-        delay: (el, i) => 34 * (i + 1),
+        delay: (el, i) => 10 * (i + 1),
       });
   },
 };
@@ -333,7 +357,6 @@ section {
   left: 0;
   height: 100%;
   width: 3px;
-  background-color: #ffffff;
   transform-origin: 0 50%;
 }
 
@@ -368,7 +391,6 @@ section {
   left: 0;
   height: 100%;
   width: 3px;
-  background-color: #ffffff;
   transform-origin: 0 50%;
 }
 
@@ -403,7 +425,6 @@ section {
   left: 0;
   height: 100%;
   width: 3px;
-  background-color: #ffffff;
   transform-origin: 0 50%;
 }
 
