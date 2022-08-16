@@ -163,12 +163,17 @@
       </div>
     </div>
   </div>
+  <footer-nav></footer-nav>
 </template>
 <script>
 import AOS from "aos";
 import "aos/dist/aos.css";
+import FooterNav from "./FooterNav.vue";
 AOS.init();
 export default {
+  components: {
+    FooterNav,
+  },
   name: "SiteIntroduce",
   mounted() {
     var textWrapper = document.querySelector(".ml11 .letters");
@@ -209,7 +214,7 @@ export default {
         opacity: [0, 1],
         easing: "easeOutExpo",
         offset: "-=775",
-        delay: (el, i) => 10 * (i + 1),
+        delay: (el, i) => 0.5 * (i + 1),
       })
       .add({
         targets: ".ml11",
@@ -236,7 +241,7 @@ export default {
         opacity: [0, 1],
         easing: "easeOutExpo",
         offset: "-=775",
-        delay: (el, i) => 10 * (i + 1),
+        delay: (el, i) => 0.5 * (i + 1),
       })
       .add({
         targets: ".ml12",
@@ -263,7 +268,7 @@ export default {
         opacity: [0, 1],
         easing: "easeOutExpo",
         offset: "-=775",
-        delay: (el, i) => 10 * (i + 1),
+        delay: (el, i) => 0.5 * (i + 1),
       })
       .add({
         targets: ".ml13",
@@ -275,7 +280,7 @@ export default {
         opacity: [0, 1],
         easing: "easeOutExpo",
         offset: "-=775",
-        delay: (el, i) => 10 * (i + 1),
+        delay: (el, i) => 0.5 * (i + 1),
       });
   },
 };
