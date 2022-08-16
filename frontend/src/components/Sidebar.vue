@@ -5,7 +5,7 @@
     <ul class="list-unstyled ps-0">
       <p class="viewall" @click="selectCategory('')">전체보기</p>
       <li class="mb-1" v-for="category in categorys" :key="category">
-        <button class="btn rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true" @click="selectCategory(category)">
+        <button class="btn rounded border-0 collapsed viewall" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true" @click="selectCategory(category)">
           <p :class="isSelectCategory(category)"><i :class="isSelectIcon(category)"></i>{{category}}</p>
         </button>
       </li>

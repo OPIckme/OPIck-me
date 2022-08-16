@@ -36,9 +36,11 @@
   <FeedbackModal :scriptId="scriptId" :script="script"></FeedbackModal>
   <LogoutModal></LogoutModal>
 </div>
+<FooterNav></FooterNav>
 </template>
 
 <script>
+import FooterNav from './FooterNav.vue';
 import LogoutModal from './Modal/LogoutModal.vue';
 // import MainPageNavbar from './MainPageNavbar.vue';
 import FeedbackModal from './Modal/FeedbackModal.vue';
@@ -110,7 +112,7 @@ export default {
   created() {
     this.getScript()
   },
-  components: { FeedbackModal, LogoutModal }
+  components: { FeedbackModal, LogoutModal, FooterNav }
 }
 </script>
 

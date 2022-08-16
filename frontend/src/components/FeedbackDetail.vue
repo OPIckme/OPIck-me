@@ -25,10 +25,12 @@
     <div class="script" id="content" v-html="feedback.content"></div>
   </div>
 </div>
+<FooterNav></FooterNav>
 </template>
 
 <script>
 import LogoutModal from './Modal/LogoutModal.vue';
+import FooterNav from './FooterNav.vue';
 import axios from 'axios';
 import {API_URL} from '@/api/http.js';
 
@@ -60,7 +62,7 @@ export default {
     created() {
       this.getFeedback()
     },
-    components: { LogoutModal }
+    components: { LogoutModal ,FooterNav}
 }
 </script>
 <style lang="scss" scoped>

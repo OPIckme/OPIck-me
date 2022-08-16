@@ -32,10 +32,6 @@ export default {
   methods : {
 
     feedBack() {
-      console.log(this.here1,this.here2)
-      this.fetchHere2()
-      console.log(this.here1,this.here2)
-
       console.log(this.waitingconsult)
       this.$router.push({name : "webrtcstudent", params: {
         room: this.waitingconsult.room,
