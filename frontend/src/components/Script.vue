@@ -15,7 +15,7 @@
               <p :class="isSelectComplet(true)" style="font-size:17px; letter-spacing: 1px;">완료된 스크립트</p></a>
           </li>
         </ul>
-        <span class="nav-item scriptbutton" data-bs-toggle="modal" href="#SurveyModal" style="cursor: pointer;"><i class="bi bi-file-earmark-plus" style="margin-right:0.3rem"></i> New Script</span>
+        <span class="nav-item scriptbutton" data-bs-toggle="modal" href="#SurveyModal" style="cursor: pointer;"><i class="bi bi-file-earmark-plus" style="margin-right:0.3rem;"></i> New Script</span>
         <!-- <button style="margin-top:2.5rem; margin-bottom: 1rem; margin-left: 0.5rem; width: 200px; height: 45px;" class="btn scriptbutton" data-bs-toggle="modal" href="#SurveyModal" role="button">Script 생성</button> -->
       </div>
     <!-- script card -->
