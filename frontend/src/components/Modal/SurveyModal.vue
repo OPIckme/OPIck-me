@@ -46,7 +46,7 @@
       <!-- 녹음 중지 버튼 -->
 
       <i v-show="!record" @click="stop" data-bs-target="#SurveyModal3" data-bs-toggle="modal" class="bi bi-stop-circle position-absolute bottom-0 start-50 translate-middle-x"></i>
-      <p>{{min<10?"0":""}}{{min}}:{{sec<10?"0":""}}{{sec}}:{{ms<10?"0":""}}{{ms}}</p>
+      <p class="position-absolute bottom-0 start-50 translate-middle-x" style="margin-bottom:4rem; font-size:20px; font-weight:bold;">{{min<10?"0":""}}{{min}}:{{sec<10?"0":""}}{{sec}}:{{ms<10?"0":""}}{{ms}}</p>
     </div>
   </div>
 </div>
@@ -174,11 +174,15 @@ export default {
     },
 
     surveyinit() { // survey 선택 창에서 x버튼 클릭하면 survey 선택 초기화
+
+      clearTimeout(this.timerId);
       this.topic = ""; // topic 초기화
       this.level = ""; // level 초기화
       this.min=0
       this.sec=0
       this.ms=0
+      this.record=true
+
     },
 
     playSound(sound) {
