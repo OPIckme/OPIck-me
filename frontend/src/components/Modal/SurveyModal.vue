@@ -114,7 +114,7 @@ export default {
     }
   },
   methods : {
-    ...mapActions(['fetchScriptList','fetchSelectTopicIdx']),
+    ...mapActions(['fetchScriptList','fetchSelectTopicIdx','fetchComplet']),
     s3Upload(){
       uploadFile(this.uploadParams,this.saveScript,this.uuid)
     },
@@ -169,6 +169,7 @@ export default {
           keyName: fileName,
         }).then(res=>{
           console.log(res)
+          this.fetchComplet(false)
           this.fetchScriptList(this.$store.state.auth.user.username)
         })
     },

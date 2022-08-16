@@ -62,6 +62,7 @@ export default {
       }
     },
     created() {
+        console.log(123)
         this.fetchScriptList(this.$store.state.auth.user.username)
     },
     computed: {
