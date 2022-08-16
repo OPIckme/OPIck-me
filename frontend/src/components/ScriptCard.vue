@@ -52,12 +52,11 @@ export default {
   width: 18rem; 
   height: 20rem; 
   margin: 2.05rem; 
-  /* margin-left: 1.25rem;  */
-  /* margin-right: 1.5rem; */
   border-radius: 15px;
   border-width: 0px;
   box-shadow: 0 4px 4px -4px gray;
   cursor: pointer;
+  /* z-index: -2; */
 }
 .card-img-top{
     width: 100%;
@@ -68,6 +67,7 @@ export default {
   margin-top:0.2rem; 
   float: right; 
   font-size: 17px;
+  /* z-index: -1; */
 }
 .topic{
   margin-top: 0.5rem; 
@@ -79,7 +79,28 @@ export default {
   text-align: right; 
   font-size:15px;
 }
-button {
+.tag {
+  background: #cccccc;
+  border-radius: 50px;
+  font-size: 12px;
+  margin: 0;
+  color: #fff;
+  padding: 2px 10px;
+  text-transform: uppercase;
+}
+.tag-AL {
+  background-color: #47bcd4;
+}
+.tag-IH {
+  background-color: #5e76bf;
+}
+.tag-IM {
+  background-color: #cd5b9f;
+}
+.tag-IL {
+  background-color: #c2d553;
+}
+/* button {
   margin-top: 1.2rem;
   background-color: #052A99;
   border-radius: 12px;
@@ -107,26 +128,5 @@ button:disabled {
   filter: saturate(0.2) opacity(0.5);
   -webkit-filter: saturate(0.2) opacity(0.5);
   cursor: not-allowed;
-}
-.tag {
-  background: #cccccc;
-  border-radius: 50px;
-  font-size: 12px;
-  margin: 0;
-  color: #fff;
-  padding: 2px 10px;
-  text-transform: uppercase;
-}
-.tag-AL {
-  background-color: #47bcd4;
-}
-.tag-IH {
-  background-color: #5e76bf;
-}
-.tag-IM {
-  background-color: #cd5b9f;
-}
-.tag-IL {
-  background-color: #c2d553;
-}
+} */
 </style>
