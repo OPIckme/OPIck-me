@@ -3,7 +3,7 @@
   <div class="flex-shrink-0 p-3 bg-white" style="width: 280px; margin-top: 1.3rem;">
     <span class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom fs-5 fw-semibold">Category</span>
     <ul class="list-unstyled ps-0">
-      <p class="viewall" @click="selectCategory('')">전체보기</p>
+      <p class="viewall" :class="isSelectCategory('')" @click="selectCategory('')">전체보기</p>
       <li class="mb-1" v-for="category in categorys" :key="category">
         <button class="btn rounded border-0 collapsed viewall" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true" @click="selectCategory(category)">
           <p :class="isSelectCategory(category)"><i :class="isSelectIcon(category)"></i>{{category}}</p>
@@ -25,6 +25,7 @@ export default {
   methods: {
     selectCategory(category){
       this.$emit("selectCategory",category)
+      return category===this.category?"select":""
     },
     isSelectCategory(category){
       return category===this.category?"select":""
