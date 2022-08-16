@@ -11,7 +11,8 @@
   <!-- 회원가입 -->
 	<div class="form-container sign-up-container">
     <Form @submit="handleRegister" :validation-schema="schemaSignup">
-      <h1>Sign Up</h1>
+      <h1 v-if="successful" style="cursor:default;">Sign Up Completed!</h1>
+      <h1 v-else style="cursor:default;">Sign Up</h1>
       <div v-if="!successful">
       <div class="form-group">
         <Field name="username" type="text" placeholder="ID" class="form-control" maxlength="16"/>
@@ -47,7 +48,7 @@
   <!-- 로그인 -->
 	<div class="form-container sign-in-container">
     <Form @submit="handleLogin" :validation-schema="schemaLogin">
-      <h1>Sign In</h1>
+      <h1 style="cursor:default;">Sign In</h1>
       <div class="form-group">
         <Field name="username" type="text" placeholder="Username" class="form-control" maxlength="16"/>
         <ErrorMessage name="username"  class="error-feedback" />
@@ -72,13 +73,13 @@
 	<div class="overlay-container">
 		<div class="overlay">
 			<div class="overlay-panel overlay-left">
-				<h1>Welcome Back!</h1>
-				<p>To keep connected with us please login with your personal info</p>
+				<h1 style="cursor:default;">Welcome Back!</h1>
+				<p style="cursor:default;">To keep connected with us please login with your personal info</p>
 				<button class="ghost" id="signIn" @click="signInButton">Sign In</button>
 			</div>
 			<div class="overlay-panel overlay-right">
-				<h1>Hello, Friend!</h1>
-				<p>Enter your personal details and start journey with us</p>
+				<h1 style="cursor:default;">Hello, Friend!</h1>
+				<p style="cursor:default;">Enter your personal details and start journey with us</p>
 				<button class="ghost" id="signUp" @click="signUpButton">Sign Up</button>
 			</div>
 		</div>
@@ -184,6 +185,7 @@ export default {
           this.messageSignup = data.message;
           this.successful = true;
           this.loading = false;
+          setTimeout(() => this.signInButton(), 1000)
         },
         (error) => {
           this.messageSignup =

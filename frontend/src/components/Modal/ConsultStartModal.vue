@@ -5,7 +5,7 @@
     <div class="modal-content">
       <button type="button" class="btn-close position-absolute top-0 end-0" data-bs-dismiss="modal" aria-label="Close"></button>
       <p class="position-absolute top-50 start-50 translate-middle">상담을 시작하시겠습니까?</p>
-      <button type="button" class="btn position-absolute bottom-0 start-50 translate-middle-x" data-bs-dismiss="modal"  @click="[feedBack(), completeConsult()]">Yes</button>
+      <button type="button" class="btn position-absolute bottom-0 start-50 translate-middle-x" data-bs-dismiss="modal"  @click="feedBack(), completeConsult()">Yes</button>
     </div>
   </div>
 </div>
@@ -14,6 +14,8 @@
 <script>
 import {API_URL} from '@/api/http.js';
 import axios from 'axios';
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
 
 export default {
   data() {
@@ -24,7 +26,11 @@ export default {
   props : {
     waitingconsult : Object
   },
+  computed:{
+
+  },
   methods : {
+
     feedBack() {
       console.log(this.waitingconsult)
       this.$router.push({name : "webrtcstudent", params: {
@@ -41,6 +47,17 @@ export default {
         console.log(res)
         this.fetchWaitingConsultMap()
       })
+      var socket = new SockJS('https://i7b202.p.ssafy.io/ws');
+      var stompClient = Stomp.over(socket);
+      let id = this.waitingconsult.id
+      stompClient.connect({}, () => {
+          stompClient.send("/topic/public/",
+            JSON.stringify({
+              id : id,
+              method : 'delete'
+            })
+          )
+          }, () => {});
     },
   }
 }

@@ -6,9 +6,11 @@ import com.ssafy.api.service.QuestionService;
 import com.ssafy.api.service.ScriptService;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.auth.SsafyUserDetailService;
+import com.ssafy.converter.Converter;
 import com.ssafy.db.entity.Question;
 import com.ssafy.db.entity.Script;
 import com.ssafy.db.entity.User;
+import com.ssafy.stt.STT;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -17,6 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -43,14 +46,19 @@ class ScriptControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @MockBean
+    Converter converter;
+
+    @MockBean
+    STT stt;
     @Test
     void 스크립트_등록_성공() throws Exception {
         Map<String, String> input = new HashMap<>();
 
         input.put("userId", "1");
         input.put("questionId", "1");
-        input.put("filePath", "C:/Users/multicampus/Desktop/ssafy/java-speech/samples/snapshot/resources/audio.raw");
-        input.put("audioURL", "naver.com");
+        input.put("audioURL", "C:/Users/multicampus/Desktop/ssafy/java-speech/samples/snapshot/resources/audio.raw");
+        input.put("keyName", "0296f912-7c83-4be8-8b52-7948e3927667");
 
         given(userService.getUserByUserId(1L)).willReturn(Optional.ofNullable(new User()));
         given(questionService.getQuestionByQuestionId(1L)).willReturn(Optional.ofNullable(new Question()));
@@ -65,15 +73,20 @@ class ScriptControllerTest {
     }
     @Test
     void 스크립트_조회_성공() throws Exception {
-        mockMvc.perform(get("/api/v1/script")).andExpect(status().isOk());
+        given(userService.getUserByUsername("test")).willReturn(Optional.ofNullable(new User()));
+        given(scriptService.getScriptList(1L)).willReturn(new ArrayList<>());
+
+        mockMvc.perform(get("/api/v1/script/test")).andExpect(status().isOk());
     }
 
     @Test
     void 스크립트_디테일_조회_성공() throws Exception {
         Long scriptId =1L;
-
-        given(scriptService.getDetail(scriptId)).willReturn(Optional.ofNullable(new Script()));
-        mockMvc.perform(get("/api/v1/script/"+scriptId))
+        User user = new User();
+        user.setId(1L);
+        given(userService.getUserByUsername("test")).willReturn(Optional.ofNullable(user));
+        given(scriptService.getDetail(scriptId,1L)).willReturn(Optional.ofNullable(new Script()));
+        mockMvc.perform(get("/api/v1/script/test/"+scriptId))
                 .andExpect(status().isOk());
     }
 
@@ -93,8 +106,8 @@ class ScriptControllerTest {
 
         input.put("userId", "");
         input.put("questionId", "1");
-        input.put("scriptContent", "scriptContent");
-        input.put("audioURL", "naver.com");
+        input.put("audioURL", "C:/Users/multicampus/Desktop/ssafy/java-speech/samples/snapshot/resources/audio.raw");
+        input.put("keyName", "0296f912-7c83-4be8-8b52-7948e3927667");
 
         given(userService.getUserByUserId(1L)).willReturn(Optional.ofNullable(new User()));
         given(questionService.getQuestionByQuestionId(1L)).willReturn(Optional.ofNullable(new Question()));

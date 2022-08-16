@@ -38,7 +38,7 @@ public class QuestionController {
         questionRes.setQuestionContent(question.getQuestionContent());
         questionRes.setLevel(question.getLevel());
         questionRes.setAudioUrl(question.getAudioUrl());
-
+        questionRes.setCategory(questionRes.getCategory());
         return ResponseEntity.ok(questionRes);
     }
 

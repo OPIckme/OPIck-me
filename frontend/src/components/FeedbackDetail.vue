@@ -4,7 +4,7 @@
     <router-link class="position-absolute top-50 start-50 translate-middle  " to="/mainpage">
       <img src="../assets/logo.png" alt="" style="width:120px">
     </router-link>
-    <button class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Logout" >Logout</button>
+    <!-- <button class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Logout" >Logout</button> -->
   </div>
 </nav>
 <LogoutModal></LogoutModal>
@@ -25,10 +25,12 @@
     <div class="script" id="content" v-html="feedback.content"></div>
   </div>
 </div>
+<FooterNav></FooterNav>
 </template>
 
 <script>
 import LogoutModal from './Modal/LogoutModal.vue';
+import FooterNav from './FooterNav.vue';
 import axios from 'axios';
 import {API_URL} from '@/api/http.js';
 
@@ -52,15 +54,15 @@ export default {
           axios.get(API_URL + `/feedback/${this.username}/${this.feedbackId}`)
           .then(res => {
             this.feedback = res.data.feedback
-	    const d = new Date(this.feedback.created_at)
-	    this.createdAt = d.toLocaleString()
+            const d = new Date(this.feedback.created_at)
+            this.createdAt = d.toLocaleString()
           })
         },
     },
     created() {
       this.getFeedback()
     },
-    components: { LogoutModal }
+    components: { LogoutModal ,FooterNav}
 }
 </script>
 <style lang="scss" scoped>
@@ -165,65 +167,5 @@ p{
 /* Logout button */
 .navbar{
   z-index: 1;
-}
-.Logout {
-  align-items: center;
-  background-color: #F2CB05;
-  border: 2px solid #111;
-  border-radius: 50px;
-  box-sizing: border-box;
-  color: white;
-  cursor: pointer;
-  display: flex;
-  font-family: Inter,sans-serif;
-  font-size: 14px;
-  font-weight: bold;
-  height: 36px;
-  justify-content: center;
-  line-height: 24px;
-  max-width: 100%;
-  padding: 0 25px;
-  position: relative;
-  text-align: center;
-  text-decoration: none;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  position: relative;
-  left: 85%;
-}
-
-.Logout:after {
-  background-color: #111;
-  border-radius: 50px;
-  content: "";
-  display: block;
-  height: 36px;
-  left: 0;
-  width: 100%;
-  position: absolute;
-  top: -2px;
-  transform: translate(6px, 6px);
-  transition: transform .2s ease-out;
-  z-index: -1;
-}
-
-.Logout:hover:after {
-  transform: translate(0, 0);
-}
-
-.Logout:active {
-  background-color: #F2CB05;
-  outline: 0;
-}
-
-.LogLogoutin:hover {
-  outline: 0;
-}
-
-@media (min-width: 768px) {
-  .Logout {
-    padding: 0 20px;
-  }
 }
 </style>

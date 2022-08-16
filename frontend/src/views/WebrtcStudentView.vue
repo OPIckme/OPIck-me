@@ -1,19 +1,20 @@
 <template>
-<nav class="navbar" style="background-color:#0742F2;">
-    <div class="container-fluid">
-        <img src="../assets/logo.png" alt="" style="width:150px">
-        <!-- 나가기 -->
-        <button class="btn" style="color:white; background-color:#F2CB05;" data-bs-toggle="modal" data-bs-target="#Consultclose">상담종료</button>
-    </div>
+<nav class="navbar sticky-top" style="background-color:#052A99; height: 80px;">
+  <div class="container">
+    <router-link class="position-absolute top-50 start-50 translate-middle  " to="/mainpage">
+      <img src="../assets/logo.png" alt="" style="width:120px">
+    </router-link>
+    <button class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Consultclose" >상담종료</button>
+  </div>
 </nav>
-<div class="row" style="width : 100vw; margin : 0px">
-    <div class="col-8">
-        <div class="row justify-content-evenly">
-            <div class="outer col-8 my-3 mx-1" ref="outputOuter" style="height:28vh;">
+<div class="container" style="width : 100vw;">
+    <div style="width:66.7%; display: inline-block;">
+        <div ref="videoContainer">
+            <div class="outer" ref="outputOuter" style="width: 508px; height: 263.75px; margin : auto">
                 <video id="videoOutput" autoplay style="display : inline;"
                 ref="videoOutput"></video>
             </div>
-            <div class="outer col-8 my-3 mx-1" ref="inputOuter" style="height:28vh;">
+            <div class="outer" ref="inputOuter" style="width: 508px; height: 263.75px; margin : auto">
                 <video id="videoInput" autoplay style="display : inline;" muted="true" 
                 ref="videoInput"></video>
             </div>
@@ -57,25 +58,25 @@
             </div>
 
         </div>
-        <div class="row justify-content-center" ref="bigScript" style="display:none">
-            <p class="col-11" ref="topic" style="margin-bottom: 0px; margin-top: 10px">{{ this.topic }}</p>
-            <h3 class="col-11" ref="question" style="margin-top : 10px; margin-left : 20px; margin-right : 20px">Q. {{ this.question }}</h3>
-            <h5 class="col-11" style="margin-top : 10px; margin-left : 10px; margin-right : 10px">[Script]</h5>
-            <div class="col-11" style="margin: 10px">
+        <div ref="bigScript" style="display:none">
+            <p ref="topic" style="margin-bottom: 0px; margin-top: 10px; margin-left : 50px">{{ this.topic }}</p>
+            <h3 ref="question" style="margin-top : 10px; margin-left : 50px; margin-right : 50px; font-weight: bold;">Q. {{ this.question }}</h3>
+            <h5 style="margin-top : 20px; margin-bottom : 10px; margin-left : 50px; margin-right : 10px">[Script]</h5>
+            <div style="margin-top: 20px; margin-left : 50px; margin-right: 50px;">
                 <div ref="script" style="display : inline; outline : none;"></div>
             </div>
         </div>
-        <div class="row justify-content-center mb-2">
-            <button class="col-3 mx-2 button" @click.prevent="muteControl" ref="sound">
+        <div class="row" style="width: 100%; justify-content: center;">
+            <button class="col-3 mx-2 button" style="margin: auto" @click.prevent="muteControl" ref="sound">
 
             음소거
             </button>
-            <button class="col-3 mx-2 button" @click.prevent="screenControl" ref="screen">비디오 중지</button>
+            <button class="col-3 mx-2 button" style="margin: auto" @click.prevent="screenControl" ref="screen">비디오 중지</button>
         </div>
     </div>
 
-    <div ref="chat-page" class="col-4" style="padding-right : 0px">
-        <div ref="messageArea" style="height : 80vh; background-color : #E3F2FD;overflow-y:auto">
+    <div ref="chat-page" style="width: 33.3%; display: inline-block; padding-left : 10px">
+        <div ref="messageArea" style="height : 82vh; background-color : #E3F2FD;overflow-y:auto">
         </div>
         <form @submit.prevent="sendMessage" ref="messageForm" name="messageForm">
             <div class="form-group">
@@ -87,7 +88,7 @@
         </form>
     </div>
 </div>
-<ConsultCloseModal :modify="modify" :scriptId="scriptId" @change="change"></ConsultCloseModal>
+<ConsultCloseModal :modify="modify" :scriptId="scriptId" @change="change" @closeControl="closeControl"></ConsultCloseModal>
 </template>
 <script>
 import ConsultCloseModal from '@/components/Modal/ConsultCloseModal.vue';
@@ -113,8 +114,8 @@ var constraints = {
             ideal : 10,
             max : 15
         },
-        width : 420,
-        height : 210,
+        width : 508,
+        height : 263.75,
         facingMode : "user"
     },
 
@@ -168,12 +169,11 @@ export default {
         let btnBold = this.$refs.btnBold
         let role = this.$store.state.auth.user.role
         let inboundStream = null;
-        let editorMenu = this.$refs.editorMenu
         let bigScript = this.$refs.bigScript
         let inputOuter = this.$refs.inputOuter
         let outputOuter = this.$refs.outputOuter
         let sideBar = this.$refs.sideBar
-
+        let videoContainer = this.$refs.videoContainer
         script.innerText = this.$route.params.script
         dataChannel.onerror = function(error) {
             console.log("Error:", error);
@@ -251,11 +251,11 @@ export default {
             var message = JSON.parse(payload.body);
             if(message.type === 'JOIN') {
                 var messageElement = document.createElement('p');
-                messageElement.classList.add('event-message');
+                messageElement.setAttribute("style","margin:10px auto; border: solid; border-width: 0px; border-radius: 15px; background-color: lightgray; text-align: center; width: 70%; height: 35px; line-height : 35px")
                 messageElement.innerText = message.sender + ' 님이 입장하셨습니다.';
             } else if (message.type === 'LEAVE') {
                 var messageElement = document.createElement('p');
-                messageElement.classList.add('event-message');
+                messageElement.setAttribute("style","margin:10px auto; text-align: center; width: 60%")
                 messageElement.innerText = message.sender + ' 님이 퇴장하셨습니다.';
             } else if (message.type === 'OFFER') {
                 if (message.sender != username){
@@ -315,28 +315,35 @@ export default {
             dataChannel = event.channel;
         };
 
-        dataChannel.onmessage = function (event) {
+        dataChannel.onmessage = (event) => {
             if (event.data === '비디오 시작' || event.data === '비디오 중지'
             || event.data === '음소거' || event.data === '음소거 해제'
-            || event.data === '스크립트 시작' || event.data === '스크립트 중지'){
+            || event.data === '스크립트 시작' || event.data === '스크립트 중지' || event.data === '상담종료'){
                 if (event.data === '음소거'){
                     videoOutput.srcObject.getAudioTracks()[0].enabled = false
                 } else if (event.data === '음소거 해제'){
                     videoOutput.srcObject.getAudioTracks()[0].enabled = true
                 } else if (event.data === '비디오 시작'){
-                    videoOutput.setAttribute('style','border-radius: 10px; display: inline')
+                    videoOutput.setAttribute('style','display: inline')
                 } else if (event.data === '스크립트 시작'){
-                    bigScript.setAttribute("style","background-color : #E3F2FD; height: 42vh; margin-bottom : 10px;")
-                    inputOuter.classList.remove("col-8")
-                    inputOuter.classList.add("col-5")
-                    outputOuter.classList.remove("col-8")
-                    outputOuter.classList.add("col-5")
+                    bigScript.setAttribute("style","background-color : #E3F2FD; height: 48.5vh; margin-bottom : 10px; margin-right : 10px; overflow: auto")
+                    constraints.video.width = 400
+                    constraints.video.height = 210
+                    inputOuter.setAttribute("style",
+                        "border-radius: 15px;overflow: hidden;padding : 0px !important; margin-left: 5px; margin-top : 15px; margin-bottom : 15px; width: 400px; height: 210px;")
+                    outputOuter.setAttribute("style",
+                        "border-radius: 15px;overflow: hidden;padding : 0px !important; margin-right: 15px; margin-top : 15px; margin-bottom : 15px; width: 400px; height: 210px;")
                 } else if (event.data === '스크립트 중지'){
                     bigScript.setAttribute("style", "display : none")
-                    inputOuter.classList.remove("col-5")
-                    inputOuter.classList.add("col-8")
-                    outputOuter.classList.remove("col-5")
-                    outputOuter.classList.add("col-8")
+                    constraints.video.width = 508
+                    constraints.video.height = 263.75
+                    inputOuter.setAttribute("style",
+                        "border-radius: 15px;overflow: hidden;padding : 0px !important; margin : auto;margin-top : 15px; margin-bottom : 15px; width: 508px; height: 263.75px;")
+                    outputOuter.setAttribute("style",
+                        "border-radius: 15px;overflow: hidden;padding : 0px !important; margin : auto;margin-top : 15px; margin-bottom : 15px; width: 508px; height: 263.75px;")
+                } else if (event.data === '상담종료'){
+                    peerConnection.close()
+                    this.$router.push("/feedback")
                 } else {
                     videoOutput.setAttribute("style","display:none")
                 } 
@@ -345,6 +352,7 @@ export default {
                 console.log(data)
                 if (data.content != null && username != data.sender){
                     script.innerHTML = data.content
+                    bigScript.scrollTop = data.scroll
                 }else{
                     var messageElement = document.createElement('div');
                     messageElement.classList.add("chat-message")
@@ -361,7 +369,8 @@ export default {
 
         peerConnection.addEventListener('connectionstatechange', event => {
             if (peerConnection.connectionState === 'connected') {
-                console.log("Peers connected!") 
+                console.log("Peers connected!")
+                stompClient.disconnect() 
             }
         });
         
@@ -378,13 +387,6 @@ export default {
             if (role === 'consultant') {
                 sideBar.removeAttribute("style")
                 script.setAttribute("contenteditable", "true")
-                editorMenu.removeAttribute("style")
-                bigScript.setAttribute("style","background-color : #E3F2FD; height: 42vh; margin-bottom : 10px; overflow : auto")
-                console.log(inputOuter)
-                inputOuter.classList.remove("col-8")
-                inputOuter.classList.add("col-5")
-                outputOuter.classList.remove("col-8")
-                outputOuter.classList.add("col-5")
             }
             if(username) {
                 var socket = new SockJS('https://i7b202.p.ssafy.io/ws');
@@ -443,10 +445,11 @@ export default {
             }
             var post = script.innerHTML
             this.modify = post          
-            if (pre != post && this.$store.state.auth.user.role === 'consultant'){    
+            if (dataChannel.readyState === 'open' && pre != post && this.$store.state.auth.user.role === 'consultant'){    
                 dataChannel.send(JSON.stringify({
                     "sender" : this.$store.state.auth.user.username,
-                    "content" : post
+                    "content" : post,
+                    "scroll" : bigScript.scrollHeight
                 }))
                 pre = post
             }
@@ -461,19 +464,36 @@ export default {
         scriptControl(){
             if (this.$refs.scriptButton.innerText === 'Script ON'){
                 dataChannel.send("스크립트 시작")
+                this.$refs.script.setAttribute("contenteditable", "true")
+                this.$refs.editorMenu.removeAttribute("style")
+                this.$refs.bigScript.setAttribute("style","background-color : #E3F2FD; height: 42vh; margin-bottom : 10px; margin-right : 10px; overflow : auto")
+                constraints.video.width = 400
+                constraints.video.height = 210
+                this.$refs.inputOuter.setAttribute("style",
+                    "border-radius: 15px;overflow: hidden;padding : 0px !important; margin-left: 5px; margin-top : 15px; margin-bottom : 15px; width: 400px; height: 210px; display: inline-block")
+                this.$refs.outputOuter.setAttribute("style",
+                    "border-radius: 15px;overflow: hidden;padding : 0px !important; margin-right: 15px; margin-top : 15px; margin-bottom : 15px; width: 400px; height: 210px; display: inline-block")
                 this.$refs.scriptButton.innerText = "Script OFF"
             }else {
                 dataChannel.send("스크립트 중지")
+                this.$refs.editorMenu.setAttribute("style", "display: none")
+                this.$refs.bigScript.setAttribute("style","display : none")
+                constraints.video.width = 508
+                constraints.video.height = 263.75
+                this.$refs.inputOuter.setAttribute("style",
+                    "border-radius: 15px;overflow: hidden;padding : 0px !important; margin : auto;margin-top : 15px; margin-bottom : 15px; width: 508px; height: 263.75px;")
+                this.$refs.outputOuter.setAttribute("style",
+                    "border-radius: 15px;overflow: hidden;padding : 0px !important; margin : auto;margin-top : 15px; margin-bottom : 15px; width: 508px; height: 263.75px;")
                 this.$refs.scriptButton.innerText = "Script ON"
             }
         },
         screenControl(){
             if (this.$refs.screen.innerText === '비디오 중지'){
-                this.$refs.inputOuter.setAttribute("style","display:none;")
+                this.$refs.videoInput.setAttribute("style","display:none;")
                 dataChannel.send("비디오 중지")
                 this.$refs.screen.innerText = "비디오 시작"
             }else {
-                this.$refs.inputOuter.setAttribute("style","display:inline")
+                this.$refs.videoInput.setAttribute("style","display:inline; mute:true")
                 dataChannel.send("비디오 시작")
                 this.$refs.screen.innerText = "비디오 중지"
             }
@@ -511,6 +531,10 @@ export default {
         },
         change(value) {
             this.trigger = value
+        },
+        closeControl(value) {
+            dataChannel.send(value)
+            peerConnection.close()
         }
     },
     components: { ConsultCloseModal }
@@ -528,7 +552,6 @@ export default {
         padding: 0px !important;
     }
     .button {
-        margin-top: 20px;
         background-color: #0742F2;
         border-radius: 12px;
         color: white;
@@ -558,13 +581,15 @@ export default {
     
     select {
         border-radius: 10px;
+        text-align: center;
     }
 
     .outer {
-        border-radius: 30px;
+        border-radius: 15px;
         overflow: hidden;
         padding : 0px !important;
-        margin : 0px !important;
+        margin-top : 15px !important;
+        margin-bottom : 15px !important
     }
 
     video {
@@ -597,5 +622,68 @@ export default {
         background-color: #FDF01B;
         float:right;
         box-shadow: -1px 1px 0 rgba(0,0,0,0.3);
+    }
+    .navbar{
+    z-index: 1;
+    }
+    .Logout {
+    align-items: center;
+    background-color: #F2CB05;
+    border: 2px solid #111;
+    border-radius: 50px;
+    box-sizing: border-box;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    font-family: Inter,sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    height: 36px;
+    justify-content: center;
+    line-height: 24px;
+    max-width: 100%;
+    padding: 0 25px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    position: relative;
+    left: 85%;
+    }
+
+    .Logout:after {
+    background-color: #111;
+    border-radius: 50px;
+    content: "";
+    display: block;
+    height: 36px;
+    left: 0;
+    width: 100%;
+    position: absolute;
+    top: -2px;
+    transform: translate(6px, 6px);
+    transition: transform .2s ease-out;
+    z-index: -1;
+    }
+
+    .Logout:hover:after {
+    transform: translate(0, 0);
+    }
+
+    .Logout:active {
+    background-color: #F2CB05;
+    outline: 0;
+    }
+
+    .LogLogoutin:hover {
+    outline: 0;
+    }
+
+    @media (min-width: 768px) {
+    .Logout {
+        padding: 0 20px;
+    }
     }
 </style>
