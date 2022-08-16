@@ -1,5 +1,5 @@
 <template>
-<div class="card" @click="routingDetail">
+<div class="card" data-aos="fade-up" @click="routingDetail">
   <div class="card-img">
     <img :src="getImg()" class="card-img-top" alt="...">
   </div>
@@ -51,9 +51,9 @@ export default {
 .card{
   width: 18rem; 
   height: 20rem; 
-  margin: 1rem; 
-  margin-left: 1.25rem; 
-  margin-right: 1.25rem;
+  margin: 2.05rem; 
+  /* margin-left: 1.25rem;  */
+  /* margin-right: 1.5rem; */
   border-radius: 15px;
   border-width: 0px;
   box-shadow: 0 4px 4px -4px gray;
