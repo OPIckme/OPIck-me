@@ -10,7 +10,7 @@
         <h4 class="topic">{{ script.question.topic }}</h4>
       </div>
       <div>
-        <i class="bi bi-trash3 delete" data-bs-toggle="modal" :data-bs-target="modalId"></i>
+        <i v-if="script.feedbacks" class="bi bi-trash3 delete" data-bs-toggle="modal" :data-bs-target="modalId"></i>
       </div>
     </div>
     <p class="card__description" @click="routingDetail">Q. {{script.question.questionContent}}</p>
