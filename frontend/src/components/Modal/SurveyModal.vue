@@ -41,9 +41,12 @@
       <!-- 듣기 -->
       <i @click="playSound(audioUrl)" :class="soundIconClass" class="position-absolute top-0 start-50 translate-middle-x"></i>
       <!-- 녹음 시작 버튼 -->
+      
       <i v-show="record" @click="start(),stopSound()" class="bi bi-record-circle position-absolute bottom-0 start-50 translate-middle-x"></i>
       <!-- 녹음 중지 버튼 -->
+
       <i v-show="!record" @click="stop" data-bs-target="#SurveyModal3" data-bs-toggle="modal" class="bi bi-stop-circle position-absolute bottom-0 start-50 translate-middle-x"></i>
+      <p>{{min<10?"0":""}}{{min}}:{{sec<10?"0":""}}{{sec}}:{{ms<10?"0":""}}{{ms}}</p>
     </div>
   </div>
 </div>
@@ -60,6 +63,7 @@
       <p class="modal-title" id="exampleModalToggleLabel4">
         Q. {{ questionInfo.questionContent }}
       </p>
+      
       <audio controls :src="blobURL"></audio>
       <!-- 다시 녹음 버튼-->
       <i data-bs-target="#SurveyModal2" data-bs-toggle="modal" class="bi bi-arrow-counterclockwise position-absolute bottom-0 start-0" style="margin-left:3rem"></i>
@@ -101,7 +105,12 @@ export default {
       uuid:"",
       record:true,
       //---audio 녹음 data 끝
-      soundIconClass:'bi bi-volume-off'
+      soundIconClass:'bi bi-volume-off',
+      min:0,
+      sec:0,
+      ms:0,
+      timerId:"",
+
     }
   },
   methods : {
@@ -167,6 +176,9 @@ export default {
     surveyinit() { // survey 선택 창에서 x버튼 클릭하면 survey 선택 초기화
       this.topic = ""; // topic 초기화
       this.level = ""; // level 초기화
+      this.min=0
+      this.sec=0
+      this.ms=0
     },
 
     playSound(sound) {
@@ -201,6 +213,18 @@ export default {
     async start(){
       this.record=!this.record
       this.uuid =v4()
+
+      this.timerId=setInterval(()=>{
+        this.ms+=1
+        if(this.ms==100){
+          this.ms=0
+          this.sec+=1
+          if(this.sec==60){
+            this.sec=0
+            this.min+=1
+          }
+        }
+      },10)
       // this.stopSound(); // 문제를 듣다가 녹음 버튼 누르면 문제 듣기 종료
       // 마이크 mediaStream 생성: Promise를 반환하므로 async/await 사용
       const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
@@ -240,6 +264,10 @@ export default {
       this.mediaRecorder.start();
      },
      async stop(){
+      this.min=0
+      this.sec=0
+      this.ms=0
+      clearTimeout(this.timerId);
       this.record=!this.record
       this.mediaRecorder.stop();
      },     
