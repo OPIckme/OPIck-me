@@ -163,12 +163,17 @@
       </div>
     </div>
   </div>
+  <footer-nav></footer-nav>
 </template>
 <script>
 import AOS from "aos";
 import "aos/dist/aos.css";
+import FooterNav from "./FooterNav.vue";
 AOS.init();
 export default {
+  components: {
+    FooterNav,
+  },
   name: "SiteIntroduce",
   mounted() {
     var textWrapper = document.querySelector(".ml11 .letters");
