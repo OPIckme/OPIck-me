@@ -4,15 +4,15 @@
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content text-center">
       <div class="modal-top row justify-content-evenly">
-        <h6 class="col-6 text-start"><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
+        <h6 class="col-6 text-start" style="cursor:default"><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
         <button type="button" class="btn-close col-2" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit(),fetchSelectTopicIdx('')"></button>
       </div>
       <div class="container">
-        <h5>TOPIC : {{ topic }}</h5>
+        <h5 style="cursor:default">TOPIC : {{ topic }}</h5>
         <div class="modal-body topics text-center">
-          <input-topic v-for="(item,idx) in category" :key="item" :idx="idx" :item="item" @topic="changeTopic"></input-topic>
+          <input-topic class="topic" v-for="(item,idx) in category" :key="item" :idx="idx" :item="item" @topic="changeTopic"></input-topic>
         </div>
-        <h5>LEVEL : {{ level }}</h5>
+        <h5 style="cursor:default">LEVEL : {{ level }}</h5>
         <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
           <input v-model="level" type="radio" class="btn-check" name="btnradio" id="AL" value="AL">
           <label class="btn btn-outline-primary" for="AL">AL</label>
@@ -318,6 +318,9 @@ h6{
   left:10%;
   border-radius: 50px;
   margin-bottom: 1.5rem;
+}
+.topic{
+  cursor: pointer;
 }
 /* 아래의 모든 코드는 영역::코드로 사용 */
 .topics::-webkit-scrollbar {
