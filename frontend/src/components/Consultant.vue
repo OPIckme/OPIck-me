@@ -2,7 +2,8 @@
 <ConsultCard 
     v-for="waitingconsult in waitingConsultMap" 
     :key="waitingconsult.id" 
-    :waitingconsult="waitingconsult">
+    :waitingconsult="waitingconsult"
+    >
 </ConsultCard>
 </template>
 
