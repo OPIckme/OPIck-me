@@ -1,21 +1,21 @@
 <template>
 
 <div class="container d-flex flex-row">
-  <Sidebar style="width:20%" @selectCategory="categoryUpdate"></Sidebar>
+  <Sidebar style="width:20%;" @selectCategory="categoryUpdate"></Sidebar>
   <div style="width:80%">
     <!-- script navbar -->
     <div class="container d-flex justify-content-between align-items-center pb-3 mb-3 link-dark text-decoration-none">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 list-group-horizontal">
           <li class="nav-item">
             <a class="nav-link" href="#" @click="completUpdate(false)">
-              <p :class="isSelectComplet(false)" style="font-size:17px; letter-spacing: 1px;">작성중인 스크립트</p></a>
+              <p :class="isSelectComplet(false)" class="hover" style="font-size:17px; letter-spacing: 1px;">작성중인 스크립트</p></a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" @click="completUpdate(true)">
-              <p :class="isSelectComplet(true)" style="font-size:17px; letter-spacing: 1px;">완료된 스크립트</p></a>
+              <p :class="isSelectComplet(true)" class="hover" style="font-size:17px; letter-spacing: 1px;">완료된 스크립트</p></a>
           </li>
         </ul>
-        <span class="nav-item scriptbutton" data-bs-toggle="modal" href="#SurveyModal" style="cursor: pointer;"><i class="bi bi-file-earmark-plus" style="margin-right:0.3rem"></i> New Script</span>
+        <span class="nav-item scriptbutton" data-bs-toggle="modal" href="#SurveyModal" style="cursor: pointer;"><i class="bi bi-file-earmark-plus" style="margin-right:0.3rem;"></i> New Script</span>
         <!-- <button style="margin-top:2.5rem; margin-bottom: 1rem; margin-left: 0.5rem; width: 200px; height: 45px;" class="btn scriptbutton" data-bs-toggle="modal" href="#SurveyModal" role="button">Script 생성</button> -->
       </div>
     <!-- script card -->
@@ -30,12 +30,13 @@
     </div>
   </div>
 </div>
-
+<FooterNav></FooterNav>
 <SurveyModal></SurveyModal>
 </template>
 
 <script>
 import ScriptCard from './ScriptCard.vue';
+import FooterNav from './FooterNav.vue';
 import SurveyModal from './Modal/SurveyModal.vue';
 import { mapActions,mapGetters } from 'vuex';
 import Sidebar from './Sidebar.vue';
@@ -61,6 +62,7 @@ export default {
       }
     },
     created() {
+        console.log(123)
         this.fetchScriptList(this.$store.state.auth.user.username)
     },
     computed: {
@@ -76,7 +78,7 @@ export default {
         }
     },
 
-    components: { ScriptCard, SurveyModal, Sidebar }
+    components: { ScriptCard, SurveyModal, Sidebar, FooterNav }
     }
 </script>
 
@@ -114,6 +116,11 @@ export default {
 }
 .select{
   /* color: #052A99; */
+  font-weight: bold;
+}
+.hover:hover{
+  cursor:pointer;
+
   font-weight: bold;
 }
 </style>

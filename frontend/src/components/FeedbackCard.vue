@@ -1,16 +1,24 @@
 <template>
-<div class="card" data-aos="fade-up" @click="routingDetail">
-  <div class="card-img">
+<article class="card" data-aos="fade-up">
+  <header class="card__thumb">
     <img :src="getImg()" class="card-img-top" alt="...">
+  </header>
+  <div class="card__body">
+    <div class="d-flex justify-content-between">
+      <div>
+        <span class="tag" :class="`tag-${feedback.script.question.level}`">{{ feedback.script.question.level }}</span>
+        <h4 class="topic">{{ feedback.script.question.topic }}</h4>
+      </div>
+      <div>
+        <i class="bi bi-trash3 delete" data-bs-toggle="modal" :data-bs-target="feedbackDeleteModalId"></i>
+      </div>
+    </div>
+    <p class="card__description" @click="routingDetail">Q. {{feedback.script.question.questionContent}}</p>
   </div>
-  <div class="card-body">
-    <i class="bi bi-trash3 delete" data-bs-toggle="modal" :data-bs-target="feedbackDeleteModalId"></i>
-    <span class="tag" :class="`tag-${feedback.script.question.level}`">{{ feedback.script.question.level }}</span>
-    <h4 class="topic">{{ feedback.script.question.topic }}</h4>
+  <footer class="card__footer">
     <p class="created-at"><small class="text-muted">{{ createdAt.slice(0,-3) }}</small></p>
-    <!-- <button @click="routingDetail" class="btn">Review</button> -->
-  </div>
-</div>
+  </footer>
+</article>
 <FeedbackDeleteModal :feedbackId="feedback.id"></FeedbackDeleteModal>
 </template>
 
@@ -50,28 +58,42 @@ export default {
 <style scoped>
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
 .card{
-  width: 18rem; 
-  height: 20rem; 
-  margin: 2.05rem; 
+  width: 20rem; 
+  height: 25rem; 
+  margin: 1rem; 
   border-radius: 15px;
   border-width: 0px;
-  box-shadow: 0 4px 4px -4px gray;
-  cursor: pointer;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  overflow: hidden;
+  -webkit-transition: box-shadow 0.5s;
+  transition: box-shadow 0.5s;
 }
 .card-img-top{
-    width: 100%;
-    height: 11rem;
-    object-fit: cover;
+  width: 100%;
+  height: 12rem;
+  object-fit: cover;
+  display: block;
+  opacity: 1;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  -webkit-transition: opacity 0.5s, -webkit-transform 0.5s;
+  transition: opacity 0.5s, -webkit-transform 0.5s;
+  transition: opacity 0.5s, transform 0.5s;
+  transition: opacity 0.5s, transform 0.5s, -webkit-transform 0.5s;
 }
 .delete{
   margin-top:0.2rem; 
   float: right; 
   font-size: 17px;
+  margin:0;
+  z-index: -1;
+  cursor: pointer;
 }
 .topic{
   margin-top: 0.5rem; 
   font-size:18px; 
   font-weight: bold;
+  cursor: default;
 }
 .created-at{
   margin-top: 2.3rem; 
@@ -86,6 +108,7 @@ export default {
   color: #fff;
   padding: 2px 10px;
   text-transform: uppercase;
+  cursor: default;
 }
 .tag-AL {
   background-color: #47bcd4;
@@ -99,34 +122,75 @@ export default {
 .tag-IL {
   background-color: #c2d553;
 }
-/* CSS */
-/* button {
-  margin-top: 1.2rem;
-  background-color: #F2CB05;
-  border-radius: 12px;
-  color: white;
+
+.card__thumb {
+  margin-top: 0.5rem;
+  border-radius: 15px;
+  height: 12rem;
+  overflow: hidden;
+  background-color: #000;
+  -webkit-transition: height 0.5s;
+  transition: height 0.5s;
+  cursor: default;
+}
+
+.card:hover .card__thumb {
+  height: 130px;
+}
+
+.card:hover .card-img-top {
+  opacity: 0.6;
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
+}
+
+.card__body {
+  position: relative;
+  height: 185px;
+  padding: 20px;
+  -webkit-transition: height 0.5s;
+  transition: height 0.5s;
+}
+
+.card:hover .card__body {
+  height: 300px;
+}
+
+.card__description {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  margin: 0;
+  padding: 0;
+  color: #666C74;
+  line-height: 27px;
+  opacity: 0;
+  -webkit-transform: translateY(45px);
+  transform: translateY(45px);
+  -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+  transition: opacity 0.3s, -webkit-transform 0.3s;
+  transition: opacity 0.3s, transform 0.3s;
+  transition: opacity 0.3s, transform 0.3s, -webkit-transform 0.3s;
+  -webkit-transition-delay: 0s;
+  transition-delay: 0s;
   cursor: pointer;
-  font-weight: bold;
-  text-align: center;
-  transition: 200ms;
-  width: 100%;
-  box-sizing: border-box;
-  border: 0;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
 }
 
-button:not(:disabled):hover,
-button:not(:disabled):focus {
-  outline: 0;
-  background: #F2CB05;
-  box-shadow: 0 0 0 2px rgba(0,0,0,.2), 0 3px 8px 0 rgba(0,0,0,.15);
+.card:hover .card__description {
+  opacity: 1;
+  -webkit-transform: translateY(0px);
+  transform: translateY(0px);
+  -webkit-transition-delay: 0.2s;
+  transition-delay: 0.2s;
 }
 
-button:disabled {
-  filter: saturate(0.2) opacity(0.5);
-  -webkit-filter: saturate(0.2) opacity(0.5);
-  cursor: not-allowed;
-} */
+.card__footer {
+  position: absolute;
+  bottom: 2px;
+  left: 20px;
+  right: 20px;
+  font-size: 11px;
+  color: #A3A9A2;
+  cursor: default;
+}
 </style>

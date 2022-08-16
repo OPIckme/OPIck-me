@@ -1,20 +1,24 @@
 <template>
 <MainPageNavbar></MainPageNavbar>
 <!-- feedback card -->
-<div class="container d-flex justify-content-between">
+<div class="container d-flex flex-row">
   <Sidebar style="width:20%" @selectCategory="categoryUpdate"></Sidebar>
-  <div  class="row" style="margin-top:4rem; width:80%;">
+  <div style="margin-top:4rem; width:80%;">
+    <div class="row">
       <FeedbackCard 
-      class="col-lg-2 col-md-3 col-sm-4" 
+      class="col-lg-3 col-md-4 col-sm-6" 
       v-for="feedback in feedbackList" 
       :key="feedback.id" 
       :feedback="feedback">
       </FeedbackCard>
     </div>
+  </div>
 </div>
+<FooterNav></FooterNav>
 </template>
 
 <script>
+import FooterNav from './FooterNav.vue';
 import FeedbackCard from './FeedbackCard.vue';
 import MainPageNavbar from './MainPageNavbar.vue';
 import { mapActions,mapGetters } from 'vuex';
@@ -44,6 +48,6 @@ export default {
             this.$router.push("/");
         }
     },
-    components: { FeedbackCard, MainPageNavbar, Sidebar }
+    components: { FeedbackCard, MainPageNavbar, Sidebar, FooterNav }
 };
 </script>

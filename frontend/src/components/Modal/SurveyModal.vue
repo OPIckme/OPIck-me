@@ -39,11 +39,14 @@
         <button type="button" class="btn-close col-2" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit(), stopSound() "></button>
       </div>
       <!-- 듣기 -->
+      <p v-show="listen">[ Click to listen ]</p>
+      <p v-show="!listen">[ Listening... ]</p>
       <i @click="playSound(audioUrl)" :class="soundIconClass" class="position-absolute top-0 start-50 translate-middle-x"></i>
       <!-- 녹음 시작 버튼 -->
       <i v-show="record" @click="start(),stopSound()" class="bi bi-record-circle position-absolute bottom-0 start-50 translate-middle-x"></i>
       <!-- 녹음 중지 버튼 -->
       <i v-show="!record" @click="stop" data-bs-target="#SurveyModal3" data-bs-toggle="modal" class="bi bi-stop-circle position-absolute bottom-0 start-50 translate-middle-x"></i>
+      <p class="position-absolute bottom-0 start-50 translate-middle-x" style="margin-bottom:4rem; font-size:20px; font-weight:bold;">{{min<10?"0":""}}{{min}}:{{sec<10?"0":""}}{{sec}}:{{ms<10?"0":""}}{{ms}}</p>
     </div>
   </div>
 </div>
@@ -60,6 +63,7 @@
       <p class="modal-title" id="exampleModalToggleLabel4">
         Q. {{ questionInfo.questionContent }}
       </p>
+      
       <audio controls :src="blobURL"></audio>
       <!-- 다시 녹음 버튼-->
       <i data-bs-target="#SurveyModal2" data-bs-toggle="modal" class="bi bi-arrow-counterclockwise position-absolute bottom-0 start-0" style="margin-left:3rem"></i>
@@ -101,11 +105,17 @@ export default {
       uuid:"",
       record:true,
       //---audio 녹음 data 끝
-      soundIconClass:'bi bi-volume-off'
+      soundIconClass:'bi bi-volume-off',
+      min:0,
+      sec:0,
+      ms:0,
+      timerId:"",
+      listen:true,
+      recording:true,
     }
   },
   methods : {
-    ...mapActions(['fetchScriptList','fetchSelectTopicIdx']),
+    ...mapActions(['fetchScriptList','fetchSelectTopicIdx','fetchComplet']),
     s3Upload(){
       uploadFile(this.uploadParams,this.saveScript,this.uuid)
     },
@@ -113,7 +123,6 @@ export default {
     toggleOnOff() {
     this.isStatusOn = !this.isStatusOn;
   },
-
     getQuestion(topic,level) {
       if (this.topic == "" && this.level == "") { // topic과 level이 선택되지 않았을 때
         alert("Topic과 Level을 선택해주세요.");
@@ -160,18 +169,27 @@ export default {
           keyName: fileName,
         }).then(res=>{
           console.log(res)
+          this.fetchComplet(false)
           this.fetchScriptList(this.$store.state.auth.user.username)
         })
     },
 
     surveyinit() { // survey 선택 창에서 x버튼 클릭하면 survey 선택 초기화
+
+      clearTimeout(this.timerId);
       this.topic = ""; // topic 초기화
       this.level = ""; // level 초기화
+      this.min=0
+      this.sec=0
+      this.ms=0
+      this.record=true
+      this.listen=true
+      this.recording=true
     },
 
     playSound(sound) {
       // 문제 듣기
-      if (sound && !this.audio) {
+      if (sound && !this.audio && this.recording) {
         this.audio = new Audio(sound); // data에 audio 객체 있음.
         this.audio.play();
         console.log(this.audio)
@@ -179,8 +197,10 @@ export default {
           console.log('asdfxcv')
             this.audio=null
             this.soundIconClass='bi bi-volume-off'
+            this.listen=true
         });
         this.soundIconClass='bi bi-volume-up'
+        this.listen=false
       }
     },
 
@@ -189,6 +209,7 @@ export default {
       this.audio.pause(); // 데이터에서 가져와서 사용한다. 오디오를 정지한다.
       this.audio.currentTime = 0; // 오디오 시간 초기화
       this.soundIconClass='bi bi-volume-off'
+      this.listen=true
       this.audio=null
     },
     
@@ -201,6 +222,17 @@ export default {
     async start(){
       this.record=!this.record
       this.uuid =v4()
+      this.timerId=setInterval(()=>{
+        this.ms+=1
+        if(this.ms==100){
+          this.ms=0
+          this.sec+=1
+          if(this.sec==60){
+            this.sec=0
+            this.min+=1
+          }
+        }
+      },10)
       // this.stopSound(); // 문제를 듣다가 녹음 버튼 누르면 문제 듣기 종료
       // 마이크 mediaStream 생성: Promise를 반환하므로 async/await 사용
       const mediaStream = await navigator.mediaDevices.getUserMedia({audio: true});
@@ -238,10 +270,16 @@ export default {
 
       // 녹음 시작
       this.mediaRecorder.start();
+      this.recording = !this.recording;
      },
      async stop(){
+      this.min=0
+      this.sec=0
+      this.ms=0
+      clearTimeout(this.timerId);
       this.record=!this.record
       this.mediaRecorder.stop();
+      this.recording = !this.recording;
      },     
   },
 
