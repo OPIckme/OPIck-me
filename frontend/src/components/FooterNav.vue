@@ -1,6 +1,6 @@
 <template>
   <!-- Footer -->
-  <footer class="text-center text-lg-start bg-light text-muted">
+  <footer class="text-center text-lg-start bg-light text-muted" style="margin-top:5rem;">
     <!-- Section: Social media -->
     <section
       class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
