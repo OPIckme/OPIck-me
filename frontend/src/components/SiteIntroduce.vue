@@ -209,7 +209,7 @@ export default {
         opacity: [0, 1],
         easing: "easeOutExpo",
         offset: "-=775",
-        delay: (el, i) => 10 * (i + 1),
+        delay: (el, i) => 0.5 * (i + 1),
       })
       .add({
         targets: ".ml11",
@@ -236,7 +236,7 @@ export default {
         opacity: [0, 1],
         easing: "easeOutExpo",
         offset: "-=775",
-        delay: (el, i) => 10 * (i + 1),
+        delay: (el, i) => 0.5 * (i + 1),
       })
       .add({
         targets: ".ml12",
@@ -263,7 +263,7 @@ export default {
         opacity: [0, 1],
         easing: "easeOutExpo",
         offset: "-=775",
-        delay: (el, i) => 10 * (i + 1),
+        delay: (el, i) => 0.5 * (i + 1),
       })
       .add({
         targets: ".ml13",
@@ -275,7 +275,7 @@ export default {
         opacity: [0, 1],
         easing: "easeOutExpo",
         offset: "-=775",
-        delay: (el, i) => 10 * (i + 1),
+        delay: (el, i) => 0.5 * (i + 1),
       });
   },
 };
