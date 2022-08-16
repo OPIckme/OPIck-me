@@ -111,6 +111,7 @@ export default {
       ms:0,
       timerId:"",
       listen:true,
+      recording:true,
     }
   },
   methods : {
@@ -182,11 +183,12 @@ export default {
       this.ms=0
       this.record=true
       this.listen=true
+      this.recording=true
     },
 
     playSound(sound) {
       // 문제 듣기
-      if (sound && !this.audio) {
+      if (sound && !this.audio && this.recording) {
         this.audio = new Audio(sound); // data에 audio 객체 있음.
         this.audio.play();
         console.log(this.audio)
@@ -267,6 +269,7 @@ export default {
 
       // 녹음 시작
       this.mediaRecorder.start();
+      this.recording = !this.recording;
      },
      async stop(){
       this.min=0
@@ -275,6 +278,7 @@ export default {
       clearTimeout(this.timerId);
       this.record=!this.record
       this.mediaRecorder.stop();
+      this.recording = !this.recording;
      },     
   },
 
