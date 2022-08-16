@@ -60,7 +60,8 @@ export default {
               id : id,
               method : 'delete'
             })
-          )}, () => {});
+          )
+          }, () => {});
     },
   }
 }

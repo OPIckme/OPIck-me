@@ -63,7 +63,8 @@ export default {
               script : this.script,
               room : this.roomId
             })
-          )}, () => {});
+          )
+          }, () => {});
       })
     }
   }
