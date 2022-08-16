@@ -3,9 +3,9 @@
 <div class="modal" id="SurveyModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content text-center">
-      <div class="modal-top d-flex justify-content-around">
-        <h6><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit(),fetchSelectTopicIdx('')"></button>
+      <div class="modal-top row justify-content-evenly">
+        <h6 class="col-6 text-start"><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
+        <button type="button" class="btn-close col-2" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit(),fetchSelectTopicIdx('')"></button>
       </div>
       <div class="container">
         <h5>TOPIC : {{ topic }}</h5>
@@ -34,14 +34,14 @@
 <div class="modal" id="SurveyModal2" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content text-center">
-      <div class="modal-top d-flex justify-content-around" style="z-index:1">
-        <h6><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit(), stopSound() "></button>
+      <div class="modal-top row justify-content-evenly" style="z-index:1">
+        <h6 class="col-6 text-start"><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
+        <button type="button" class="btn-close col-2" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit(), stopSound() "></button>
       </div>
       <!-- 듣기 -->
       <i @click="playSound(audioUrl)" :class="soundIconClass" class="position-absolute top-0 start-50 translate-middle-x"></i>
       <!-- 녹음 시작 버튼 -->
-      <i v-show="record" @click="start" class="bi bi-record-circle position-absolute bottom-0 start-50 translate-middle-x"></i>
+      <i v-show="record" @click="start(),stopSound()" class="bi bi-record-circle position-absolute bottom-0 start-50 translate-middle-x"></i>
       <!-- 녹음 중지 버튼 -->
       <i v-show="!record" @click="stop" data-bs-target="#SurveyModal3" data-bs-toggle="modal" class="bi bi-stop-circle position-absolute bottom-0 start-50 translate-middle-x"></i>
     </div>
@@ -52,9 +52,9 @@
 <div class="modal" id="SurveyModal3" data-bs-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel4" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-top d-flex justify-content-around" style="z-index:1">
-        <h6><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit(), fetchSelectTopicIdx('')"></button>
+      <div class="modal-top row justify-content-evenly" style="z-index:1">
+        <h6 class="col-6 text-start"><img src="../../assets/check.png" style="width:25px"> Script Record</h6>
+        <button type="button" class="btn-close col-2" data-bs-dismiss="modal" aria-label="Close" @click="surveyinit(), fetchSelectTopicIdx('')"></button>
       </div>
       <p style="margin-left:3.5rem;">[ {{topic}} ]</p>
       <p class="modal-title" id="exampleModalToggleLabel4">
@@ -64,7 +64,7 @@
       <!-- 다시 녹음 버튼-->
       <i data-bs-target="#SurveyModal2" data-bs-toggle="modal" class="bi bi-arrow-counterclockwise position-absolute bottom-0 start-0" style="margin-left:3rem"></i>
       <!-- 저장 버튼 -->
-      <i @click="s3Upload()" data-bs-dismiss="modal" aria-label="Close" class="bi bi-download position-absolute bottom-0 end-0" style="margin-right:3rem"></i>
+      <i @click="s3Upload(),surveyinit()" data-bs-dismiss="modal" aria-label="Close" class="bi bi-download position-absolute bottom-0 end-0" style="margin-right:3rem"></i>
     </div>
   </div>
 </div>
@@ -171,11 +171,15 @@ export default {
 
     playSound(sound) {
       // 문제 듣기
-      console.log(this.audio)
       if (sound && !this.audio) {
         this.audio = new Audio(sound); // data에 audio 객체 있음.
         this.audio.play();
         console.log(this.audio)
+        this.audio.addEventListener("ended", ()=>{ 
+          console.log('asdfxcv')
+            this.audio=null
+            this.soundIconClass='bi bi-volume-off'
+        });
         this.soundIconClass='bi bi-volume-up'
       }
     },
@@ -185,29 +189,7 @@ export default {
       this.audio.pause(); // 데이터에서 가져와서 사용한다. 오디오를 정지한다.
       this.audio.currentTime = 0; // 오디오 시간 초기화
       this.soundIconClass='bi bi-volume-off'
-
-      const record = document.getElementById("record_script"); // 녹음 아이디 가져오기
-
-      // modal X 버튼 누르면 record 녹음 버튼 숨기기
-      if (record.style.display !== "none") {
-        // 원래 보였으면
-        record.style.display = "none"; // 숨기기
-      }
-
-      const problem_listen = document.getElementById("problem_listen"); // 문제 듣기 가져오기
-      const problem_nolisten = document.getElementById("problem_nolisten"); // 문제 듣지 않기 가져오기
-
-      // problem_listen 보이기 (display: block)
-      if (problem_listen.style.display !== "block") {
-        // block 아니면 block 바꿔서 보이기
-        problem_listen.style.display = "block";
-      }
-
-      // problem_nolisten 숨기기 (display: none)
-      if (problem_nolisten.style.display !== "none") {
-        // none이 아니면 none으로 바꿔서 숨기기
-        problem_nolisten.style.display = "none";
-      }
+      this.audio=null
     },
     
      changeTopic(topic) {

@@ -53,11 +53,12 @@ class FeedbackServiceTest {
     public void 피드백디테일조회() throws Exception{
         //Given
         User user = createUser();
+        User saveUser = userRepository.save(user);
         Question question = createQuestion();
         Script script = createScript(user, question);
         Feedback feedback = feedbackService.create("feedbackContent", script);
         //When
-        Optional<Feedback> feedbackDetail = feedbackService.getDetail(feedback.getId(),1L);
+        Optional<Feedback> feedbackDetail = feedbackService.getDetail(feedback.getId(),saveUser.getId());
         //Then
         assertThat(feedback.getId()).isEqualTo(feedbackDetail.get().getId());
     }
