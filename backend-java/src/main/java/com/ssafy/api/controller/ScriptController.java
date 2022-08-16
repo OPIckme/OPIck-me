@@ -66,8 +66,8 @@ public class ScriptController {
 //        String content = stt.asyncRecognizeFile(targetName);
         String content = stt.recognizeFromMicrophone(targetName);
         System.out.println("content = " + content);
-//        deleteAudioFile(fileName);
-//        deleteAudioFile(targetName);
+        deleteAudioFile(fileName);
+        deleteAudioFile(targetName);
         scriptService.createScript(user.get(), question.get(),content,audioUrl);
 
         return ResponseEntity.status(201).body(BaseResponseBody.of(201,"스크립트 추가 성공"));
