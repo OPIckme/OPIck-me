@@ -3,7 +3,8 @@
 <!-- feedback card -->
 <div class="container d-flex flex-row">
   <Sidebar style="width:20%" @selectCategory="categoryUpdate"></Sidebar>
-  <div  class="row" style="margin-top:4rem; width:80%;">
+  <div style="margin-top:4rem; width:80%;">
+    <div class="row">
       <FeedbackCard 
       class="col-lg-3 col-md-4 col-sm-6" 
       v-for="feedback in feedbackList" 
@@ -11,6 +12,7 @@
       :feedback="feedback">
       </FeedbackCard>
     </div>
+  </div>
 </div>
 <FooterNav></FooterNav>
 </template>
