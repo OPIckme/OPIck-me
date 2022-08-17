@@ -18,7 +18,6 @@
       <span class="nav-item scriptbutton" data-bs-toggle="modal" href="#SurveyModal" style="cursor: pointer;"><i class="bi bi-file-earmark-plus" style="margin-right:0.3rem;"></i> New Script</span>
       <!-- <button style="margin-top:2.5rem; margin-bottom: 1rem; margin-left: 0.5rem; width: 200px; height: 45px;" class="btn scriptbutton" data-bs-toggle="modal" href="#SurveyModal" role="button">Script 생성</button> -->
     </div>
-    <button data-bs-toggle="modal" data-bs-target="#Loading"></button>
     <!-- script card -->
     <div class="row">
       <ScriptCard 

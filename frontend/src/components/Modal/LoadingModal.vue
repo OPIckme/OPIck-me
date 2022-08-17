@@ -3,8 +3,8 @@
 <div class="modal text-center" id="Loading" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="false" style="background-color: rgba(0, 0, 0, 0.5);" >
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="spinner-border text-primary" role="status">
-        
+      <div class="d-flex justify-content-center">
+        <div class="spinner-border text-primary" style="width: 6rem; height: 6rem; margin-top:7rem;" role="status"></div>
       </div>
       <button v-show="false" id="close-btn" type="button" class="btn-close col-2" data-bs-dismiss="modal" aria-label="Close"></button>  
     </div>

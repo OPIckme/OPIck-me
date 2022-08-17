@@ -1,4 +1,7 @@
 <template>
+<a href="#" class="btn_gotop">
+  <i class="bi bi-chevron-up"></i>
+</a>
   <!-- Footer -->
   <footer class="text-center text-lg-start bg-light text-muted" style="margin-top:5rem;">
     <!-- Section: Social media -->
@@ -111,4 +114,20 @@
 export default {};
 </script>
 
-<style></style>
+<style scoped>
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css");
+.btn_gotop { 
+display: block; 
+position: fixed; 
+bottom: 35px; /* 탑버튼을 화면의 가장 아래에서 몇 픽셀 떨어뜨릴 것인지 정하세요*/ 
+right: 30px; /* 탑버튼을 화면의 가장 오른쪽에서 몇 픽셀 떨어뜨릴 것인지 정하세요*/ 
+z-index: 999; 
+border: 1px solid rgba(0,0,0,0.25); 
+outline: none; 
+background-color: white; 
+color: rgba(0,0,0,0.7); 
+cursor: pointer; 
+padding: 15px 20px; 
+border-radius: 100%; 
+} 
+</style>
