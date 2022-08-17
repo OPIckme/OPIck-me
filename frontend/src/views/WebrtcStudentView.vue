@@ -19,7 +19,7 @@
                 ref="videoInput"></video>
             </div>
         </div>
-        <div ref="sideBar" class="row justify-content-between my-2 mx-3" style="display : none">
+        <div ref="sideBar" class="row justify-content-end my-2 mx-3" style="display : none">
             <div class="col-7">
                 <div class="row justify-content-end" ref="editorMenu" style="display : none">
                     <select class="col-2 mx-1" ref="fontSize">
@@ -43,6 +43,7 @@
                     </select>
                     <select class="col-2 mx-1" ref="fontBackground">
                         <option value="rgba(0, 0, 0, 0)">배경</option>
+                        <option value="#E3F2FD">배경없음</option>
                         <option value="#000000">검정</option>
                         <option value="#FFFFFF">흰색</option>
                         <option value="#CCCCCC">회색</option>
@@ -57,7 +58,7 @@
             </div>
 
         </div>
-        <div ref="bigScript" style="display:none">
+        <div id="bigScript" ref="bigScript" style="display:none">
             <p ref="topic" style="margin-bottom: 0px; margin-top: 10px; margin-left : 50px">{{ this.topic }}</p>
             <h3 ref="question" style="margin-top : 10px; margin-left : 50px; margin-right : 50px; font-weight: bold;">Q. {{ this.question }}</h3>
             <h5 style="margin-top : 20px; margin-bottom : 10px; margin-left : 50px; margin-right : 10px">[Script]</h5>
@@ -66,23 +67,28 @@
             </div>
         </div>
         <div class="row ps-3 justify-content-center" style="width: 100%;">
-            <button class="col-3 mx-2 button" style="margin: auto" @click.prevent="muteControl" ref="sound">
-
-            음소거
+            <button class="col-3 mx-2 button" style="margin: auto" @click.prevent="muteControl">
+                <i ref="mic" class="bi bi-mic-fill"></i>
+                <i ref="micMute" class="bi bi-mic-mute-fill d-none"></i>
+                <div ref="sound" class="d-inline ms-1">음소거</div>
             </button>
-            <button class="col-3 mx-2 button" style="margin: auto" @click.prevent="screenControl" ref="screen">비디오 중지</button>
+            <button class="col-3 mx-2 button" style="margin: auto" @click.prevent="screenControl">
+                <i ref="camera" class="bi bi-camera-video-fill"></i>
+                <i ref="cameraOff" class="bi bi-camera-video-off-fill d-none"></i>
+                <div ref="screen" class="d-inline ms-2">비디오 중지</div> 
+            </button>
             <button class="col-3 mx-2 button d-none" @click.prevent="scriptControl" ref="scriptButton">Script ON</button>
         </div>
     </div>
 
     <div ref="chat-page" class="col-4" style="display: inline-block;">
-        <div ref="messageArea" style="height : 82vh; background-color : #E3F2FD;overflow-y:auto">
+        <div id="messageArea" ref="messageArea" style="height : 82vh; background-color : #E3F2FD;overflow-y:auto">
         </div>
         <form @submit.prevent="sendMessage" ref="messageForm" name="messageForm">
             <div class="form-group">
                 <div class="input-group clearfix">
-                    <input type="text" ref="messageInput" placeholder="Type a message..." autocomplete="off" class="form-control"/>
-                    <button type="submit" class="primary">보내기</button>
+                    <input type="text" ref="messageInput" autocomplete="off" class="form-control"/>
+                    <button type="submit" class="primary" style="width : 60px; border-width : 0px"><i class="bi bi-send" style="margin-right : 0px"></i></button>
                 </div>
             </div>
         </form>
@@ -251,7 +257,7 @@ export default {
             var message = JSON.parse(payload.body);
             if(message.type === 'JOIN') {
                 var messageElement = document.createElement('p');
-                messageElement.setAttribute("style","margin:10px auto; border: solid; border-width: 0px; border-radius: 15px; background-color: lightgray; text-align: center; width: 70%; height: 35px; line-height : 35px")
+                messageElement.setAttribute("style","margin:10px auto; border: solid; border-width: 0px; border-radius: 15px; background-color: #E9E9E9; text-align: center; width: 70%; height: 35px; line-height : 35px")
                 messageElement.innerText = message.sender + ' 님이 입장하셨습니다.';
             } else if (message.type === 'LEAVE') {
                 var messageElement = document.createElement('p');
@@ -494,19 +500,27 @@ export default {
         screenControl(){
             if (this.$refs.screen.innerText === '비디오 중지'){
                 this.$refs.videoInput.setAttribute("style","display:none;")
+                this.$refs.camera.classList.add("d-none")
+                this.$refs.cameraOff.classList.remove("d-none")
                 dataChannel.send("비디오 중지")
                 this.$refs.screen.innerText = "비디오 시작"
             }else {
                 this.$refs.videoInput.setAttribute("style","display:inline; mute:true")
+                this.$refs.camera.classList.remove("d-none")
+                this.$refs.cameraOff.classList.add("d-none")
                 dataChannel.send("비디오 시작")
                 this.$refs.screen.innerText = "비디오 중지"
             }
         },
         muteControl(){
             if (this.$refs.sound.innerText === '음소거'){
+                this.$refs.mic.classList.add("d-none")
+                this.$refs.micMute.classList.remove("d-none")
                 dataChannel.send("음소거")
                 this.$refs.sound.innerText = "음소거 해제"
             }else {
+                this.$refs.micMute.classList.add("d-none")
+                this.$refs.mic.classList.remove("d-none")
                 dataChannel.send("음소거 해제")
                 this.$refs.sound.innerText = "음소거"
             }
@@ -683,6 +697,13 @@ export default {
 
     .LogLogoutin:hover {
     outline: 0;
+    }
+    #messageArea::-webkit-scrollbar {
+        width: 0px;  /* 스크롤바의 너비 */
+    }
+    
+    #bigScript::-webkit-scrollbar {
+        width: 0px;  /* 스크롤바의 너비 */
     }
 
     @media (min-width: 768px) {
