@@ -12,7 +12,8 @@ import com.ssafy.converter.Converter;
 import com.ssafy.db.entity.Question;
 import com.ssafy.db.entity.Script;
 import com.ssafy.db.entity.User;
-import com.ssafy.stt.STT;
+//import com.ssafy.stt.STT;
+import com.ssafy.stt.STT2;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +38,7 @@ public class ScriptController {
     private final UserService userService;
     private final QuestionService questionService;
     private final Converter converter;
-    private final STT stt;
+    private final STT2 stt;
     
     @PostMapping
     @ApiOperation(value = "스크립트 등록", notes = "userId,questionId,content, audiourl을 받아서 스크립트를 등록한다.")
@@ -55,14 +56,15 @@ public class ScriptController {
         String audioUrl = scriptRegisterPostReq.getAudioURL();
         String keyName = scriptRegisterPostReq.getKeyName();
         String fileName=keyName+".webm";
-        String targetName=keyName+".mp3";
+        String targetName=keyName+".wav";
 
         // aws에서 로컬에 오디오파일 다운
         scriptService.getAudio(fileName);
         // 오디오파일 변환
         converter.webm2mp3(fileName,targetName);
 
-        String content = stt.asyncRecognizeFile(targetName);
+//        String content = stt.asyncRecognizeFile(targetName);
+        String content = stt.recognizeFromMicrophone(targetName);
         System.out.println("content = " + content);
         deleteAudioFile(fileName);
         deleteAudioFile(targetName);
