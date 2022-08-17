@@ -59,6 +59,37 @@
         </div>
       </section>
     </div>
+    <div class="info">
+        <section
+          class="info-section"
+          data-aos="fade-up"
+        >
+          <div class="container d-flex row" style="height: 30%">
+            <div class="container col-4" data-aos="fade-up">
+              <h1
+                class="info-title"
+                data-aos="fade-right"
+                style="text-align:center font-weight:bold"
+              >
+                주제별 문제 제공
+              </h1>
+            </div>
+            <div
+              class="container col-6"
+              data-aos="fade-left"
+              data-aos-delay="300"
+            >
+              <p class="info-content">
+                OPIc 설문 기준, 45개의 주제를 바탕으로 다양한 문제가 준비되어 있습니다. 
+                주제와 난이도를 선택해서 질문에 답변해 보세요.
+              </p>
+            </div>
+          </div>
+        </section>
+        <div>
+          <video src="../assets/surveymodal.mp4" style="width:65%" autoplay="autoplay" muted="muted" loop="loop"></video>
+        </div>
+      </div>
     <div>
       <div class="info">
         <section class="info-section" data-aos="fade-up">
@@ -84,29 +115,20 @@
             </div>
           </div>
         </section>
-
-        <img
-          class="img img-thumbnail"
-          src="../assets/스크립트_수정.gif"
-          alt=""
-          data-aos="fade-up"
-        />
+        <video src="../assets/script생성.mp4" style="width:65%" autoplay="autoplay" muted="muted" loop="loop"></video>
       </div>
-      <div class="info" style="background-color: #f9f9f9">
-        <section
-          class="info-section"
-          data-aos="fade-up"
-          style="background-color: #f9f9f9"
-        >
+    <div>
+      <div class="info">
+        <section class="info-section" data-aos="fade-up">
           <div class="container d-flex row" style="height: 30%">
             <div class="container col-4" data-aos="fade-up">
-              <h1
+              <p
                 class="info-title"
-                data-aos="fade-right"
-                style="text-align:center font-weight:bold"
+                data-aos="fade-down"
+                style="text-align: center"
               >
-                주제별 문제 제공
-              </h1>
+                스크립트 관리
+              </p>
             </div>
             <div
               class="container col-6"
@@ -114,21 +136,15 @@
               data-aos-delay="300"
             >
               <p class="info-content">
-                각 주제별로 다양한 문제가 준비되어 있습니다. 주제와 난이도를
-                선택해서 질문에 답변해 보세요.
+                문서로 변환된 내 스크립트를 계속해서 수정하며, 완벽하게 다듬을 수 있습니다.
               </p>
             </div>
           </div>
         </section>
-        <div>
-          <img
-            class="img img-thumbnail"
-            src="../assets/주제선택.gif"
-            alt=""
-            data-aos="fade-up"
-          />
-        </div>
+        <video src="../assets/Script_detail.mp4" style="width:65%" autoplay="autoplay" muted="muted" loop="loop"></video>
       </div>
+    </div>
+      
       <div class="info">
         <section class="info-section" data-aos="fade-up">
           <div class="container d-flex row" style="height: 30%">
