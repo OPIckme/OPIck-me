@@ -131,7 +131,7 @@ Frontend : [![img](https://camo.githubusercontent.com/f626c2a8ff3685ee66b24d8354
 
 ### 🚩 시스템 구성도
 
-
+![architecture](./static/architecture.png)
 
 ### 🎫 ERD
 
