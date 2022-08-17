@@ -1,4 +1,5 @@
 <template>
+<LoadingModal></LoadingModal>
   <!-- Survey 모달 -->
 <div class="modal" id="SurveyModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -68,15 +69,18 @@
       <!-- 다시 녹음 버튼-->
       <i data-bs-target="#SurveyModal2" data-bs-toggle="modal" class="bi bi-arrow-counterclockwise position-absolute bottom-0 start-0" style="margin-left:3rem"></i>
       <!-- 저장 버튼 -->
-      <i @click="s3Upload(),surveyinit()" data-bs-dismiss="modal" aria-label="Close" class="bi bi-download position-absolute bottom-0 end-0" style="margin-right:3rem"></i>
+      <i @click="s3Upload(),surveyinit()" aria-label="Close" class="bi bi-download position-absolute bottom-0 end-0" style="margin-right:3rem" data-bs-toggle="modal" data-bs-target="#Loading"></i>
     </div>
   </div>
 </div>
+
+
 </template>
 
 <script>
 import axios from 'axios';
 
+import LoadingModal from './LoadingModal.vue';
 import {uploadFile} from '@/plugins/s3upload';
 import { mapActions } from 'vuex';
 import { v4 } from 'uuid';
@@ -85,7 +89,7 @@ import InputTopic from '../InputTopic.vue';
 
 
 export default {
-  components: { InputTopic },
+  components: { InputTopic,LoadingModal },
   data(){
     return{
       topic : '',
@@ -168,6 +172,8 @@ export default {
           audioURL: `https://jaeyeong-s3.s3.ap-northeast-2.amazonaws.com/${fileName}.webm`,
           keyName: fileName,
         }).then(res=>{
+          document.getElementById("close-btn").click()
+          
           console.log(res)
           this.fetchComplet(false)
           this.fetchScriptList(this.$store.state.auth.user.username)

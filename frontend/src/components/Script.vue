@@ -5,19 +5,20 @@
   <div style="width:80%">
     <!-- script navbar -->
     <div class="container d-flex justify-content-between align-items-center pb-3 mb-3 link-dark text-decoration-none">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 list-group-horizontal">
-          <li class="nav-item">
-            <a class="nav-link" href="#" @click="completUpdate(false)">
-              <p :class="isSelectComplet(false)" class="hover" style="font-size:17px; letter-spacing: 1px;">작성중인 스크립트</p></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" @click="completUpdate(true)">
-              <p :class="isSelectComplet(true)" class="hover" style="font-size:17px; letter-spacing: 1px;">완료된 스크립트</p></a>
-          </li>
-        </ul>
-        <span class="nav-item scriptbutton" data-bs-toggle="modal" href="#SurveyModal" style="cursor: pointer;"><i class="bi bi-file-earmark-plus" style="margin-right:0.3rem;"></i> New Script</span>
-        <!-- <button style="margin-top:2.5rem; margin-bottom: 1rem; margin-left: 0.5rem; width: 200px; height: 45px;" class="btn scriptbutton" data-bs-toggle="modal" href="#SurveyModal" role="button">Script 생성</button> -->
-      </div>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 list-group-horizontal">
+        <li class="nav-item">
+          <a class="nav-link" href="#" @click="completUpdate(false)">
+            <p :class="isSelectComplet(false)" class="hover" style="font-size:17px; letter-spacing: 1px;">작성중인 스크립트</p></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" @click="completUpdate(true)">
+            <p :class="isSelectComplet(true)" class="hover" style="font-size:17px; letter-spacing: 1px;">완료된 스크립트</p></a>
+        </li>
+      </ul>
+      <span class="nav-item scriptbutton" data-bs-toggle="modal" href="#SurveyModal" style="cursor: pointer;"><i class="bi bi-file-earmark-plus" style="margin-right:0.3rem;"></i> New Script</span>
+      <!-- <button style="margin-top:2.5rem; margin-bottom: 1rem; margin-left: 0.5rem; width: 200px; height: 45px;" class="btn scriptbutton" data-bs-toggle="modal" href="#SurveyModal" role="button">Script 생성</button> -->
+    </div>
+    <button data-bs-toggle="modal" data-bs-target="#Loading"></button>
     <!-- script card -->
     <div class="row">
       <ScriptCard 
@@ -32,6 +33,7 @@
 </div>
 <FooterNav></FooterNav>
 <SurveyModal></SurveyModal>
+<LoadingModal></LoadingModal>
 </template>
 
 <script>
@@ -40,7 +42,7 @@ import FooterNav from './FooterNav.vue';
 import SurveyModal from './Modal/SurveyModal.vue';
 import { mapActions,mapGetters } from 'vuex';
 import Sidebar from './Sidebar.vue';
-
+import LoadingModal from './Modal/LoadingModal.vue';
 export default {
     name: "Script",
     methods: {
@@ -78,7 +80,7 @@ export default {
         }
     },
 
-    components: { ScriptCard, SurveyModal, Sidebar, FooterNav }
+    components: { ScriptCard, SurveyModal, Sidebar, FooterNav,LoadingModal }
     }
 </script>
 
