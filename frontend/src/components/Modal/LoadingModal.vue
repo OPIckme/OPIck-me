@@ -4,7 +4,8 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="d-flex justify-content-center">
-        <div class="spinner-border text-primary" style="width: 6rem; height: 6rem; margin-top:7rem;" role="status"></div>
+        <p class="position-absolute top-50 start-50 translate-middle">스크립트가 생성중입니다.</p>
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem; margin-top:13rem;" role="status"></div>
       </div>
       <button v-show="false" id="close-btn" type="button" class="btn-close col-2" data-bs-dismiss="modal" aria-label="Close"></button>  
     </div>
