@@ -16,7 +16,11 @@
 
 ## 📢 프로젝트 소개
 
-![logo](./frontend/src/assets/logo.png)
+![surveymodal](./static/surveymodal.gif)
+
+![logo](./static/script생성.gif)
+
+![Script_detail](/static/Script_detail.gif)
 
 ### ❓ 왜 OPIck me를 사용해야 할까요?
 
@@ -34,6 +38,7 @@
 * 회원 관리 (회원가입, 로그인)
 * 화상 채팅을 통한 1대1 강사 피드백 (비디오/ 마이크 On/Off, 스크립트 표시 및 수정)
 * STT를 활용한 스크립트 자동 생성
+* 손쉬운 나만의 스크립트 관리
 * 외 사용자 편의 기능
   (🗂️화상 채팅 상에서 스크립트 수정 및 저장, 📎 자신의 스크립트 오디오 파일 제공)
 ```
@@ -50,6 +55,8 @@
   => 빠른 개발을 위해 JPA를 통해 데이터를 조작합니다.
 * REST API
   => Server와 Frontend와의 효율적인 협업을 위해 REST API방식으로 통신합니다.
+* S3
+  => 효과적인 오디오 파일 저장을 위해 S3 저장소를 사용합니다.
 ```
 
 ### 💎 참조 리소스
@@ -59,6 +66,8 @@
 * Web API: 브라우저에서 제공하는 API를 활용하여 WebRTC 기능 구현
 * STOMP : 텍스트 채팅 구현 사용
 * Sock JS : 웹소켓 미지원 브라우저와의 호환을 위해 사용
+* S3 : 오디오 파일 저장
+* Google Cloud Speech API : 녹음 파일 자동 스크립트 변환을 위해 사용
 ```
 
 ### 🚢 배포 환경
@@ -69,12 +78,12 @@ URL : [https://i7b202.p.ssafy.io/]
 
 ## 팀 소개
 
-⭐︎ 안태환 : 팀장, 프론트엔드 개발 및 Jira 관리자
-⚝ 권다솜 : 프론트엔드 개발 및 Designer, UCC 제작자
-⚝ 박수근 : 백엔드 개발 및 WebRTC
-⚝ 박재영 : 백엔드 개발 AWS, CI/CD 담당자
-⚝ 이다인 : 백엔드 개발 및 API 연결
-⚝ 조항주 : 백엔드 개발 및 STT
+- ⭐︎ 안태환 : 팀장, 프론트엔드 개발 및 Jira 관리자
+- ⚝ 권다솜 : 프론트엔드 개발 및 Designer, UCC 제작자
+- ⚝ 박수근 : 백엔드 개발 및 WebRTC
+- ⚝ 박재영 : 백엔드 개발 AWS, CI/CD 담당자
+- ⚝ 이다인 : 백엔드 개발 및 API 연결
+- ⚝ 조항주 : 백엔드 개발 및 STT
 
 ## 프로젝트 상세 설명
 
@@ -141,11 +150,10 @@ Frontend : [![img](https://camo.githubusercontent.com/f626c2a8ff3685ee66b24d8354
 6. 스크립트 생성 - 문제 topic 및 난이도 설정, 문제 듣기 기능, 녹음 기능, 녹음된 내용 스크립트로 변환(STT)
 7. 스크립트 관리 - 자신이 생성한 스크립트 카테고리 별로 분류, 자신이 녹음한 스크립트 다시 듣기, 스크립트에 관한 피드백
    신청, 스크립트 수정, 스크립트 삭제
-
-|                          스크립트 관리                           |
-| :--------------------------------------------------------------: |
-| <img src="./static/스크립트 리스트.png" alt="스크립트 리스트" /> |
-| <img src="./static/스크립트 디테일.png" alt="스크립트 디테일" /> |
+   | 스크립트 관리 |
+   | :--------------------------------------------------------------: |
+   | <img src="./static/스크립트 리스트.png" alt="스크립트 리스트" /> |
+   | <img src="./static/스크립트 디테일.png" alt="스크립트 디테일" /> |
 
 8. 피드백 관리 - 강사가 수정한 피드백 부분 그대로 저장, 피드백 삭제
 
@@ -153,3 +161,252 @@ Frontend : [![img](https://camo.githubusercontent.com/f626c2a8ff3685ee66b24d8354
 | :----------------------------------------------------------: |
 | <img src="./static/피드백 리스트.png" alt="피드백 리스트" /> |
 | <img src="./static/피드백 디테일.png" alt="피드백 디테일" /> |
+
+### WebRTC
+
+![중앙서버방식](./static/중앙서버방식.PNG)
+
+### ![시그널링방식](./static/시그널링방식.PNG)스크립트 편집 및 동기화
+
+- 기능 목표 : 스크립트 편집 및 동기화강사와 학생의 1대1 화상채팅을 통해 실시간으로 진행되는 피드백 내용을 학생화면에서 확인할 수 있습니다.
+- 과정 :
+  - 강사화면에서 편집가능한 div 태그를 활용해 텍스트 에디터를 구현
+  - role이 학생이면 div 태그의 편집가능 속성을 지운다.
+  - div 태그에는 onchange 이벤트 리스너가 구현되어 있지 않아 인터벌 함수를 이용해 0.1초마다 div 태그 안의 내용을 학생에게 전달합니다.중앙 서버를 이용한 통신이었다면 인터벌 함수를 사용
+  - 바인딩을 하는 과정에서 방의 개수가 늘어날수록 서버의 부하가 크게 증가하겠지만 이전에 RTC 통신을 위해 피어간 연결을 진행했으므로 이를 이용하여 전달하면 위의 문제를 해결하면서 학생과 강사 화면을 동기화
+  - 채팅창의 경우에도 웹소켓을 사용한 것이 아닌 위와 같은 방법을 사용해 소켓 서버가 강사와 학생사이에 오고가는 메세지를 관리할 필요가 없습니다.(소켓 서버에게로 오는 부하를 줄일 수 있다.)최종적으로 소켓서버는 화상채팅을 위한 피어간 첫 연결을 중계해주고 실시간으로 추가 삭제되는 상담 대기 리스트를 동기화해주는 역할만을 담당하기에 소켓서버에 들어가는 비용을 줄일 수 있다.
+
+## 개발 환경 구성
+
+Windows 기준 개발 환경 구성 설명
+
+1. OpenJDK 설치
+
+   1. JDK 다운로드 사이트에서 1.8.x 설치 파일 다운로드 및 실행
+
+      - Zulu OpenJDK: https://www.azul.com/downloads/?version=java-8-lts&package=jdk
+      - OJDK Build: https://github.com/ojdkbuild/ojdkbuild
+
+   2. 설치 후 명령 프롬프트(cmd) 확인
+
+      ```
+      > java -version
+      ```
+
+      출력 예)
+
+      ```
+      openjdk version "1.8.0_192"
+      OpenJDK Runtime Environment (Zulu 8.33.0.1-win64) (build 1.8.0_192-b01)
+      OpenJDK 64-Bit Server VM (Zulu 8.33.0.1-win64) (build 25.192-b01, mixed mode)
+      ```
+
+2. 데이터베이스 구성 _(이미 설치되어 있거나 원격 DB를 사용하는 경우 설치 부분 생략)_
+
+   1. MySQL 다운로드 사이트에서 Community 설치 파일 다운로드 및 실행
+
+      - https://dev.mysql.com/downloads/installer/
+
+   2. MySQL Server, MySQL Shell을 포함하여 설치
+
+   3. DB 및 계정 생성
+
+      - MySQL Shell 실행
+
+        ```
+        MySQL  JS > \connect root@localhost
+        MySQL  localhost:3306  JS > \sql
+        ```
+
+      - DB 생성
+
+        ```sql
+        create database IF NOT EXISTS `ssafy_web_db` collate utf8mb4_general_ci;
+        ```
+
+## 디렉토리 구조
+
+#### API Server
+
+```
+.
+└── main
+    ├── generated
+    ├── java
+    │   └── com
+    │       └── ssafy
+    │           ├── GroupCallApplication.java
+    │           ├── api  /* REST API 요청관련 컨트롤러, 서비스, 요청/응답 모델 정의*/
+    │           │   ├── controller
+    │           │   │   ├── AuthController.java
+    │           │   │ 	├── ConsultController.java
+    │           │   │ 	├── FeedbackController.java
+    │           │   │ 	├── QuestionController.java
+    │           │   │ 	├── ScriptController.java
+    │           │   │   └── UserController.java
+    │           │   ├── request
+    │           │   │   ├── ConsultRequestPostReq.java
+    │           │   │	├── FeedbackRequestPostReq.java
+    │           │   │	├── QuestionRandomGetReq.java
+    │           │   │	├── ScriptModifyPutReq.java
+    │           │   │	├── ScriptRegisterPostReq.java
+    │           │   │	├── UserLoginPostReq.java
+    │           │   │   └── UserRegisterPostReq.java
+    │           │   ├── response
+    │           │   │	├── ConsultMapRes.java
+    │           │   │	├── ConsultRes.java
+    │           │   │	├── FeedbackRes.java
+    │           │   │	├── QuestionRes.java
+    │           │   │	├── ScriptDetailRes.java
+    │           │   │	├── ScriptListRes.java
+    │           │   │   ├── UserLoginPostRes.java
+    │           │   │   └── UserRes.java
+    │           │   └── service
+    │           │   	├── ConsultService.java
+    │           │   	├── ConsultServiceImpl.java
+    │           │   	├── FeedbackService.java
+    │           │   	├── FeedbackServiceImpl.java
+    │           │   	├── QuestionService.java
+    │           │   	├── QuestionServiceImpl.java
+    │           │   	├── ScriptService.java
+    │           │   	├── ScriptServiceImpl.java
+    │           │       ├── UserService.java
+    │           │       └── UserServiceImpl.java
+    │           ├── common /* 공용 유틸, 응답 모델, 인증, 예외처리 관련 정의*/
+    │           │   ├── auth
+    │           │   │   ├── JwtAuthenticationFilter.java
+    │           │   │   ├── SsafyUserDetailService.java
+    │           │   │   └── SsafyUserDetails.java
+    │           │   ├── exception
+    │           │   │   └── handler
+    │           │   │       └── NotFoundHandler.java
+    │           │   ├── model
+    │           │   │   └── response
+    │           │   │       └── BaseResponseBody.java
+    │           │   └── util
+    │           │       ├── JwtTokenUtil.java
+    │           │       └── ResponseBodyWriteUtil.java
+    │           ├── config /* WebMvc 및 JPA, Security, Swagger 등의 추가 플러그인 설정 정의*/
+    │           │   ├── JpaConfig.java
+    │           │   ├── SecurityConfig.java
+    │           │   ├── SwaggerConfig.java
+    │           │ 	├── UtilConfig.java
+    │           │   └── WebMvcConfig.java
+    │           ├── converter
+    │           │	└── conventer.java
+    │           ├── db /* 디비에 저장될 모델 정의 및 쿼리 구현 */
+    │           │   ├── entity
+    │           │   │   ├── Consult.java
+    │           │   │ 	├── Feedback.java
+    │           │   │ 	├── Question.java
+    │           │   │ 	├── Script.java
+    │           │   │   └── User.java
+    │           │   └── repository
+    │			│		├── ConsultRepository.java
+    │			│		├── FeedbackRepository.java
+    │			│		├── QuestionRepository.java
+    │			│		├── ScriptRepository.java
+    │			│		├── UserRepository.java
+    │			│		└── UserRepositorySupport.java
+    │			├── exhandler
+    │			│   ├── advice
+    │			│	│	└── ExControllerAdvice
+    │			│	└── ErrorResult.java
+    │			└── stt
+    │				├── STT
+    │				└── STT2
+    └── resources
+        └── application.properties /* 웹 리소스(서버 host/port, 디비 host/port/계정/패스워드) 관련 설정 정의 */
+```
+
+#### WebSocket Server
+
+    .
+    └── main
+        ├── java
+        │   └── com
+        │       └── example.rtc_test_test
+        │           ├── WebSocketApplication.java
+        │           ├── configuration
+        │           │   └── WebSocketConfiguration.java
+        │           ├── controller
+        │           │   ├── ChatController.java
+        │           │   └── WebSocketEventListener.java
+        │           ├── domain
+        │               ├── ChatMessage.java
+        │               └── MessageType.enum
+        └── resources
+            └── application.properties
+
+#### Frontend
+
+    .
+    └── node_modules
+    ├── public
+    │	├── favicon.ico
+    │   └── index.html
+    ├── src
+    │   ├── api
+    │	│	└── http.js
+    │   ├── assets
+    │	│	├── card
+    │	│	│	└── ...
+    │	│	├── 말풍선.jfif
+    │	│	├── 스크립트_수정.gif
+    │	│	├── 스크립트.gif
+    │	│	├── 주제선택.gif
+    │	│	├── books.jpg
+    │	│	├── check.png
+    │	│	├── intro.png
+    │	│	├── logo.png
+    │	│	├── Script_detail.mp4
+    │	│	├── script생성.mp4
+    │	│	└── surveymodal.mp4
+    │   ├── components
+    │	│	├── Modal
+    │	│	├── BoardUser.vue
+    │	│	├── Consultant.vue
+    │	│	├── ConsultCard.vue
+    │	│	├── Feedback.vue
+    │	│	├── FeedbackCard.vue
+    │	│	├── FooterNav.vue
+    │	│	├── InputTopic.vue
+    │	│	├── Login.vue
+    │	│	├── MainPageNavbar.vue
+    │	│	├── Register.vue
+    │	│	├── Script.vue
+    │	│	├── ScriptCard.vue
+    │	│	├── ScriptDetail.vue
+    │	│	├── ScriptEdit.vue
+    │	│	├── ScriptEditForm.vue
+    │	│	├── Sidebar.vue
+    │	│	└── SiteIntroduce.vue
+    │   ├── plugins
+    │	│	├── font-awesome.js
+    │	│	└── s3upload.js
+    │	├── services
+    │	│	├── auth-header.js
+    │	│	├── auth.service.js
+    │	│	└── user.service.js
+    │	├── store
+    │	│	├── auth.module.js
+    │	│	├── consult.js
+    │	│	├── feedback.js
+    │	│	├── index.js
+    │	│	├── navbar.js
+    │	│	└── script.js
+    │	├── views
+    │	│	├── MainPageUnLoginView.vue
+    │	│	├── MainPageView.vue
+    │	│	└── WebrtcStudentView.vue
+    │	├── app.vue
+    │	├── main.js
+    │	└── router.js
+    ├── .gitignore
+    ├── babel.config.js
+    ├── jsconfig.json
+    ├── package-lock.json
+    ├── package.json
+    └── vue.config.js
+
+> > > > > > > a7fcf0e6d4c2f0925af8affca091abced1687737
