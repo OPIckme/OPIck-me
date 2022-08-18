@@ -336,9 +336,9 @@ Windows 기준 개발 환경 구성 설명
     │           │       ├── UserRepository.java
     │           │       └── UserRepositorySupport.java
     │			├── exhandler
-    │			│       ├── advice
-    │			│		│	└── ExControllerAdvice
-    │			│		└── ErrorResult.java
+    │			│   ├── advice
+    │			│	│	└── ExControllerAdvice
+    │			│	└── ErrorResult.java
     │			└── stt	
     │				├── STT
     │				└── STT2
