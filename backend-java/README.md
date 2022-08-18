@@ -40,7 +40,7 @@ Windows 기준 개발 환경 구성 설명
 
 2. 데이터베이스 구성 *(이미 설치되어 있거나 원격 DB를 사용하는 경우 설치 부분 생략)*
    1. MySQL 다운로드 사이트에서 Community 설치 파일 다운로드 및 실행
-      
+
       - https://dev.mysql.com/downloads/installer/
    2. MySQL Server, MySQL Shell을 포함하여 설치
    3. DB 및 계정 생성
@@ -60,9 +60,9 @@ Windows 기준 개발 환경 구성 설명
          flush privileges;
          ```
       ```
-      
+
       ```
-   
+
 3. IDE 설치 *(이미 설치되어 있거나 IntelliJ 등 다른 편집기를 사용할 경우 생략)*
    1. Eclipse 다운로드 사이트에서 Eclipse IDE 설치 파일 다운로드 및 실행
       - https://www.eclipse.org/downloads/
@@ -84,16 +84,16 @@ Windows 기준 개발 환경 구성 설명
       ```
 
    2. Eclipse의 [File] - [Import] - [Grade] - [Existing Gradle Project]에서 backend-java 폴더 선택 후 [Finish]
-   
+
    3. Project Explorer에서 프로젝트 우클릭 후 [Spring] - [Add Spring Nature] 선택
-      
+
    4. src/main/resources/application.properties 수정
-   
+
       ```
-   spring.datasource.hikari.username=<사용자 계정>
+      spring.datasource.hikari.username=<사용자 계정>
       spring.datasource.hikari.password=<비밀번호>
       ```
-   
+
    5. [Gradle Tasks] 탭의 [Rub Gradle Tasks] 선택하여 실행
 
 
@@ -112,14 +112,37 @@ Windows 기준 개발 환경 구성 설명
     │           ├── api  /* REST API 요청관련 컨트롤러, 서비스, 요청/응답 모델 정의*/
     │           │   ├── controller
     │           │   │   ├── AuthController.java
+    │           │   │ 	├── ConsultController.java
+    │           │   │ 	├── FeedbackController.java
+    │           │   │ 	├── QuestionController.java
+    │           │   │ 	├── ScriptController.java
     │           │   │   └── UserController.java
     │           │   ├── request
-    │           │   │   ├── UserLoginPostReq.java
+    │           │   │   ├── ConsultRequestPostReq.java
+    │           │   │	├── FeedbackRequestPostReq.java
+    │           │   │	├── QuestionRandomGetReq.java
+    │           │   │	├── ScriptModifyPutReq.java
+    │           │   │	├── ScriptRegisterPostReq.java
+    │           │   │	├── UserLoginPostReq.java
     │           │   │   └── UserRegisterPostReq.java
     │           │   ├── response
+    │           │   │	├── ConsultMapRes.java
+    │           │   │	├── ConsultRes.java
+    │           │   │	├── FeedbackRes.java
+    │           │   │	├── QuestionRes.java
+    │           │   │	├── ScriptDetailRes.java
+    │           │   │	├── ScriptListRes.java
     │           │   │   ├── UserLoginPostRes.java
     │           │   │   └── UserRes.java
     │           │   └── service
+    │           │   	├── ConsultService.java
+    │           │   	├── ConsultServiceImpl.java
+    │           │   	├── FeedbackService.java
+    │           │   	├── FeedbackServiceImpl.java
+    │           │   	├── QuestionService.java
+    │           │   	├── QuestionServiceImpl.java
+    │           │   	├── ScriptService.java
+    │           │   	├── ScriptServiceImpl.java
     │           │       ├── UserService.java
     │           │       └── UserServiceImpl.java
     │           ├── common /* 공용 유틸, 응답 모델, 인증, 예외처리 관련 정의*/
@@ -140,21 +163,32 @@ Windows 기준 개발 환경 구성 설명
     │           │   ├── JpaConfig.java
     │           │   ├── SecurityConfig.java
     │           │   ├── SwaggerConfig.java
+    │           │ 	├── UtilConfig.java
     │           │   └── WebMvcConfig.java
-    │           └── db /* 디비에 저장될 모델 정의 및 쿼리 구현 */
-    │               ├── entity
-    │               │   ├── BaseEntity.java
-    │               │   └── User.java
-    │               └── repository
-    │                   ├── UserRepository.java
-    │                   └── UserRepositorySupport.java
+    │           ├── converter
+    │           │	└── conventer.java
+    │           ├── db /* 디비에 저장될 모델 정의 및 쿼리 구현 */
+    │           │   ├── entity
+    │           │   │   ├── Consult.java
+    │           │   │ 	├── Feedback.java
+    │           │   │ 	├── Question.java
+    │           │   │ 	├── Script.java
+    │           │   │   └── User.java
+    │           │   └── repository
+    │			│		├── ConsultRepository.java
+    │			│		├── FeedbackRepository.java
+    │			│		├── QuestionRepository.java
+    │			│		├── ScriptRepository.java
+    │           │       ├── UserRepository.java
+    │           │       └── UserRepositorySupport.java
+    │			├── exhandler
+    │			│       ├── advice
+    │			│		│	└── ExControllerAdvice
+    │			│		└── ErrorResult.java
+    │			└── stt	
+    │				├── STT
+    │				└── STT2
     └── resources
-        ├── README.md
-        ├── application.properties /* 웹 리소스(서버 host/port, 디비 host/port/계정/패스워드) 관련 설정 정의 */
-        ├── babel.config.js
-        ├── dist
-        ├── package-lock.json
-        ├── package.json
-        ├── public
+        └── application.properties /* 웹 리소스(서버 host/port, 디비 host/port/계정/패스워드) 관련 설정 정의 */
 ```
 
