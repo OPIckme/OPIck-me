@@ -333,8 +333,8 @@ Windows 기준 개발 환경 구성 설명
     │			│		├── FeedbackRepository.java
     │			│		├── QuestionRepository.java
     │			│		├── ScriptRepository.java
-    │           │       ├── UserRepository.java
-    │           │       └── UserRepositorySupport.java
+    │			│		├── UserRepository.java
+    │			│		└── UserRepositorySupport.java
     │			├── exhandler
     │			│   ├── advice
     │			│	│	└── ExControllerAdvice
