@@ -4,55 +4,30 @@
 
 ## 카테고리
 
-| Application       | Language      | Framework            |
-| ----------------- | ------------- | -------------------- |
-| ✅ Desktop Web    | ✅ JavaScript | ✅ Vue.js            |
-| 🔲 Mobile Web     | 🔲 TypeScript | 🔲 React             |
-| ✅ Responsive Web | 🔲 C/C++      | 🔲 Angular           |
-| 🔲 Android App    | 🔲 C#         | 🔲 Node.js           |
-| 🔲 iOS App        | 🔲 Python     | 🔲 Flask/Django      |
-| 🔲 Desktop App    | ✅ Java       | ✅ Spring/Springboot |
-|                   | 🔲 Kotlin     |                      |
+| Application      | Language      | Framework           |
+| ---------------- | ------------- | ------------------- |
+| ✅ Desktop Web    | ✅ JavaScript  | ✅ Vue.js            |
+| 🔲 Mobile Web    | 🔲 TypeScript | 🔲 React            |
+| ✅ Responsive Web | 🔲 C/C++      | 🔲 Angular          |
+| 🔲 Android App   | 🔲 C#         | 🔲 Node.js          |
+| 🔲 iOS App       | 🔲 Python     | 🔲 Flask/Django     |
+| 🔲 Desktop App   | ✅ Java        | ✅ Spring/Springboot |
+|                  | 🔲 Kotlin     |                     |
 
 ## 📢 프로젝트 소개
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
-
->>>>>>> aae644892d27ca7bc59c67fe84e8a338c3fe23ff
-=======
-
-
->>>>>>> aae644892d27ca7bc59c67fe84e8a338c3fe23ff
 ![surveymodal](./static/surveymodal.gif)
 
 ![logo](./static/script생성.gif)
 
 ![Script_detail](/static/Script_detail.gif)
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-
-
->>>>>>> aae644892d27ca7bc59c67fe84e8a338c3fe23ff
-=======
-
-
->>>>>>> aae644892d27ca7bc59c67fe84e8a338c3fe23ff
 
 ### ❓ 왜 OPIck me를 사용해야 할까요?
 
 - opic을 준비하는 데에 있어 번거로움을 제거하고 시간을 절약하여 바쁜 취준생의 효율적인 취업 준비를 위한 서비스이기 때문
 
-<<<<<<< HEAD
-=======
 
-<<<<<<< HEAD
->>>>>>> aae644892d27ca7bc59c67fe84e8a338c3fe23ff
-=======
->>>>>>> aae644892d27ca7bc59c67fe84e8a338c3fe23ff
 ### 🌟 특징
 
 - 녹음본 스크립트 다시 듣기 가능(직접 다른 전자기기를 이용해 녹음하는 번거로움 제거)
@@ -112,28 +87,13 @@ URL : [https://i7b202.p.ssafy.io/]
 
 ## 팀 소개
 
-<<<<<<< HEAD
-=======
-
-
-<<<<<<< HEAD
->>>>>>> aae644892d27ca7bc59c67fe84e8a338c3fe23ff
-=======
->>>>>>> aae644892d27ca7bc59c67fe84e8a338c3fe23ff
 - ⭐︎ 안태환 : 팀장, 프론트엔드 개발 및 Jira 관리자
 - ⚝ 권다솜 : 프론트엔드 개발 및 Designer, UCC 제작자
 - ⚝ 박수근 : 백엔드 개발 및 WebRTC
 - ⚝ 박재영 : 백엔드 개발 AWS, CI/CD 담당자
 - ⚝ 이다인 : 백엔드 개발 및 API 연결
 - ⚝ 조항주 : 백엔드 개발 및 STT
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> aae644892d27ca7bc59c67fe84e8a338c3fe23ff
 
-
->>>>>>> aae644892d27ca7bc59c67fe84e8a338c3fe23ff
 
 ## 프로젝트 상세 설명
 
@@ -191,14 +151,12 @@ Frontend : [![img](https://camo.githubusercontent.com/f626c2a8ff3685ee66b24d8354
 4. 상담 관리 - 상담 생성 시 실시간 강사 화면에서 추가, 상담 매칭 완료 시 실시간으로 해당 상담 삭제
 5. 화상채팅 관리 - 스크립트 on/off, 마이크 화면 on/off, 강사와 채팅, 텍스트에디터(강사화면), 강사화면과 학생화면 스크립트 수정부분 동기화
 6. 스크립트 생성 - 문제 topic 및 난이도 설정, 문제 듣기 기능, 녹음 기능, 녹음된 내용 스크립트로 변환(STT)
-<<<<<<< HEAD
 7. 스크립트 관리 - 자신이 생성한 스크립트 카테고리 별로 분류, 자신이 녹음한 스크립트 다시 듣기, 스크립트에 관한 피드백
    신청, 스크립트 수정, 스크립트 삭제
 8. 피드백 관리 - 강사가 수정한 피드백 부분 그대로 저장, 피드백 삭제
 
 ### WebRTC
 
-=======
 7. 스크립트 관리 - 자신이 생성한 스크립트 카테고리 별로 분류, 자신이 녹음한 스크립트 다시 듣기, 스크립트에 관한 피드백 신청, 스크립트 수정, 스크립트 삭제 
 8. 피드백 관리 - 강사가 수정한 피드백 부분 그대로 저장, 피드백 삭제
 
@@ -206,18 +164,10 @@ Frontend : [![img](https://camo.githubusercontent.com/f626c2a8ff3685ee66b24d8354
 
 ### WebRTC
 
-
-
-<<<<<<< HEAD
->>>>>>> aae644892d27ca7bc59c67fe84e8a338c3fe23ff
-=======
->>>>>>> aae644892d27ca7bc59c67fe84e8a338c3fe23ff
 ![중앙서버방식](./static/중앙서버방식.PNG)
 
 ### ![시그널링방식](./static/시그널링방식.PNG)스크립트 편집 및 동기화
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 - 기능 목표 : 스크립트 편집 및 동기화강사와 학생의 1대1 화상채팅을 통해 실시간으로 진행되는 피드백 내용을 학생화면에서 확인할 수 있습니다.
 - 과정 :
   - 강사화면에서 편집가능한 div 태그를 활용해 텍스트 에디터를 구현
@@ -352,6 +302,19 @@ Windows 기준 개발 환경 구성 설명
     │           │   │ 	├── Script.java
     │           │   │   └── User.java
     │           │   └── repository
+    │           │       ├── ConsultRepository.java
+    │			│       ├── FeedbackRepository.java
+    │			│       ├── QuestionRepository.java
+    │			│       ├── ScriptRepository.java
+    │			│       ├── UserRepository.java
+    │			│       └── UserRepositorySupport.java
+    │           ├── exhandler
+    │           │   ├── advice
+    │			│   │   └── ExControllerAdvice
+    │			│   └── ErrorResult.java
+    │           └── stt	
+    │               ├── STT
+    │               └── STT2
     │			│		├── ConsultRepository.java
     │			│		├── FeedbackRepository.java
     │			│		├── QuestionRepository.java
@@ -394,11 +357,11 @@ Windows 기준 개발 환경 구성 설명
     └── node_modules
     ├── public
     │	├── favicon.ico
-    │   └── index.html
+    │	└── index.html
     ├── src
-    │   ├── api
+    │	├── api
     │	│	└── http.js
-    │   ├── assets
+    │	├── assets
     │	│	├── card
     │	│	│	└── ...
     │	│	├── 말풍선.jfif
@@ -412,7 +375,7 @@ Windows 기준 개발 환경 구성 설명
     │	│	├── Script_detail.mp4
     │	│	├── script생성.mp4
     │	│	└── surveymodal.mp4
-    │   ├── components
+    │	├── components
     │	│	├── Modal
     │	│	│	├── ConsultCloseModal.vue
     │	│	│	├── ConsultFeedbackModal.vue
@@ -440,7 +403,7 @@ Windows 기준 개발 환경 구성 설명
     │	│	├── ScriptEditForm.vue
     │	│	├── Sidebar.vue
     │	│	└── SiteIntroduce.vue
-    │   ├── plugins
+    │	├── plugins
     │	│	├── font-awesome.js
     │	│	└── s3upload.js
     │	├── services
@@ -468,21 +431,12 @@ Windows 기준 개발 환경 구성 설명
     ├── package.json
     └── vue.config.js
 
-> > > > > > > a7fcf0e6d4c2f0925af8affca091abced1687737
-=======
-=======
->>>>>>> aae644892d27ca7bc59c67fe84e8a338c3fe23ff
 
 
-- 기능 목표 : 스크립트 편집 및 동기화강사와 학생의 1대1 화상채팅을 통해 실시간으로 진행되는 피드백 내용을 학생화면에서 확인할 수 있습니다.
+
 - 과정 :
   - 강사화면에서 편집가능한 div 태그를 활용해 텍스트 에디터를 구현 
   - role이 학생이면 div 태그의 편집가능 속성을 지운다.
-  -  div 태그에는 onchange 이벤트 리스너가 구현되어 있지 않아 인터벌 함수를 이용해 0.1초마다 div 태그 안의 내용을 학생에게 전달합니다.중앙 서버를 이용한 통신이었다면 인터벌 함수를 사용
+  - div 태그에는 onchange 이벤트 리스너가 구현되어 있지 않아 인터벌 함수를 이용해 0.1초마다 div 태그 안의 내용을 학생에게 전달합니다.중앙 서버를 이용한 통신이었다면 인터벌 함수를 사용
   - 바인딩을 하는 과정에서 방의 개수가 늘어날수록 서버의 부하가 크게 증가하겠지만 이전에 RTC 통신을 위해 피어간 연결을 진행했으므로 이를 이용하여 전달하면 위의 문제를 해결하면서 학생과 강사 화면을 동기화
-  - 채팅창의 경우에도 웹소켓을 사용한 것이 아닌 위와 같은 방법을 사용해 소켓 서버가 강사와 학생사이에 오고가는 메세지를 관리할 필요가 없습니다.(소켓 서버에게로 오는 부하를 줄일 수 있다.)최종적으로 소켓서버는 화상채팅을 위한 피어간 첫 연결을 중계해주고 실시간으로 추가 삭제되는 상담 대기 리스트를 동기화해주는 역할만을 담당하기에 소켓서버에 들어가는 비용을 줄일 수 있다. 
-
-<<<<<<< HEAD
->>>>>>> aae644892d27ca7bc59c67fe84e8a338c3fe23ff
-=======
->>>>>>> aae644892d27ca7bc59c67fe84e8a338c3fe23ff
+  - 채팅창의 경우에도 웹소켓을 사용한 것이 아닌 위와 같은 방법을 사용해 소켓 서버가 강사와 학생사이에 오고가는 메세지를 관할 필요가 없습니다.(소켓 서버에게로 오는 부하를 줄일 수 있다.)최종적으로 소켓서버는 화상채팅을 위한 피어간 첫 연결을 중계해주고 실시간으로 추가 삭제되는 상담 대기 리스트를 동기화해주는 역할만을 담당하기에 소켓서버에 들어가는 비용을 줄일 수 있다. 
