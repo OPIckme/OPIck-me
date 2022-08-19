@@ -329,19 +329,19 @@ Windows 기준 개발 환경 구성 설명
     │           │   │ 	├── Script.java
     │           │   │   └── User.java
     │           │   └── repository
-    │			│		├── ConsultRepository.java
-    │			│		├── FeedbackRepository.java
-    │			│		├── QuestionRepository.java
-    │			│		├── ScriptRepository.java
-    │			│		├── UserRepository.java
-    │			│		└── UserRepositorySupport.java
-    │			├── exhandler
-    │			│   ├── advice
-    │			│	│	└── ExControllerAdvice
-    │			│	└── ErrorResult.java
-    │			└── stt	
-    │				├── STT
-    │				└── STT2
+    │           │       ├── ConsultRepository.java
+    │			│       ├── FeedbackRepository.java
+    │			│       ├── QuestionRepository.java
+    │			│       ├── ScriptRepository.java
+    │			│       ├── UserRepository.java
+    │			│       └── UserRepositorySupport.java
+    │           ├── exhandler
+    │           │   ├── advice
+    │			│   │   └── ExControllerAdvice
+    │			│   └── ErrorResult.java
+    │           └── stt	
+    │               ├── STT
+    │               └── STT2
     └── resources
         └── application.properties /* 웹 리소스(서버 host/port, 디비 host/port/계정/패스워드) 관련 설정 정의 */
 ```
@@ -378,11 +378,11 @@ Windows 기준 개발 환경 구성 설명
     └── node_modules
     ├── public
     │	├── favicon.ico
-    │   └── index.html
+    │	└── index.html
     ├── src
-    │   ├── api
+    │	├── api
     │	│	└── http.js
-    │   ├── assets
+    │	├── assets
     │	│	├── card
     │	│	│	└── ...
     │	│	├── 말풍선.jfif
@@ -396,7 +396,7 @@ Windows 기준 개발 환경 구성 설명
     │	│	├── Script_detail.mp4
     │	│	├── script생성.mp4
     │	│	└── surveymodal.mp4
-    │   ├── components
+    │	├── components
     │	│	├── Modal
     │	│	│	├── ConsultCloseModal.vue
     │	│	│	├── ConsultFeedbackModal.vue
@@ -424,7 +424,7 @@ Windows 기준 개발 환경 구성 설명
     │	│	├── ScriptEditForm.vue
     │	│	├── Sidebar.vue
     │	│	└── SiteIntroduce.vue
-    │   ├── plugins
+    │	├── plugins
     │	│	├── font-awesome.js
     │	│	└── s3upload.js
     │	├── services
