@@ -5,7 +5,7 @@
       <img src="../assets/logo.png" alt="" style="width:120px">
     </router-link>
     <button class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Consultclose" >상담종료</button>
-    <button ref="modalButton" data-bs-toggle="modal" data-bs-target="#Consultfeedback"></button>
+    <button ref="modalButton" data-bs-toggle="modal" data-bs-target="#Consultfeedback" style="display:none"></button>
   </div>
 </nav>
 <div class="d-flex container" style="width : 100vw;">
