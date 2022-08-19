@@ -315,7 +315,7 @@ Windows 기준 개발 환경 구성 설명
         │           ├── controller
         │           │   ├── ChatController.java
         │           │   └── WebSocketEventListener.java
-        │           ├── domain
+        │           └── domain
         │               ├── ChatMessage.java
         │               └── MessageType.enum
         └── resources
@@ -347,6 +347,15 @@ Windows 기준 개발 환경 구성 설명
     │	│	└── surveymodal.mp4
     │   ├── components
     │	│	├── Modal
+    │	│	│	├── ConsultCloseModal.vue
+    │	│	│	├── ConsultFeedbackModal.vue
+    │	│	│	├── ConsultStartModal.vue
+    │	│	│	├── FeedbackDeleteModal.vue
+    │	│	│	├── FeedbackModal.vue
+    │	│	│	├── LoadingModal.vue
+    │	│	│	├── LogoutModal.vue
+    │	│	│	├── ScriptDeleteModal.vue
+    │	│	│	└── SurveyModal.vue	
     │	│	├── BoardUser.vue
     │	│	├── Consultant.vue
     │	│	├── ConsultCard.vue
