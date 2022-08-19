@@ -454,7 +454,8 @@ export default {
             }
             var post = script.innerHTML
             this.modify = post          
-            if (dataChannel.readyState === 'open' && pre != post && this.$store.state.auth.user.role === 'consultant'){    
+            if (dataChannel.readyState === 'open' && pre != post 
+            && this.$store.state.auth.user.role === 'consultant'){    
                 dataChannel.send(JSON.stringify({
                     "sender" : this.$store.state.auth.user.username,
                     "content" : post,
