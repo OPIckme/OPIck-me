@@ -16,6 +16,9 @@
 import {API_URL} from '@/api/http.js';
 import axios from 'axios';
 import { mapGetters,mapActions } from 'vuex';
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
+
 export default {
   data(){
     return{
@@ -25,6 +28,7 @@ export default {
   props : {
     modify:String,
     scriptId:String,
+    room:String
   },
   computed:{
     ...mapGetters(['consultId']),
@@ -43,10 +47,17 @@ export default {
         scriptId: this.scriptId
       })
       .then(res => {
+        var socket = new SockJS('https://i7b202.p.ssafy.io/ws');
+        var stompClient = Stomp.over(socket);
+        stompClient.connect({},() => {
+          stompClient.send("/topic/public/" + this.room,
+            JSON.stringify({sender: this.$store.state.auth.user.username, content: 'quit'}),
+            {})
+      },{})
         console.log(res)
       })
-      this.$emit("change",1)
-      this.$emit("closeControl","상담종료")
+      this.$emit("wait",1)
+      this.$emit("change","피드백대기")
       this.$router.push("/mainpage");
     },
     completeConsult(){

@@ -5,6 +5,7 @@
       <img src="../assets/logo.png" alt="" style="width:120px">
     </router-link>
     <button class="Logout" style="color:white; background-color:#F2CB05; text-decoration: none;" data-bs-toggle="modal" data-bs-target="#Consultclose" >상담종료</button>
+    <button ref="modalButton" data-bs-toggle="modal" data-bs-target="#Consultfeedback"></button>
   </div>
 </nav>
 <div class="d-flex container" style="width : 100vw;">
@@ -94,10 +95,12 @@
         </form>
     </div>
 </div>
-<ConsultCloseModal :modify="modify" :scriptId="scriptId" @change="change" @closeControl="closeControl"></ConsultCloseModal>
+<ConsultCloseModal :room="room" :modify="modify" :scriptId="scriptId" @wait="wait" @change="change" @closeControl="closeControl"></ConsultCloseModal>
+<ConsultFeedbackModal :room="room"></ConsultFeedbackModal>
 </template>
 <script>
 import ConsultCloseModal from '@/components/Modal/ConsultCloseModal.vue';
+import ConsultFeedbackModal from '@/components/Modal/ConsultFeedbackModal.vue';
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
 
@@ -136,7 +139,8 @@ export default {
     data(){
         return {
             trigger : 0,
-            modify : ''
+            modify : '',
+            room : ''
         }
     },
     props: {
@@ -181,6 +185,7 @@ export default {
         let sideBar = this.$refs.sideBar
         let scriptButton = this.$refs.scriptButton
         script.innerText = this.$route.params.script
+        this.room = this.$route.params.room
         dataChannel.onerror = function(error) {
             console.log("Error:", error);
         };
@@ -324,7 +329,8 @@ export default {
         dataChannel.onmessage = (event) => {
             if (event.data === '비디오 시작' || event.data === '비디오 중지'
             || event.data === '음소거' || event.data === '음소거 해제'
-            || event.data === '스크립트 시작' || event.data === '스크립트 중지' || event.data === '상담종료'){
+            || event.data === '스크립트 시작' || event.data === '스크립트 중지'
+            || event.data === '상담종료' || event.data === '피드백대기' || event.data === 'exit'){
                 if (event.data === '음소거'){
                     videoOutput.srcObject.getAudioTracks()[0].enabled = false
                 } else if (event.data === '음소거 해제'){
@@ -350,7 +356,9 @@ export default {
                         "border-radius: 15px;overflow: hidden;padding : 0px !important; margin : auto;margin-top : 15px; margin-bottom : 15px; width:" + constraints.video.width + "px; height:" + constraints.video.height + "px;")
                 } else if (event.data === '상담종료'){
                     peerConnection.close()
-                    this.$router.push("/feedback")
+                    this.quit = 'quit'
+                } else if (event.data === '피드백대기'){
+                    this.$refs.modalButton.click()
                 } else {
                     videoOutput.setAttribute("style","display:none")
                 } 
@@ -551,11 +559,12 @@ export default {
             this.trigger = value
         },
         closeControl(value) {
-            dataChannel.send(value)
-            peerConnection.close()
+        },
+        wait(value){
+            dataChannel.send("피드백대기")
         }
     },
-    components: { ConsultCloseModal }
+    components: { ConsultCloseModal , ConsultFeedbackModal }
 };
 
 </script>

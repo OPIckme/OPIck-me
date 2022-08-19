@@ -8,6 +8,7 @@ import Feedback from "./components/Feedback.vue";
 import FeedbackDetail from "./components/FeedbackDetail.vue";
 import WebrtcStudentView from "./views/WebrtcStudentView.vue";
 import ScriptEdit from "./components/ScriptEdit.vue";
+import Loading from "./components/Modal/LoadingModal.vue";
 
 const BoardUser = () => import("./components/BoardUser.vue")
 const routes = [
@@ -68,6 +69,11 @@ const routes = [
     name: "user",
     // lazy-loaded
     component: BoardUser,
+  },
+  {
+    path: "/loading",
+    name: "loading",
+    component: Loading,
   },
 ];
 const router = createRouter({
